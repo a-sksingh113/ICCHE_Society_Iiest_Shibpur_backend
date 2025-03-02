@@ -15,6 +15,11 @@ const volunteerSchema = new mongoose.Schema({
         required: true,
         trim: true
     },
+    enrollmentNo:{
+        type:String,
+        required:true,
+        unique:true
+    },
     gender: {
         type: String,
         enum: ['Male', 'Female', 'Other'],
@@ -40,19 +45,16 @@ const volunteerSchema = new mongoose.Schema({
         type: String,
         required: true,
         trim: true,
-        default: null
     },
     hallName: {
         type: String,
         required: true,
         trim: true,
-        default: null
     },
     address: {
         type: String,
         required: true,
         trim: true,
-        default: null
     },
     coverImageURL: {
         type: String 

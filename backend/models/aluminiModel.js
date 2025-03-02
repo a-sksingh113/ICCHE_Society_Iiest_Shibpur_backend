@@ -16,6 +16,11 @@ const alumniSchema = new mongoose.Schema({
         required: true,
         trim: true
     },
+    enrollmentNo:{
+        type:String,
+        required:true,
+        unique:true
+    },
     gender: {
         type: String,
         enum: ['Male', 'Female', 'Other'],

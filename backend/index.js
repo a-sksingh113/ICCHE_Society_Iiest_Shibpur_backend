@@ -1,9 +1,20 @@
-const dotenv = require('dotenv')
+require('dotenv').config();
 const express = require('express')
-const app = express()
-dotenv.config();
+const connectDB = require('./config/dbConnection');
+const cookieParser = require('cookie-parser');
 
-const PORT = process.env.PORT || 8000
+const adminsRoute = require('./routes/adminsRoute')
+
+
+
+const app = express();
+PORT = process.env.PORT || 8001;
+connectDB();
+
+app.use(express.json());
+app.use(cookieParser());
+
+app.use('/api/admin',adminsRoute);
 
 
 
