@@ -1,5 +1,5 @@
 const Admin = require("../models/adminsModel");
-const {sendForgetPasswordURL,sendWelcomeEmail,sendApprovalEmail} = require('../middleware/emailSendMiddleware')
+const {sendForgetPasswordURL,sendWelcomeEmail,sendApprovalEmail,sendApprovedEmail,sendApprovalRejectEmail} = require('../middleware/emailSendMiddleware')
 const handleAdminSignup = async (req, res) => {
   try {
     const { fullName, email, password, contactNumber, gender, role, uniqueId, year, department, residenceType, hostelName, hallName, address } = req.body;
@@ -211,6 +211,56 @@ const handleAdminResetPassword = async (req, res) => {
       return res.status(500).json({ message: "Server error" });
     }
   };
+
+  const getPendingAdminsApproval = async (req, res) => {
+    try {
+      const pendingAdmins = await Admin.find({ isApproved: false });
+      res.status(200).json({ success: true, pendingAdmins });
+    } catch (error) {
+      res.status(500).json({ success: false, message: "Internal Server Error", error: error.message });
+    }
+  };
+  const handleApproveAdmin = async (req, res) => {
+    try {
+      const { adminId } = req.params;
+  
+      const admin = await Admin.findById(adminId);
+      if (!admin) {
+        return res.status(404).json({ success: false, message: "Admin not found" });
+      }
+      // Update the isApproved field
+      admin.isApproved = true;
+      await admin.save();
+  
+      // Send approval email
+      await sendApprovedEmail(admin.email, admin.fullName);
+      res.status(200).json({ success: true, message: "Admin approved successfully" });
+    } catch (error) {
+      res.status(500).json({ success: false, message: "Internal Server Error", error: error.message });
+    }
+  };
+  const handleRejectAdmin = async (req, res) => {
+    try {
+      const { adminId } = req.params;
+  
+      const admin = await Admin.findById(adminId);
+      if (!admin) {
+        return res.status(404).json({ success: false, message: "Admin not found" });
+      }
+  
+      await Admin.findByIdAndDelete(adminId);
+  
+      // Send rejection email
+      await sendApprovalRejectEmail(admin.email, admin.fullName);
+  
+      res.status(200).json({ success: true, message: "Admin request rejected successfully" });
+    } catch (error) {
+      res.status(500).json({ success: false, message: "Internal Server Error", error: error.message });
+    }
+  };
+  
+
+
 module.exports = {
     handleAdminSignup,
     handleAdminSignin,
@@ -218,5 +268,8 @@ module.exports = {
     handleUpdateAdmin,
     handleAdminForgetPassword,
     handleAdminResetPassword,
-    handleAdminChangePassword
+    handleAdminChangePassword,
+    getPendingAdminsApproval,
+    handleApproveAdmin,
+    handleRejectAdmin
 }

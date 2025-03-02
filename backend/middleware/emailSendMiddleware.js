@@ -56,7 +56,7 @@ const sendWellcomeEmail = async (email, name) => {
       We are excited to have you join our community. Get started by exploring your new note-taking space.
     </p>
     <p style="color: #555555; font-size: 18px; line-height: 1.6; text-align: center; margin-bottom: 20px;">
-      Happy organizing!
+      
     </p>
     <p style="color: #555555; font-size: 18px; line-height: 1.6; text-align: center;">
       Best Regards,<br>
@@ -105,5 +105,70 @@ const sendApprovalEmail = async (email, name) => {
 };
 
 
+const sendApprovedEmail = async (email, name) => {
+    try {
+        const response = await transporter.sendMail({
+            from: '"Icche Web Support Team" <i.sksingh113@gmail.com>',
+            to: email,
+            subject: "Your Admin Request is Approved!", 
+            text: `Welcome, ${name}! Your Sigup request has been approved  successfuly.`, 
+            html: `
+               <div style="max-width: 600px; background-color: #ffffff; margin: 0 auto; padding: 20px; border-radius: 8px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); font-family: Arial, sans-serif;">
+    <h2 style="color: #3de84e; font-size: 28px; margin-bottom: 10px; text-align: center;">
+      Welcome to Icche, ${name}!
+    </h2>
+    <p style="color: #555555; font-size: 18px; line-height: 1.6; text-align: center; margin-bottom: 20px;">
+      We are excited to have you join our community. Get started by exploring your new note-taking space.
+    </p>
+    <p style="color: #555555; font-size: 18px; line-height: 1.6; text-align: center; margin-bottom: 20px;">
+     
+    </p>
+    <p style="color: #555555; font-size: 18px; line-height: 1.6; text-align: center;">
+      Best Regards,<br>
+      <strong style="color: #0fe456;">Icche Web Support Team</strong>
+    </p>
+  </div>
+  
+            `,
+        });
+        console.log('Approved email sent successfully:', response);
+    } catch (error) {
+        console.error('Error sending approved email:', error);
+    }
+};
 
-module.exports = { sendForgetPasswordURL, sendWellcomeEmail,sendApprovalEmail };
+const sendApprovalRejectEmail= async (email, name) => {
+    try {
+        const response = await transporter.sendMail({
+            from: '"Icche Web Support Team" <i.sksingh113@gmail.com>',
+            to: email,
+            subject: "Your Admin Request is Rejected!", 
+            text: ` ${name}! Your Sigup request has been Rejected  by Admins.`, 
+            html: `
+               <div style="max-width: 600px; background-color: #ffffff; margin: 0 auto; padding: 20px; border-radius: 8px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); font-family: Arial, sans-serif;">
+    <h2 style="color: #3de84e; font-size: 28px; margin-bottom: 10px; text-align: center;">
+      <h2>We regret to inform you</h2><p>Your request to become an admin has been rejected.</p>
+    </h2>
+    <p style="color: #555555; font-size: 18px; line-height: 1.6; text-align: center; margin-bottom: 20px;">
+      Please try again later. If you have any questions, feel free to contact us.
+    </p>
+    <p style="color: #555555; font-size: 18px; line-height: 1.6; text-align: center; margin-bottom: 20px;">
+     
+    </p>
+    <p style="color: #555555; font-size: 18px; line-height: 1.6; text-align: center;">
+      Best Regards,<br>
+      <strong style="color: #0fe456;">Icche Web Support Team</strong>
+    </p>
+  </div>
+  
+            `,
+        });
+        console.log('Rejected email sent successfully:', response);
+    } catch (error) {
+        console.error('Error sending Rejected email:', error);
+    }
+};
+
+
+
+module.exports = { sendForgetPasswordURL, sendWellcomeEmail,sendApprovalEmail ,sendApprovedEmail,sendApprovalRejectEmail};
