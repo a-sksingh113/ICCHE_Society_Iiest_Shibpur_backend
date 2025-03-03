@@ -16,7 +16,7 @@ const studentSchema = new mongoose.Schema({
         enum: ['Male', 'Female', 'Other'],
         required: true
     },
-    class: {
+    studentClass: {
         type: Number,
         required: true,
         min: 1,

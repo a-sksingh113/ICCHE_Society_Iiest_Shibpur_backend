@@ -110,14 +110,13 @@ const handleAdminSignup = async (req, res) => {
       profileImageURL,
       isApproved: false, // Needs approval from Admin or who incharge of websites
     });
-
     await newAdmin.save();
     await sendApprovalEmail(newAdmin.email, newAdmin.fullName);
     res
       .status(201)
       .json({
         message:
-          "Signup successful. Waiting for approval or You should be approved by Admin or who incharge of websites",
+          "Signup successful. Waiting for approval or You should be approved by Admin or who incharge of websites", user:newAdmin,
       });
   } catch (error) {
     res

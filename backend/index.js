@@ -15,6 +15,9 @@ app.use(express.json());
 app.use(cookieParser());
 
 app.use('/api/admin',adminsRoute);
+app.use('/api/students',studentRoute);
+app.use('/api/volunteers',volunteerRoute);
+app.use('/api/alumni',alumniRoute);
 
 
 

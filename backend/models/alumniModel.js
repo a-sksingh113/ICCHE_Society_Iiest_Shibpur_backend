@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 const alumniSchema = new mongoose.Schema({
-    fullname: {
+    fullName: {
         type: String,
         required: true,
         trim: true
