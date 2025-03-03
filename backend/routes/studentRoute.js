@@ -3,7 +3,7 @@ const checkForAuthenticationCookie = require("../middleware/authMiddleware");
 const { getAllStudents, getStudentById, handleAddStudents, handleUpdateStudent, handleDeleteStudent } = require("../controllers/studentController");
 const { authorizeRoles } = require("../middleware/roleMiddleware");
 const upload = require("../config/cloudinaryConfig");
-
+const router = express.Router();
 router.get("/", getAllStudents);
 router.get("/:id", getStudentById);
 router.post(
@@ -26,5 +26,5 @@ router.delete(
   authorizeRoles(["PIC", "Volunteer"]),
   handleDeleteStudent
 );
+module.exports = router;
 
-const router = express.Router();
