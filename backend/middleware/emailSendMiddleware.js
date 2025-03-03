@@ -118,7 +118,7 @@ const sendApprovedEmail = async (email, name) => {
       Welcome to Icche, ${name}!
     </h2>
     <p style="color: #555555; font-size: 18px; line-height: 1.6; text-align: center; margin-bottom: 20px;">
-      We are excited to have you join our community. Get started by exploring your new note-taking space.
+      We are excited to have you join our society.
     </p>
     <p style="color: #555555; font-size: 18px; line-height: 1.6; text-align: center; margin-bottom: 20px;">
      
