@@ -1,7 +1,7 @@
 const Student = require("../models/studentModel");
 const handleAddStudents = async (req, res) => {
     try {
-      const { fullname, uniqueId, gender, studentClass, address } = req.body;
+      const { fullName, uniqueId, gender, studentClass, address } = req.body;
       const coverImageURL = req.file ? req.file.path : "/uploads/default.png";
       if (!fullname || !uniqueId || !gender || !studentClass || !address) {
         return res.status(400).json({ message: "All fields are required" });
@@ -11,7 +11,7 @@ const handleAddStudents = async (req, res) => {
         return res.status(400).json({ message: "Student with this Unique ID already exists" });
       }
       const newStudent = new Student({
-        fullname,
+        fullName,
         uniqueId,
         gender,
         studentClass,
@@ -60,12 +60,24 @@ const handleAddStudents = async (req, res) => {
 
   const getAllStudents = async (req, res) => {
     try {
-      const students = await Student.find();
-      res.status(200).json(students);
+        const { fullName, uniqueId } = req.query;
+        let filter = {};
+       // GET /api/students?name=Rahul
+        if (fullName) {
+            filter.fullName = { $regex: fullName, $options: "i" }; // Case-insensitive partial match
+        }
+        //GET /api/students?uniqueId=12345
+        if (uniqueId) {
+            filter.uniqueId = uniqueId; // Exact match
+        }
+        //GET /api/students?name=Rahul&uniqueId=12345
+        const students = await Student.find(filter);
+        res.status(200).json(students);
     } catch (error) {
-      res.status(500).json({ message: "Failed to retrieve students", error: error.message });
+        res.status(500).json({ message: "Failed to retrieve students", error: error.message });
     }
-  };
+};
+
   const getStudentById = async (req, res) => {
     try {
       const student = await Student.findById(req.params.id);

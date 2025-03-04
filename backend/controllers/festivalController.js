@@ -60,7 +60,13 @@ const handleDeleteFestival = async (req, res) => {
 
 const getAllFestivals = async (req, res) => {
     try {
-        const festivals = await Festival.find();
+        const { title} = req.query;
+        let filter = {};
+       // GET /api/events/festivals?name=holi
+        if (title) {
+            filter.title = { $regex: title, $options: "i" }; // Case-insensitive partial match
+        }
+        const festivals = await Festival.find(filter);
         res.status(200).json({ success: true, data: festivals });
     } catch (error) {
         res.status(500).json({ success: false, message: error.message });

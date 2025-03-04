@@ -73,7 +73,22 @@ const handleDeleteAlumni = async (req, res) => {
 
 const getAllAlumni = async (req, res) => {
     try {
-        const alumniList = await Alumni.find();
+        const { fullName, enrollmentNo,department } = req.query;
+        let filter = {};
+       // GET /api/volunteers?name=Satish
+        if (fullName) {
+            filter.fullName = { $regex: fullName, $options: "i" }; // Case-insensitive partial match
+        }
+        //GET /api/volunteers?enrollmentNo=2023ITB104
+        if (enrollmentNo) {
+            filter.enrollmentNo = enrollmentNo; // Exact match
+        }
+
+        if (department) {
+            filter.department = department; // Exact match
+        }
+        //GET /api/volunteers?name=Satish&enrollmentNo=2023ITB104
+        const alumniList = await Alumni.find(filter);
         res.status(200).json(alumniList);
     } catch (error) {
         res.status(500).json({ message: "Failed to fetch alumni", error: error.message });

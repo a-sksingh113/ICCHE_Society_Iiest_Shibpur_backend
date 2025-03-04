@@ -48,7 +48,15 @@ const handleAddActivities = async (req, res) => {
   
 const getAllActivities = async (req, res) => {
   try {
-    const activities = await Activity.find().populate("programs");
+    const { title } = req.query; // Extract search query
+    let filter = {};
+
+ // GET /api/events/activities?name=sports day
+    if (title) {
+      filter.title = { $regex: title, $options: "i" }; // Case-insensitive search
+    }
+
+    const activities = await Activity.find(filter).populate("programs");
     res.status(200).json(activities);
   } catch (error) {
     res.status(500).json({ error: error.message });
@@ -125,7 +133,13 @@ const handleAddProgram = async (req, res) => {
 
 const getAllPrograms = async (req, res) => {
   try {
-    const programs = await Program.find({ activity: req.params.id });
+    const { title } = req.query; // Extract search query
+    const filter = { activity: req.params.id };
+ // GET /api/events/activities/:id/programs/?name=tug of war
+    if (title) {
+      filter.title = { $regex: title, $options: "i" }; // Case-insensitive search
+    }
+    const programs = await Program.find(filter);
     res.status(200).json(programs);
   } catch (error) {
     res.status(500).json({ error: error.message });
