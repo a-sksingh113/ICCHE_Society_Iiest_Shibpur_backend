@@ -1,5 +1,5 @@
 const Farewell = require('../models/farewellModel');
-const Farewell = require("../models/farewellModel");
+
 
 const getAllFarewell = async (req, res) => {
     try {

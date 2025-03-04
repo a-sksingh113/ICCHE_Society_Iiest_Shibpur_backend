@@ -46,10 +46,7 @@ const adminSchema = new mongoose.Schema(
     },
     uniqueId: {
       type: String,
-      required: function () {
-        return this.role === "PIC"; // Only required for PIC
-      },
-      unique: true,
+      required: true
     },
     year: {
       type: Number,
@@ -103,9 +100,6 @@ adminSchema.pre("save", function (next) {
  
   try {
     if (this.role === "PIC") {
-      if (!this.uniqueId) {
-        return next(new Error("Unique ID is required for PIC."));
-      }
       // PIC should not have volunteer-specific fields
       this.year = undefined;
       this.department = undefined;
@@ -128,8 +122,6 @@ adminSchema.pre("save", function (next) {
       if (this.residenceType === "Day Scholar" && !this.address) {
         return next(new Error("Address is required for Day Scholars."));
       }
-      // Volunteer should not have PIC's uniqueId
-      this.uniqueId = undefined;
     }
     next();
   } catch (error) {

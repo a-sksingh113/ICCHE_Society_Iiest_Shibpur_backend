@@ -7,8 +7,8 @@ const adminsRoute = require('./routes/adminsRoute');
 const studentRoute = require('./routes/studentRoute');
 const volunteerRoute = require('./routes/volunteerRoute');
 const alumniRoute = require('./routes/alumniRoute');
-const festivalRoute = require('/routes/festivalRoute');
-const activitiesRoute = require('/routes/activitiesRoute');
+const festivalRoute = require('./routes/festivalRoute');
+const activitiesRoute = require('./routes/activitiesRoute');
 const farewellRoute = require('./routes/farewellRoute');
 const inductionRoute = require('./routes/inductionRoute')
 

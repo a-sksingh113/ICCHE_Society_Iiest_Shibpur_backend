@@ -32,9 +32,7 @@ router.post(
   handleAdminForgetPassword
 );
 router.post(
-  "/reset-password",
-  checkForAuthenticationCookie("token"),
-  authorizeRoles(["PIC", "Volunteer"]),
+  "/reset-password/:resetToken",
   handleAdminResetPassword
 );
 router.put(

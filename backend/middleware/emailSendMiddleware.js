@@ -40,7 +40,7 @@ const sendForgetPasswordURL = async (email, resetURL) => {
 };
 
 // Send Welcome Email
-const sendWellcomeEmail = async (email, name) => {
+const sendWelcomeEmail = async (email, name) => {
     try {
         const response = await transporter.sendMail({
             from: '"Icche Web Support Team" <i.sksingh113@gmail.com>',
@@ -171,4 +171,4 @@ const sendApprovalRejectEmail= async (email, name) => {
 
 
 
-module.exports = { sendForgetPasswordURL, sendWellcomeEmail,sendApprovalEmail ,sendApprovedEmail,sendApprovalRejectEmail};
+module.exports = { sendForgetPasswordURL, sendWelcomeEmail,sendApprovalEmail ,sendApprovedEmail,sendApprovalRejectEmail};

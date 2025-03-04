@@ -37,22 +37,17 @@ const handleAdminSignup = async (req, res) => {
       !password ||
       !contactNumber ||
       !gender ||
-      !role
+      !role ||
+      !uniqueId
+
     ) {
       return res
         .status(400)
         .json({
           message:
-            "Full Name, Email, Password, Contact, Gender, and Role are required.",
+            "Full Name, Email, Password, Contact, Gender,  Role and uniqueId are required.",
         });
     }
-
-    if (role === "PIC" && !uniqueId) {
-      return res
-        .status(400)
-        .json({ message: "Unique ID is required for PIC." });
-    }
-
     if (role === "Volunteer") {
       if (!year || !department || !residenceType) {
         return res
@@ -89,10 +84,8 @@ const handleAdminSignup = async (req, res) => {
         .status(400)
         .json({ message: "Admin already exists with this email." });
     }
-
     const salt = 10;
     const hashedPassword = await bcrypt.hash(password, salt);
-
     const newAdmin = new Admin({
       fullName,
       email,
@@ -100,7 +93,7 @@ const handleAdminSignup = async (req, res) => {
       contactNumber,
       gender,
       role,
-      uniqueId: role === "PIC" ? uniqueId : undefined, // Only for PIC
+      uniqueId,
       year: role === "Volunteer" ? year : undefined,
       department: role === "Volunteer" ? department : undefined,
       residenceType: role === "Volunteer" ? residenceType : undefined,
@@ -220,7 +213,7 @@ const handleAdminForgetPassword = async (req, res) => {
     }
     // Generate Reset Token (valid for 1 hour)
     const resetToken = JWT.sign(
-      { adminId: admin._id },
+      { adminId: admin._id,},
       process.env.JWT_SECRET,
       { expiresIn: "1h" }
     );
@@ -229,7 +222,7 @@ const handleAdminForgetPassword = async (req, res) => {
     await sendForgetPasswordURL(admin.email, resetURL);
     return res
       .status(200)
-      .json({ message: "Forget password link sent to your email" });
+      .json({ message: "Forget password link sent to your email",data:resetURL });
   } catch (error) {
     console.error("Error in forgot password: ", error);
     return res.status(500).json({ message: "Server error" });
@@ -237,16 +230,25 @@ const handleAdminForgetPassword = async (req, res) => {
 };
 
 const handleAdminResetPassword = async (req, res) => {
-  const { resetToken } = req.params;
-  const { newPassword } = req.body;
+
   try {
+
+    const { resetToken } = req.params;
+    const { newPassword } = req.body;
+    console.log("Received newPassword:", newPassword); 
+
+  if (!newPassword) {
+    return res.status(400).json({ message: "New password is required" });
+  }
     const decoded = JWT.verify(resetToken, process.env.JWT_SECRET);
     const admin = await Admin.findById(decoded.adminId);
     if (!admin) {
       return res.status(404).json({ message: "Admin not found" });
     }
     // Update Password
-    admin.password = newPassword;
+    const salt = 10;
+    const hashedPassword = await bcrypt.hash(newPassword, salt);
+    admin.password =hashedPassword;
     await admin.save();
     // Send Welcome Email after password reset
     await sendWelcomeEmail(admin.email, admin.fullName);
