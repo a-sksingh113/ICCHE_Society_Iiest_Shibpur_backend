@@ -12,7 +12,13 @@ const fresherInductionSchema = new mongoose.Schema({
     },
     date: {
         type: Date,
-        required: true
+        required: true,
+        validate: {
+            validator: function (value) {
+                return value <= new Date(); // Ensures the date is not in the future
+            },
+            message: "Date cannot be in the future"
+        }
     },
     venue: {
         type: String,
@@ -20,13 +26,34 @@ const fresherInductionSchema = new mongoose.Schema({
         trim: true
     },
     coverImageURL: {
-        type: String, 
+        type: String,
+        validate: {
+            validator: function (value) {
+                return /^https?:\/\/.+\.(jpg|jpeg|png|webp|gif)$/i.test(value);
+            },
+            message: "Cover image must be a valid image URL"
+        }
     },
-    photos: [{
-        type: String // Stores multiple image URLs
-    }],
+    
+    photos: [
+        {
+            type: String,
+            validate: {
+                validator: function (value) {
+                    return /^https?:\/\/.+\.(jpg|jpeg|png|webp|gif)$/i.test(value);
+                },
+                message: "Gallery images must be valid image URLs"
+            }
+        }
+    ],
     videos: [{
-        type: String // Stores multiple video URLs
+        type: String, 
+        validate: {
+            validator: function (value) {
+                return /^https?:\/\/.+\.(mp4|mov|avi|mkv|webm)$/i.test(value);
+            },
+            message: "Videos must be valid video URLs"
+        }
     }],
     chiefGuest: {
         type: String,

@@ -57,8 +57,15 @@ const volunteerSchema = new mongoose.Schema({
         trim: true,
     },
     coverImageURL: {
-        type: String 
-    }
+        type: String,
+        validate: {
+            validator: function (value) {
+                return /^https?:\/\/.+\.(jpg|jpeg|png|webp|gif)$/i.test(value);
+            },
+            message: "Cover image must be a valid image URL"
+        }
+    },
+    
 }, { timestamps: true });
 
 // Ensure only one of hostelName, hallName, or address is provided

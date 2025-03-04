@@ -16,9 +16,15 @@ const programSchema = new mongoose.Schema(
       trim: true,
     },
     coverImageURL: {
-      type: String,
-      required: true,
+        type: String,
+        validate: {
+            validator: function (value) {
+                return /^https?:\/\/.+\.(jpg|jpeg|png|webp|gif)$/i.test(value);
+            },
+            message: "Cover image must be a valid image URL"
+        }
     },
+    
     videos: [{
         type: String, 
         validate: {

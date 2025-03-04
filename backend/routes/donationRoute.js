@@ -1,14 +1,14 @@
 const express = require("express");
 const checkForAuthenticationCookie = require("../middleware/authMiddleware");
-const { getAllFarewell, getFarewellById, handleAddFarewell, handleUpdateFarewell, handleDeleteFarewell } = require("../controllers/farewellController");
+const { getAllClothDonations, getClothDonationById, handleAddClothDonation, handleUpdateClothDonation, handleDeleteClothDonation } = require("../controllers/donationController");
 const { authorizeRoles } = require("../middleware/roleMiddleware");
 const upload = require("../config/cloudinaryConfig");
 const router = express.Router();
 
-router.get("/farewells", getAllFarewell);
-router.get("/farewells/:id", getFarewellById);
+router.get("/cloth-donations", getAllClothDonations);
+router.get("/cloth-donations/:id", getClothDonationById);
 router.post(
-  "/farewells/add-farewell",
+  "/cloth-donations/add-cloth-donation",
   checkForAuthenticationCookie("token"),
   authorizeRoles(["PIC", "Volunteer"]),
   upload.fields([
@@ -16,10 +16,10 @@ router.post(
     { name: "photos", maxCount: 2 },
     { name: "videos", maxCount: 2 },
   ]),
-  handleAddFarewell
+  handleAddClothDonation
 );
 router.put(
-  "/farewells/:id",
+  "/cloth-donations/:id",
   checkForAuthenticationCookie("token"),
   authorizeRoles(["PIC", "Volunteer"]),
   upload.fields([
@@ -27,8 +27,13 @@ router.put(
     { name: "photos", maxCount: 2 },
     { name: "videos", maxCount: 2 },
   ]),
-  handleUpdateFarewell
+  handleUpdateClothDonation
 );
-router.delete("/farewell/:id", handleDeleteFarewell);
+router.delete(
+  "/cloth-donations/:id",
+  checkForAuthenticationCookie("token"),
+  authorizeRoles(["PIC", "Volunteer"]),
+  handleDeleteClothDonation
+);
 
 module.exports = router;

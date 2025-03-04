@@ -1,6 +1,5 @@
 const express = require("express");
 const checkForAuthenticationCookie = require("../middleware/authMiddleware");
-const {} = require("../controllers/festivalController");
 const { authorizeRoles } = require("../middleware/roleMiddleware");
 const upload = require("../config/cloudinaryConfig");
 const { getAllActivities, getActivityById, handleAddActivities, handleUpdateActivities, handleDeleteActivities, getAllPrograms, getProgramById, handleAddProgram, handleUpdateProgram, handleDeleteProgram } = require("../controllers/activitiesController");

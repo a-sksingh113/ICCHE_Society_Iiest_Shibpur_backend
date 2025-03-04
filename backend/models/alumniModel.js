@@ -44,8 +44,15 @@ const alumniSchema = new mongoose.Schema({
         trim: true
     },
     coverImageURL: {
-        type: String // Store image URL or file path
-    }
+        type: String,
+        validate: {
+            validator: function (value) {
+                return /^https?:\/\/.+\.(jpg|jpeg|png|webp|gif)$/i.test(value);
+            },
+            message: "Cover image must be a valid image URL"
+        }
+    },
+    
 }, { timestamps: true });
 
 module.exports = mongoose.model('Alumni', alumniSchema);
