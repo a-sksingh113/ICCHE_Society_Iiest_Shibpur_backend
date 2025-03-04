@@ -37,7 +37,13 @@ const festivalSchema = new mongoose.Schema({
         }
     },
     videos: [{
-        type: String // Stores multiple video URLs
+        type: String, 
+        validate: {
+            validator: function (value) {
+                return /^https?:\/\/.+\.(mp4|mov|avi|mkv|webm)$/i.test(value);
+            },
+            message: "Videos must be valid video URLs"
+        }
     }],
     photos: [
         {
