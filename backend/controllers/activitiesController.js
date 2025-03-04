@@ -4,7 +4,7 @@ const Program  = require('../models/activitiesProgramModel');
 const handleAddActivities = async (req, res) => {
     try {
       const { title, description, activityType, date, chiefGuest, venue, studentsPresent, volunteersPresent } = req.body;
-      const coverImageURL = req.files?.coverImageURL?.[0]?.path || "";
+      const coverImageURL = req.file ? req.file.path : "/uploads/default.png";
       const photos = req.files?.photos?.map(file => file.path) || [];
       const videos = req.files?.videos?.map(file => file.path) || [];
   
@@ -87,7 +87,7 @@ const handleDeleteActivities = async (req, res) => {
 const handleAddProgram = async (req, res) => {
     try {
       const { title, description, participants, winners } = req.body;
-      const coverImageURL = req.files?.coverImageURL?.[0]?.path || "";
+      const coverImageURL = req.file ? req.file.path : "/uploads/default.png";
       const photos = req.files?.photos?.map(file => file.path) || [];
       const videos = req.files?.videos?.map(file => file.path) || [];
   

@@ -26,7 +26,14 @@ const adminSchema = new mongoose.Schema(
     },
     profileImageURL: {
       type: String,
-    },
+      default: "/uploads/default.png", 
+      validate: {
+          validator: function (value) {
+              return value.startsWith("http") || value.startsWith("/uploads/"); 
+          },
+          message: "Profile image must be a valid image URL"
+      }
+  },
     salt: {
       type: String,
     },

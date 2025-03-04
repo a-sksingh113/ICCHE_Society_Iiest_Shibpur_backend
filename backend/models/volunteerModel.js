@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+
 const volunteerSchema = new mongoose.Schema({
     fullName: {
         type: String,
@@ -15,10 +16,10 @@ const volunteerSchema = new mongoose.Schema({
         required: true,
         trim: true
     },
-    enrollmentNo:{
-        type:String,
-        required:true,
-        unique:true
+    enrollmentNo: {
+        type: String,
+        required: true,
+        unique: true
     },
     gender: {
         type: String,
@@ -43,29 +44,29 @@ const volunteerSchema = new mongoose.Schema({
     },
     hostelName: {
         type: String,
-        required: true,
         trim: true,
+        default: null 
     },
     hallName: {
         type: String,
-        required: true,
         trim: true,
+        default: null 
     },
     address: {
         type: String,
-        required: true,
         trim: true,
+        default: null 
     },
     coverImageURL: {
         type: String,
+        default: "/uploads/default.png", 
         validate: {
             validator: function (value) {
-                return /^https?:\/\/.+\.(jpg|jpeg|png|webp|gif)$/i.test(value);
+                return value.startsWith("http") || value.startsWith("/uploads/"); 
             },
             message: "Cover image must be a valid image URL"
         }
-    },
-    
+    }
 }, { timestamps: true });
 
 // Ensure only one of hostelName, hallName, or address is provided

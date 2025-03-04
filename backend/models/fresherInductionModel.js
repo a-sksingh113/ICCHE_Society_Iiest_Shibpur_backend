@@ -27,9 +27,10 @@ const fresherInductionSchema = new mongoose.Schema({
     },
     coverImageURL: {
         type: String,
+        default: "/uploads/default.png", 
         validate: {
             validator: function (value) {
-                return /^https?:\/\/.+\.(jpg|jpeg|png|webp|gif)$/i.test(value);
+                return value.startsWith("http") || value.startsWith("/uploads/"); 
             },
             message: "Cover image must be a valid image URL"
         }

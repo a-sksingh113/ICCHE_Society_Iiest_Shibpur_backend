@@ -3,7 +3,7 @@ const handleAddStudents = async (req, res) => {
     try {
       const { fullName, uniqueId, gender, studentClass, address } = req.body;
       const coverImageURL = req.file ? req.file.path : "/uploads/default.png";
-      if (!fullname || !uniqueId || !gender || !studentClass || !address) {
+      if (!fullName || !uniqueId || !gender || !studentClass || !address) {
         return res.status(400).json({ message: "All fields are required" });
       }
       const existingStudent = await Student.findOne({ uniqueId });

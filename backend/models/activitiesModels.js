@@ -61,10 +61,10 @@ const activitySchema = new mongoose.Schema({
     }],
     coverImageURL: {
         type: String,
-        required: [true, "Cover image is required"],
+        default: "/uploads/default.png", 
         validate: {
             validator: function (value) {
-                return /^https?:\/\/.+\.(jpg|jpeg|png|webp|gif)$/i.test(value);
+                return value.startsWith("http") || value.startsWith("/uploads/"); 
             },
             message: "Cover image must be a valid image URL"
         }

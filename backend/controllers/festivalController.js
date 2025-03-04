@@ -2,12 +2,9 @@ const Festival = require('../models/festivalModel')
 const handleAddFestival = async (req, res) => {
     try {
         const { title, description, venue, date, studentsPresent, volunteersPresent } = req.body;
-        const coverImageURL = req.files["coverImageURL"] ? req.files["coverImageURL"][0].path : null;
-        const photos = req.files["photos"] ? req.files["photos"].map(file => file.path) : [];
-        const videos = req.files["videos"] ? req.files["videos"].map(file => file.path) : [];
-        if (!coverImageURL) {
-            return res.status(400).json({ success: false, message: "Cover image is required" });
-        }
+        const coverImageURL = req.file ? req.file.path : "/uploads/default.png";
+        const photos = req.files?.photos?.map(file => file.path) || [];
+        const videos = req.files?.videos?.map(file => file.path) || [];
         const festival = new Festival({
             title,
             description,

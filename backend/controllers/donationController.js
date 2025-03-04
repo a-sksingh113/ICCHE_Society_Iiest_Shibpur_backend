@@ -26,9 +26,9 @@ const getClothDonationById = async (req, res) => {
 const handleAddClothDonation = async (req, res) => {
     try {
         const { title, description, date, location, studentsReceived, parentsReceived } = req.body;
-        const coverImageURL = req.files?.coverImageURL?.[0]?.path || "";
-      const photos = req.files?.photos?.map(file => file.path) || [];
-      const videos = req.files?.videos?.map(file => file.path) || [];
+        const coverImageURL = req.file ? req.file.path : "/uploads/default.png";
+        const photos = req.files?.photos?.map(file => file.path) || [];
+        const videos = req.files?.videos?.map(file => file.path) || [];
 
       if(!title ||  !description || !date || !location ||  !studentsReceived ||  !parentsReceived ){
         return res.status(400).json({ message: "Please fill all fields" });

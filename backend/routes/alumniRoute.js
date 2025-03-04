@@ -7,7 +7,7 @@ const router = express.Router();
 router.get("/", getAllAlumni);
 router.get("/:id", getAlumniById);
 router.post(
-  "/add-alumini",
+  "/add-alumni",
   checkForAuthenticationCookie("token"),
   authorizeRoles(["PIC", "Volunteer"]),
   upload.single("coverImageURL"),
