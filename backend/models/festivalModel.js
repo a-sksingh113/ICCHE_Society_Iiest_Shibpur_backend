@@ -36,6 +36,9 @@ const festivalSchema = new mongoose.Schema({
             message: "Cover image must be a valid image URL"
         }
     },
+    videos: [{
+        type: String // Stores multiple video URLs
+    }],
     photos: [
         {
             type: String,

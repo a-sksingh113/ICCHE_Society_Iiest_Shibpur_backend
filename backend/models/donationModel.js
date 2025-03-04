@@ -46,6 +46,9 @@ const clothDonationSchema = new mongoose.Schema({
             min: [0, "Parents received cannot be negative"]
         }
     ,
+    videos: [{
+        type: String // Stores multiple video URLs
+    }],
     coverImageURL: {
         type: String,
         validate: {

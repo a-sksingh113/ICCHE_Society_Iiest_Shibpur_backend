@@ -18,6 +18,9 @@ title: {
         type: String,
         required: true
     },
+    videos: [{
+        type: String // Stores multiple video URLs
+    }],
     participants: [{
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Student'

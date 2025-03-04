@@ -37,6 +37,9 @@ const farewellSchema = new mongoose.Schema({
             min: [0, "Volunteers present cannot be negative"]
         }
     ,
+    videos: [{
+        type: String // Stores multiple video URLs
+    }],
     coverImageURL: {
         type: String,
         required: [true, "Cover image is required"],
