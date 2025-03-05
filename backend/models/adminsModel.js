@@ -1,7 +1,4 @@
-const { createHmac, randomBytes } = require("crypto");
 const mongoose = require("mongoose");
-const { createTokenForUser } = require("../services/authService");
-
 const adminSchema = new mongoose.Schema(
   {
     fullName: {
@@ -14,6 +11,7 @@ const adminSchema = new mongoose.Schema(
       required: true,
       unique: true,
       trim: true,
+
     },
     password: {
       type: String,

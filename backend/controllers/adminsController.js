@@ -18,6 +18,7 @@ const {
   sendApprovalEmail,
   sendApprovedEmail,
   sendApprovalRejectEmail,
+  sendAdminDashboardReportEmail,
 } = require("../middleware/emailSendMiddleware");
 const handleAdminSignup = async (req, res) => {
   try {
@@ -389,6 +390,34 @@ const getAdminDashboard = async (req, res) => {
   }
 };
 
+const sendAdminReport = async (req, res) => {
+  try {
+    const {email} = req.body;
+    const admin = await Admin.findOne({email});
+    if (!admin) {
+      return res.status(404).json({ success: false, message: "Admin not found" });
+    }
+    // Fetch counts from the database
+    const totalStudents = await Student.countDocuments();
+    const totalVolunteers = await Volunteer.countDocuments();
+    const totalAlumni = await Alumni.countDocuments();
+    const totalGalleryItems = await Gallery.countDocuments();
+    const totalFestivals = await Festival.countDocuments();
+    const totalActivities = await Activity.countDocuments();
+    const totalFarewell = await Farewell.countDocuments();
+    const totalInduction = await FresherInduction.countDocuments();
+    const totalDonationDrive = await ClothDonation.countDocuments();
+
+    await sendAdminDashboardReportEmail(admin.email, admin.fullName,totalStudents,totalVolunteers,totalAlumni,totalGalleryItems,totalFestivals,totalActivities,totalFarewell,totalInduction,totalDonationDrive);
+
+    res.status(200).json({ success: true, message: "Admin report sent successfully" });
+
+  } catch (error) {
+    console.error("Error sending admin report:", error);
+    res.status(500).json({ success: false, message: "Error sending admin report", error });
+  }
+};
+
 module.exports = {
   handleAdminSignup,
   handleAdminSignin,
@@ -401,4 +430,5 @@ module.exports = {
   handleApproveAdmin,
   handleRejectAdmin,
   getAdminDashboard,
+  sendAdminReport
 };

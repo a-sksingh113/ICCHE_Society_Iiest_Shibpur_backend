@@ -12,6 +12,7 @@ const {
   handleRejectAdmin,
   handleApproveAdmin,
   getAdminDashboard,
+  sendAdminReport,
 } = require("../controllers/adminsController");
 const {
   getAllVolunteer,
@@ -140,7 +141,12 @@ router.get(
   authorizeRoles(["PIC", "Volunteer"]),
   getAdminDashboard
 );
-
+router.post(
+  "/dashboard/report",
+  checkForAuthenticationCookie("token"),
+  authorizeRoles(["PIC", "Volunteer"]),
+  sendAdminReport
+);
 // for Volunteer management
 router.get(
   "/dashboard/volunteers",

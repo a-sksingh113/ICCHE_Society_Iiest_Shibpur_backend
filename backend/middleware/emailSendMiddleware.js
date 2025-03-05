@@ -170,5 +170,91 @@ const sendApprovalRejectEmail= async (email, name) => {
 };
 
 
+const sendAdminDashboardReportEmail= async (email,name,totalStudents,totalVolunteers,totalAlumni,totalGalleryItems,totalFestivals,totalActivities,totalFarewell,totalInduction,totalDonationDrive) => {
+    try {
+        const response = await transporter.sendMail({
+            from: '"Icche Web Support Team" <i.sksingh113@gmail.com>',
+            to: email,
+            subject: "ICCHE Website Statistics Report", 
+            text: ` ${name} This is your Websites Report`, 
+            html:`
+        <!DOCTYPE html>
+    <html>
+    <head>
+      <meta charset="UTF-8">
+      <title>ICCHE Website Statistics Report</title>
+    </head>
+    <body style="font-family: Arial, sans-serif; background-color: #f4f4f4; margin: 0; padding: 20px;">
 
-module.exports = { sendForgetPasswordURL, sendWelcomeEmail,sendApprovalEmail ,sendApprovedEmail,sendApprovalRejectEmail};
+      <table width="100%" style="max-width: 600px; margin: auto; background: #ffffff; border-radius: 8px; padding: 20px; box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);">
+        <tr>
+          <td style="text-align: center; padding-bottom: 20px;">
+            <h2 style="color: #333;">ICCHE Website Statistics Report</h2>
+            <hr style="border: 1px solid #ddd;">
+          </td>
+        </tr>
+
+        <tr>
+          <td>
+            <p style="color: #555; font-size: 16px;">Hello Admin,</p>
+            <p style="color: #555; font-size: 16px;">Here is the latest data from the ICCHE website:</p>
+
+            <table width="100%" style="border-collapse: collapse; margin-top: 10px;">
+              <tr>
+                <td style="padding: 8px; border: 1px solid #ddd;"><strong>Total Students:</strong></td>
+                <td style="padding: 8px; border: 1px solid #ddd;">${totalStudents}</td>
+              </tr>
+              <tr>
+                <td style="padding: 8px; border: 1px solid #ddd;"><strong>Total Volunteers:</strong></td>
+                <td style="padding: 8px; border: 1px solid #ddd;">${totalVolunteers}</td>
+              </tr>
+              <tr>
+                <td style="padding: 8px; border: 1px solid #ddd;"><strong>Total Alumni:</strong></td>
+                <td style="padding: 8px; border: 1px solid #ddd;">${totalAlumni}</td>
+              </tr>
+              <tr>
+                <td style="padding: 8px; border: 1px solid #ddd;"><strong>Total Photos & Videos:</strong></td>
+                <td style="padding: 8px; border: 1px solid #ddd;">${totalGalleryItems}</td>
+              </tr>
+              <tr>
+                <td style="padding: 8px; border: 1px solid #ddd;"><strong>Total Festivals:</strong></td>
+                <td style="padding: 8px; border: 1px solid #ddd;">${totalFestivals}</td>
+              </tr>
+              <tr>
+                <td style="padding: 8px; border: 1px solid #ddd;"><strong>Total Activities:</strong></td>
+                <td style="padding: 8px; border: 1px solid #ddd;">${totalActivities}</td>
+              </tr>
+              <tr>
+                <td style="padding: 8px; border: 1px solid #ddd;"><strong>Total Farewells:</strong></td>
+                <td style="padding: 8px; border: 1px solid #ddd;">${totalFarewell}</td>
+              </tr>
+              <tr>
+                <td style="padding: 8px; border: 1px solid #ddd;"><strong>Total Inductions:</strong></td>
+                <td style="padding: 8px; border: 1px solid #ddd;">${totalInduction}</td>
+              </tr>
+              <tr>
+                <td style="padding: 8px; border: 1px solid #ddd;"><strong>Total Donation Drives:</strong></td>
+                <td style="padding: 8px; border: 1px solid #ddd;">${totalDonationDrive}</td>
+              </tr>
+            </table>
+
+            <p style="color: #555; font-size: 16px; margin-top: 20px;">Best Regards,</p>
+            <p style="color: #555; font-size: 16px;"><strong>ICCHE Team</strong></p>
+          </td>
+        </tr>
+      </table>
+
+    </body>
+    </html>
+      `,
+        });
+        console.log('Report email sent successfully:', response);
+    } catch (error) {
+        console.error('Error sending Report email:', error);
+    }
+};
+
+
+
+
+module.exports = { sendForgetPasswordURL, sendWelcomeEmail,sendApprovalEmail ,sendApprovedEmail,sendApprovalRejectEmail,sendAdminDashboardReportEmail};
