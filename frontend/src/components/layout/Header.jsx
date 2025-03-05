@@ -21,13 +21,13 @@ const Header = () => {
         </ul>
 
         <div className="dropdown text-end">
-          <Link to = '/userProfile' className="d-block link-body-emphasis text-decoration-none"  aria-expanded="false">
+          <Link to = '/adminProfile' className="d-block link-body-emphasis text-decoration-none"  aria-expanded="false">
           <img src={userImage} alt="mdo" width="32" height="32" className="rounded-circle" />
           </Link>
           
         </div>
       </div>
-    </div>
+    </div>  
   </header>
   )
 }

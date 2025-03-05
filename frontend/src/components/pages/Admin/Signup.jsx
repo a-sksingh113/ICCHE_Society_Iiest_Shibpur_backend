@@ -38,26 +38,26 @@ const Signup = () => {
       <div className={`${Style.container}`}>
         <img src={form_image} alt="form" className={`${Style.form_img}`} />
         <div className={`${Style.content}`}>
-          <h1 className="text-center">Signup</h1>
+          <h1 className="text-center">Admin Signup</h1>
           <form onSubmit={handleSubmit}>
             <div>
-              <label className={`form-label`}>Full Name <span style={{ color: "red" }}>*</span></label>
-              <input type="text" name="fullName" className={`form-control ${Style.inputs}`} required onChange={handleChange} />
+              <label className={`form-label`}>FullName <span style={{ color: "red" }}>*</span></label>
+              <input type="text" name="fullName" placeholder="fullname" className={`form-control ${Style.inputs}`} required onChange={handleChange} />
             </div>
 
             <div>
               <label className={`form-label`}>Email <span style={{ color: "red" }}>*</span></label>
-              <input type="email" name="email" className={`form-control ${Style.inputs}`} required onChange={handleChange} />
+              <input type="email" name="email" placeholder="email" className={`form-control ${Style.inputs}`} required onChange={handleChange} />
             </div>
 
             <div>
               <label className={`form-label`}>Password <span style={{ color: "red" }}>*</span></label>
-              <input type="password" name="password" className={`form-control ${Style.inputs}`} required onChange={handleChange} />
+              <input type="password" name="password" placeholder="password" className={`form-control ${Style.inputs}`} required onChange={handleChange} />
             </div>
 
             <div>
               <label className={`form-label`}>Contact Number <span style={{ color: "red" }}>*</span></label>
-              <input type="text" name="contactNumber" className={`form-control ${Style.inputs}`} required onChange={handleChange} />
+              <input type="text" name="contactNumber" placeholder="contactNumber" className={`form-control ${Style.inputs}`} required onChange={handleChange} />
             </div>
 
             <div>
