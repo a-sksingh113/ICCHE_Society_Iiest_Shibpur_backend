@@ -6,7 +6,7 @@ const Home = () => {
   return (
     <Layout>
       <div className={`${Style.container1}`}>
-        <h1> Welcom to ICCHE </h1>
+        <h1> Welcome to ICCHE </h1>
         <p>
           A non-profit society at IIEST Shibpur dedicated to empowering
           underprivileged students by providing not just knowledge but also
