@@ -2,13 +2,13 @@ import './App.css'
 import {BrowserRouter,Routes,Route} from 'react-router-dom'
 import "bootstrap/dist/css/bootstrap.min.css";
 import Home from './components/pages/Home'
-import UserProfile from './components/pages/UserProfile';
-import About from './components/pages/About';
+import UserProfile from './components/pages/Admin/AdminProfile';
+import About from './components/pages/AboutUs/About';
 import Contact from './components/pages/Contact';
 import Login from './components/pages/Login';
 import Signup from './components/pages/Signup';
-import Volunteers from './components/pages/Volunteers';
-import ForgotPassword from './components/pages/ForgotPassword';
+import Volunteers from './components/pages/AboutUs/Volunteers';
+import ForgotPassword from './components/pages/Admin/ForgotPassword';
 function App() {
   return(
     <BrowserRouter>
