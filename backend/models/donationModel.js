@@ -40,6 +40,11 @@ const clothDonationSchema = new mongoose.Schema({
             default: 0,
             min: [0, "Students received cannot be negative"]
         },
+        volunteerPresent: {
+            type: Number,
+            default: 0,
+            min: [0, "volunteer present cannot be negative"]
+        },
         parentsReceived: {
             type: Number,
             default: 0,
