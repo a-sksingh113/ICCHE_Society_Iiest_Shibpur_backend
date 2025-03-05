@@ -12,12 +12,6 @@ const {
   handleRejectAdmin,
   handleApproveAdmin,
   getAdminDashboard,
-  sendAdminReport,
-  sendAdminReportPDF,
-  sendStudentReportPDF,
-  sendStudentExcelReport,
-  sendVolunteerExcelReport,
-  sendVolunteerReportPDF,
 } = require("../controllers/adminsController");
 const {
   getAllVolunteer,
@@ -95,6 +89,14 @@ const {
 } = require("../controllers/galleryController");
 const { authorizeRoles } = require("../middleware/roleMiddleware");
 const upload = require("../config/cloudinaryConfig");
+const {
+  handleSendAdminDashboardReportEmail,
+  handleSendAdminDashboardReportPDF,
+  handleSendVolunteerReportEmailEXCEL,
+  handleSendVolunteerReportEmailPDF,
+  handleSendStudentReportEmailPDF,
+  handleSendStudentReportEmailEXCEL,
+} = require("../controllers/adminReportController");
 
 const router = express.Router();
 
@@ -150,26 +152,26 @@ router.post(
   "/dashboard/report",
   checkForAuthenticationCookie("token"),
   authorizeRoles(["PIC", "Volunteer"]),
-  sendAdminReport
+  handleSendAdminDashboardReportEmail
 );
 router.post(
   "/dashboard/reportpdf",
   checkForAuthenticationCookie("token"),
   authorizeRoles(["PIC", "Volunteer"]),
-  sendAdminReportPDF
+  handleSendAdminDashboardReportPDF
 );
 // for Volunteer management
 router.post(
   "/dashboard/volunteers/reportxlsx",
   checkForAuthenticationCookie("token"),
   authorizeRoles(["PIC", "Volunteer"]),
-  sendVolunteerExcelReport
+  handleSendVolunteerReportEmailEXCEL
 );
 router.post(
   "/dashboard/volunteers/reportpdf",
   checkForAuthenticationCookie("token"),
   authorizeRoles(["PIC", "Volunteer"]),
-  sendVolunteerReportPDF
+  handleSendVolunteerReportEmailPDF
 );
 router.get(
   "/dashboard/volunteers",
@@ -210,13 +212,13 @@ router.post(
   "/dashboard/students/reportpdf",
   checkForAuthenticationCookie("token"),
   authorizeRoles(["PIC", "Volunteer"]),
-  sendStudentReportPDF
+  handleSendStudentReportEmailPDF
 );
 router.post(
   "/dashboard/students/reportxlsx",
   checkForAuthenticationCookie("token"),
   authorizeRoles(["PIC", "Volunteer"]),
-  sendStudentExcelReport
+  handleSendStudentReportEmailEXCEL
 );
 router.get(
   "/dashboard/students",
