@@ -1,5 +1,5 @@
 const express = require("express");
-const { getAllActivities,  getAllPrograms, getProgramById} = require("../controllers/activitiesController");
+const { getAllActivities,  getAllPrograms, getProgramById, getActivityById} = require("../controllers/activitiesController");
 const router = express.Router();
 
 //for activity like sports day, drawing competetion

@@ -1,8 +1,16 @@
 const Admin = require("../models/adminsModel");
+const Activity = require('../models/activitiesModels');
+const Alumni = require("../models/alumniModel");
+const ClothDonation = require("../models/donationModel");
+const Farewell = require('../models/farewellModel');
+const Festival = require('../models/festivalModel')
+const Gallery = require("../models/galleryModel");
+const FresherInduction = require('../models/fresherInductionModel');
+const Student = require("../models/studentModel");
+const Volunteer = require("../models/volunteerModel");
 const bcrypt = require("bcrypt");
 const JWT = require("jsonwebtoken");
 const { createTokenForUser } = require("../services/authService");
-const { createHmac, randomBytes } = require("crypto");
 
 const {
   sendForgetPasswordURL,
@@ -39,23 +47,18 @@ const handleAdminSignup = async (req, res) => {
       !gender ||
       !role ||
       !uniqueId
-
     ) {
-      return res
-        .status(400)
-        .json({
-          message:
-            "Full Name, Email, Password, Contact, Gender,  Role and uniqueId are required.",
-        });
+      return res.status(400).json({
+        message:
+          "Full Name, Email, Password, Contact, Gender,  Role and uniqueId are required.",
+      });
     }
     if (role === "Volunteer") {
       if (!year || !department || !residenceType) {
-        return res
-          .status(400)
-          .json({
-            message:
-              "Year, Department, and Residence Type are required for Volunteers.",
-          });
+        return res.status(400).json({
+          message:
+            "Year, Department, and Residence Type are required for Volunteers.",
+        });
       }
 
       if (residenceType === "Hostel" && !hostelName) {
@@ -89,7 +92,7 @@ const handleAdminSignup = async (req, res) => {
     const newAdmin = new Admin({
       fullName,
       email,
-      password:hashedPassword,
+      password: hashedPassword,
       contactNumber,
       gender,
       role,
@@ -105,12 +108,11 @@ const handleAdminSignup = async (req, res) => {
     });
     await newAdmin.save();
     await sendApprovalEmail(newAdmin.email, newAdmin.fullName);
-    res
-      .status(201)
-      .json({
-        message:
-          "Signup successful. Waiting for approval or You should be approved by Admin or who incharge of websites", user:newAdmin,
-      });
+    res.status(201).json({
+      message:
+        "Signup successful. Waiting for approval or You should be approved by Admin or who incharge of websites",
+      user: newAdmin,
+    });
   } catch (error) {
     res
       .status(500)
@@ -129,20 +131,20 @@ const handleAdminSignin = async (req, res) => {
     }
     // Check if admin is approved
     if (!admin.isApproved) {
-      return res
-        .status(403)
-        .json({
-          success: false,
-          message: "Admin approval pending. Contact the PIC or Admin.",
-        });
+      return res.status(403).json({
+        success: false,
+        message: "Admin approval pending. Contact the PIC or Admin.",
+      });
     }
-     // **Compare the entered password with the stored hashed password**
-     const isMatch = await bcrypt.compare(password, admin.password);
-     if (!isMatch) {
-       return res.status(401).json({ success: false, message: "Invalid email or password" });
-     }
+    // **Compare the entered password with the stored hashed password**
+    const isMatch = await bcrypt.compare(password, admin.password);
+    if (!isMatch) {
+      return res
+        .status(401)
+        .json({ success: false, message: "Invalid email or password" });
+    }
 
-     const token = createTokenForUser(admin);
+    const token = createTokenForUser(admin);
     if (!token) {
       throw new Error("Token generation failed");
     }
@@ -213,7 +215,7 @@ const handleAdminForgetPassword = async (req, res) => {
     }
     // Generate Reset Token (valid for 1 hour)
     const resetToken = JWT.sign(
-      { adminId: admin._id,},
+      { adminId: admin._id },
       process.env.JWT_SECRET,
       { expiresIn: "1h" }
     );
@@ -222,7 +224,10 @@ const handleAdminForgetPassword = async (req, res) => {
     await sendForgetPasswordURL(admin.email, resetURL);
     return res
       .status(200)
-      .json({ message: "Forget password link sent to your email",data:resetURL });
+      .json({
+        message: "Forget password link sent to your email",
+        data: resetURL,
+      });
   } catch (error) {
     console.error("Error in forgot password: ", error);
     return res.status(500).json({ message: "Server error" });
@@ -230,16 +235,14 @@ const handleAdminForgetPassword = async (req, res) => {
 };
 
 const handleAdminResetPassword = async (req, res) => {
-
   try {
-
     const { resetToken } = req.params;
     const { newPassword } = req.body;
-    console.log("Received newPassword:", newPassword); 
+    console.log("Received newPassword:", newPassword);
 
-  if (!newPassword) {
-    return res.status(400).json({ message: "New password is required" });
-  }
+    if (!newPassword) {
+      return res.status(400).json({ message: "New password is required" });
+    }
     const decoded = JWT.verify(resetToken, process.env.JWT_SECRET);
     const admin = await Admin.findById(decoded.adminId);
     if (!admin) {
@@ -248,7 +251,7 @@ const handleAdminResetPassword = async (req, res) => {
     // Update Password
     const salt = 10;
     const hashedPassword = await bcrypt.hash(newPassword, salt);
-    admin.password =hashedPassword;
+    admin.password = hashedPassword;
     await admin.save();
     // Send Welcome Email after password reset
     await sendWelcomeEmail(admin.email, admin.fullName);
@@ -264,13 +267,15 @@ const handleAdminChangePassword = async (req, res) => {
     const { adminId } = req.params; // Admin's ID
     const { oldPassword, newPassword } = req.body;
     if (!oldPassword || !newPassword) {
-      return res.status(400).json({ message: "Old and new passwords are required" });
+      return res
+        .status(400)
+        .json({ message: "Old and new passwords are required" });
     }
     const admin = await Admin.findById(adminId);
     if (!admin) {
       return res.status(404).json({ message: "Admin not found" });
     }
-    //matching existing password of user 
+    //matching existing password of user
     const isMatch = await bcrypt.compare(oldPassword, admin.password);
     if (!isMatch) {
       return res.status(401).json({ message: "Incorrect old password" });
@@ -281,7 +286,9 @@ const handleAdminChangePassword = async (req, res) => {
     await admin.save();
     return res.status(200).json({ message: "Password changed successfully" });
   } catch (error) {
-    return res.status(500).json({ message: "Internal Server Error", error: error.message });
+    return res
+      .status(500)
+      .json({ message: "Internal Server Error", error: error.message });
   }
 };
 
@@ -290,13 +297,11 @@ const getPendingAdminsApproval = async (req, res) => {
     const pendingAdmins = await Admin.find({ isApproved: false });
     res.status(200).json({ success: true, pendingAdmins });
   } catch (error) {
-    res
-      .status(500)
-      .json({
-        success: false,
-        message: "Internal Server Error",
-        error: error.message,
-      });
+    res.status(500).json({
+      success: false,
+      message: "Internal Server Error",
+      error: error.message,
+    });
   }
 };
 const handleApproveAdmin = async (req, res) => {
@@ -317,13 +322,11 @@ const handleApproveAdmin = async (req, res) => {
       .status(200)
       .json({ success: true, message: "Admin approved successfully" });
   } catch (error) {
-    res
-      .status(500)
-      .json({
-        success: false,
-        message: "Internal Server Error",
-        error: error.message,
-      });
+    res.status(500).json({
+      success: false,
+      message: "Internal Server Error",
+      error: error.message,
+    });
   }
 };
 
@@ -343,13 +346,46 @@ const handleRejectAdmin = async (req, res) => {
       .status(200)
       .json({ success: true, message: "Admin request rejected successfully" });
   } catch (error) {
-    res
-      .status(500)
-      .json({
-        success: false,
-        message: "Internal Server Error",
-        error: error.message,
-      });
+    res.status(500).json({
+      success: false,
+      message: "Internal Server Error",
+      error: error.message,
+    });
+  }
+};
+const getAdminDashboard = async (req, res) => {
+  try {
+    const totalStudents = await Student.countDocuments();
+    const totalVolunteers = await Volunteer.countDocuments();
+    const totalAlumni = await Alumni.countDocuments();
+    const totalGalleryItems = await Gallery.countDocuments();
+    const totalFestivals = await Festival.countDocuments();
+    const totalActivities = await Activity.countDocuments();
+    const totalFarewell = await Farewell.countDocuments();
+    const totalInduction = await FresherInduction.countDocuments();
+    const totalDonationDrive = await ClothDonation.countDocuments();
+    res.status(200).json({
+      success: true,
+      message: "Admin dashboard data fetched successfully",
+      data: {
+        totalStudents,
+        totalVolunteers,
+        totalAlumni,
+        totalFestivals,
+        totalActivities,
+        totalGalleryItems,
+        totalFarewell,
+        totalInduction,
+        totalDonationDrive,
+      },
+    });
+  } catch (error) {
+    console.error("Error fetching admin dashboard data:", error);
+    res.status(500).json({
+      success: false,
+      message: "Error fetching admin dashboard data",
+      error: error.message || error,
+    });
   }
 };
 
@@ -364,4 +400,5 @@ module.exports = {
   getPendingAdminsApproval,
   handleApproveAdmin,
   handleRejectAdmin,
+  getAdminDashboard,
 };

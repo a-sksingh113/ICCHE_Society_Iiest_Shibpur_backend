@@ -11,6 +11,7 @@ const {
   getPendingAdminsApproval,
   handleRejectAdmin,
   handleApproveAdmin,
+  getAdminDashboard,
 } = require("../controllers/adminsController");
 const {
   getAllVolunteer,
@@ -73,8 +74,22 @@ const {
   handleUpdateProgram,
   handleDeleteProgram,
 } = require("../controllers/activitiesController");
+const {
+  getAllPhotosVideos,
+  getAllPhotos,
+  getPhotoById,
+  getAllVideos,
+  getVideoById,
+  handleAddPhotos,
+  handleAddVideos,
+  handleDeletePhotos,
+  handleDeletePhoto,
+  handleDeleteVideos,
+  handleDeleteVideo,
+} = require("../controllers/galleryController");
 const { authorizeRoles } = require("../middleware/roleMiddleware");
 const upload = require("../config/cloudinaryConfig");
+
 const router = express.Router();
 
 // for admin management
@@ -418,6 +433,51 @@ router.delete(
   checkForAuthenticationCookie("token"),
   authorizeRoles(["PIC", "Volunteer"]),
   handleDeleteProgram
+);
+
+// for gallery management
+router.get("/dashboard/gallery", getAllPhotosVideos);
+router.get("/dashboard/gallery/photos", getAllPhotos);
+router.get("/dashboard/gallery/photos/:id", getPhotoById);
+router.get("/dashboard/gallery/videos", getAllVideos);
+router.get("/dashboard/gallery/videos/:id", getVideoById);
+router.post(
+  "/dashboard/gallery/photos/add-photos",
+  checkForAuthenticationCookie("token"),
+  authorizeRoles(["PIC", "Volunteer"]),
+  upload.fields([{ name: "photos", maxCount: 2 }]),
+  handleAddPhotos
+);
+router.post(
+  "/dashboard/gallery/videos/add-videos",
+  checkForAuthenticationCookie("token"),
+  authorizeRoles(["PIC", "Volunteer"]),
+  upload.fields([{ name: "videos", maxCount: 2 }]),
+  handleAddVideos
+);
+router.delete(
+  "/dashboard/gallery/photos",
+  checkForAuthenticationCookie("token"),
+  authorizeRoles(["PIC", "Volunteer"]),
+  handleDeletePhotos
+);
+router.delete(
+  "/dashboard/gallery/photos/:id",
+  checkForAuthenticationCookie("token"),
+  authorizeRoles(["PIC", "Volunteer"]),
+  handleDeletePhoto
+);
+router.delete(
+  "/dashboard/gallery/videos",
+  checkForAuthenticationCookie("token"),
+  authorizeRoles(["PIC", "Volunteer"]),
+  handleDeleteVideos
+);
+router.delete(
+  "/dashboard/gallery/videos/:id",
+  checkForAuthenticationCookie("token"),
+  authorizeRoles(["PIC", "Volunteer"]),
+  handleDeleteVideo
 );
 
 module.exports = router;

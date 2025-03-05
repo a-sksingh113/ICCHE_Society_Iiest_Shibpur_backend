@@ -12,6 +12,7 @@ const activitiesRoute = require('./routes/activitiesRoute');
 const farewellRoute = require('./routes/farewellRoute');
 const inductionRoute = require('./routes/inductionRoute')
 const donationRoute = require('./routes/donationRoute');
+const galleryRoute = require('./routes/galleryRoute')
 
 const app = express();
 PORT = process.env.PORT || 8001;
@@ -26,6 +27,7 @@ app.use('/api/volunteers',volunteerRoute);
 app.use('/api/alumni',alumniRoute);
 app.use('/api/events',festivalRoute,activitiesRoute,farewellRoute,inductionRoute);
 app.use('/api/donation-drive',donationRoute);
+app.use('/api/gallery', galleryRoute);
 
 app.listen(PORT,()=>{
     console.log(`Server is running on port ${PORT}`)
