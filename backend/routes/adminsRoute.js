@@ -13,6 +13,9 @@ const {
   handleApproveAdmin,
   getAdminDashboard,
   sendAdminReport,
+  sendAdminReportPDF,
+  sendStudentReportPDF,
+  sendStudentExcelReport,
 } = require("../controllers/adminsController");
 const {
   getAllVolunteer,
@@ -147,6 +150,12 @@ router.post(
   authorizeRoles(["PIC", "Volunteer"]),
   sendAdminReport
 );
+router.post(
+  "/dashboard/reportpdf",
+  checkForAuthenticationCookie("token"),
+  authorizeRoles(["PIC", "Volunteer"]),
+  sendAdminReportPDF
+);
 // for Volunteer management
 router.get(
   "/dashboard/volunteers",
@@ -187,6 +196,18 @@ router.get(
   checkForAuthenticationCookie("token"),
   authorizeRoles(["PIC", "Volunteer"]),
   getAllStudents
+);
+router.post(
+  "/dashboard/students/reportpdf",
+  checkForAuthenticationCookie("token"),
+  authorizeRoles(["PIC", "Volunteer"]),
+  sendStudentReportPDF
+);
+router.post(
+  "/dashboard/students/reportxlsx",
+  checkForAuthenticationCookie("token"),
+  authorizeRoles(["PIC", "Volunteer"]),
+  sendStudentExcelReport
 );
 router.get(
   "/dashboard/students",

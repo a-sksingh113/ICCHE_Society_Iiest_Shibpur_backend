@@ -254,7 +254,110 @@ const sendAdminDashboardReportEmail= async (email,name,totalStudents,totalVolunt
     }
 };
 
+const sendAdminDashboardReportEmailPDF = async (email, name, pdfFilePath) => {
+    try {
+      const response = await transporter.sendMail({
+        from: '"Icche Web Support Team" <i.sksingh113@gmail.com>',
+        to: email,
+        subject: " ICCHE Website Statistics Report (PDF Attached)",
+        text: `Hello ${name},\n\nAttached is the latest ICCHE website statistics report.\n\nBest Regards,\nICCHE Team`,
+        html: `
+          <!DOCTYPE html>
+          <html>
+          <head>
+            <meta charset="UTF-8">
+            <title>ICCHE Website Statistics Report</title>
+          </head>
+          <body style="font-family: Arial, sans-serif; background-color: #f4f4f4; margin: 0; padding: 20px;">
+            <table width="100%" style="max-width: 600px; margin: auto; background: #ffffff; border-radius: 8px; padding: 20px; box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);">
+              <tr>
+                <td style="text-align: center; padding-bottom: 20px;">
+                  <h2 style="color: #333;">📊 ICCHE Website Statistics Report</h2>
+                  <hr style="border: 1px solid #ddd;">
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p style="color: #555; font-size: 16px;">Hello ${name},</p>
+                  <p style="color: #555; font-size: 16px;">Attached is the latest ICCHE website statistics report in PDF format.</p>
+                  <p style="color: #555; font-size: 16px;">Please find the report attached below.</p>
+                  <p style="color: #555; font-size: 16px;">Best Regards,</p>
+                  <p style="color: #555; font-size: 16px;"><strong>ICCHE Team</strong></p>
+                </td>
+              </tr>
+            </table>
+          </body>
+          </html>
+        `,
+        attachments: [
+          {
+            filename: "ICCHE_Statistics_Report.pdf",
+            path: pdfFilePath,
+            contentType: "application/pdf",
+          },
+        ],
+      });
+  
+      console.log("Report email sent successfully:", response);
+    } catch (error) {
+      console.error(" Error sending Report email:", error);
+    }
+  };
+
+const sendStudentReportEmailPDF = async (email, name, pdfFilePath) => {
+  try {
+    const response = await transporter.sendMail({
+      from: '"Icche Web Support Team" <i.sksingh113@gmail.com>',
+      to: email,
+      subject: "ICCHE Student Report",
+      text: `Hello ${name},\n\nAttached is the latest student report containing all student details.\n\nBest Regards,\nICCHE Team`,
+      html: `
+        <p>Hello ${name},</p>
+        <p>Attached is the latest <b>Student Report</b> in PDF format, containing all student details.</p>
+        <p>Best Regards,</p>
+        <p><strong>ICCHE Team</strong></p>
+      `,
+      attachments: [
+        {
+          filename: `ICCHE_Student_Report.pdf`,
+          path: pdfFilePath,
+          contentType: "application/pdf",
+        },
+      ],
+    });
+
+    console.log(" Student Report email sent successfully:", response);
+  } catch (error) {
+    console.error(" Error sending Student Report email:", error);
+  }
+};
+
+const sendStudentReportEmailEXCEL = async (email,name, filePath) => {
+    try {
+      const response = await transporter.sendMail({
+        from: '"Icche Web Support Team" <i.sksingh113@gmail.com>',
+        to: email,
+        subject: "ICCHE Student Report",
+        text: `Hello ${name},\n\nAttached is the latest student report containing all student details.\n\nBest Regards,\nICCHE Team`,
+        html: `
+          <p>Hello ${name},</p>
+          <p>Attached is the latest <b>Student Report</b> in EXCEL format, containing all student details.</p>
+          <p>Best Regards,</p>
+          <p><strong>ICCHE Team</strong></p>
+        `,
+        attachments: [
+            {
+              filename: "student_report.xlsx",
+              path: filePath,
+            },
+          ],
+      });
+  
+      console.log(" Student Report email sent successfully:", response);
+    } catch (error) {
+      console.error(" Error sending Student Report email:", error);
+    }
+  };
 
 
-
-module.exports = { sendForgetPasswordURL, sendWelcomeEmail,sendApprovalEmail ,sendApprovedEmail,sendApprovalRejectEmail,sendAdminDashboardReportEmail};
+module.exports = { sendForgetPasswordURL, sendWelcomeEmail,sendApprovalEmail ,sendApprovedEmail,sendApprovalRejectEmail,sendAdminDashboardReportEmail,sendAdminDashboardReportEmailPDF,sendStudentReportEmailPDF,sendStudentReportEmailEXCEL};
