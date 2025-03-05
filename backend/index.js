@@ -25,8 +25,8 @@ app.use('/api/students',studentRoute);
 app.use('/api/volunteers',volunteerRoute);
 app.use('/api/alumni',alumniRoute);
 app.use('/api/events',festivalRoute,activitiesRoute,farewellRoute,inductionRoute);
-app.use('/api/donation-drive',donationRoute)
+app.use('/api/donation-drive',donationRoute);
 
 app.listen(PORT,()=>{
     console.log(`Server is running on port ${PORT}`)
-})
+});
