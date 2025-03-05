@@ -1,12 +1,12 @@
 const { transporter } = require("../middleware/emailConfigMiddleware");
 const sendForgetPasswordURL = async (email, resetURL) => {
-    try {
-        const response = await transporter.sendMail({
-            from: '"Icche Web Support" <i.sksingh113@gmail.com>',
-            to: email,
-            subject: "Password Reset Request", 
-            text: "Please click the link below to reset your password.", 
-            html: `
+  try {
+    const response = await transporter.sendMail({
+      from: '"Icche Web Support" <i.sksingh113@gmail.com>',
+      to: email,
+      subject: "Password Reset Request",
+      text: "Please click the link below to reset your password.",
+      html: `
                <div style="font-family: Arial, sans-serif; max-width: 600px; margin: auto; background-color: #f4f4f9; padding: 20px; border-radius: 10px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);">
     <div style="text-align: center; padding: 10px 0;">
         <img src="default.png" alt="Logo" style="max-width: 150px;">
@@ -32,22 +32,22 @@ const sendForgetPasswordURL = async (email, resetURL) => {
 </div>
 
             `,
-        });
-        console.log('Password forget email sent successfully:', response);
-    } catch (error) {
-        console.error('Error sending forget password email:', error);
-    }
+    });
+    console.log("Password forget email sent successfully:", response);
+  } catch (error) {
+    console.error("Error sending forget password email:", error);
+  }
 };
 
 // Send Welcome Email
 const sendWelcomeEmail = async (email, name) => {
-    try {
-        const response = await transporter.sendMail({
-            from: '"Icche Web Support Team" <i.sksingh113@gmail.com>',
-            to: email,
-            subject: "Password Reset!", 
-            text: `Welcome, ${name}! Your password is reset successfuly.`, 
-            html: `
+  try {
+    const response = await transporter.sendMail({
+      from: '"Icche Web Support Team" <i.sksingh113@gmail.com>',
+      to: email,
+      subject: "Password Reset!",
+      text: `Welcome, ${name}! Your password is reset successfuly.`,
+      html: `
                <div style="max-width: 600px; background-color: #ffffff; margin: 0 auto; padding: 20px; border-radius: 8px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); font-family: Arial, sans-serif;">
     <h2 style="color: #3de84e; font-size: 28px; margin-bottom: 10px; text-align: center;">
       Welcome to Icche, ${name}!
@@ -65,21 +65,21 @@ const sendWelcomeEmail = async (email, name) => {
   </div>
   
             `,
-        });
-        console.log('Welcome email sent successfully:', response);
-    } catch (error) {
-        console.error('Error sending welcome email:', error);
-    }
+    });
+    console.log("Welcome email sent successfully:", response);
+  } catch (error) {
+    console.error("Error sending welcome email:", error);
+  }
 };
 
 const sendApprovalEmail = async (email, name) => {
-    try {
-        const response = await transporter.sendMail({
-            from: '"Icche Web Support Team" <i.sksingh113@gmail.com>',
-            to: process.env.ADMIN_EMAIL,
-            subject: "Signup Approval Request!", 
-            text: `${name} has needs approval for signup , Please approve if this user is admin else ignore`, 
-            html: `
+  try {
+    const response = await transporter.sendMail({
+      from: '"Icche Web Support Team" <i.sksingh113@gmail.com>',
+      to: process.env.ADMIN_EMAIL,
+      subject: "Signup Approval Request!",
+      text: `${name} has needs approval for signup , Please approve if this user is admin else ignore`,
+      html: `
                <div style="max-width: 600px; background-color: #ffffff; margin: 0 auto; padding: 20px; border-radius: 8px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); font-family: Arial, sans-serif;">
     <h2 style="color: #3de84e; font-size: 28px; margin-bottom: 10px; text-align: center;">
      ${name}! Wants to be admin
@@ -97,22 +97,21 @@ const sendApprovalEmail = async (email, name) => {
   </div>
   
             `,
-        });
-        console.log('Approval email send succesfully', response);
-    } catch (error) {
-        console.error('Error sending approval email:', error);
-    }
+    });
+    console.log("Approval email send succesfully", response);
+  } catch (error) {
+    console.error("Error sending approval email:", error);
+  }
 };
 
-
 const sendApprovedEmail = async (email, name) => {
-    try {
-        const response = await transporter.sendMail({
-            from: '"Icche Web Support Team" <i.sksingh113@gmail.com>',
-            to: email,
-            subject: "Your Admin Request is Approved!", 
-            text: `Welcome, ${name}! Your Sigup request has been approved  successfuly.`, 
-            html: `
+  try {
+    const response = await transporter.sendMail({
+      from: '"Icche Web Support Team" <i.sksingh113@gmail.com>',
+      to: email,
+      subject: "Your Admin Request is Approved!",
+      text: `Welcome, ${name}! Your Sigup request has been approved  successfuly.`,
+      html: `
                <div style="max-width: 600px; background-color: #ffffff; margin: 0 auto; padding: 20px; border-radius: 8px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); font-family: Arial, sans-serif;">
     <h2 style="color: #3de84e; font-size: 28px; margin-bottom: 10px; text-align: center;">
       Welcome to Icche, ${name}!
@@ -130,21 +129,21 @@ const sendApprovedEmail = async (email, name) => {
   </div>
   
             `,
-        });
-        console.log('Approved email sent successfully:', response);
-    } catch (error) {
-        console.error('Error sending approved email:', error);
-    }
+    });
+    console.log("Approved email sent successfully:", response);
+  } catch (error) {
+    console.error("Error sending approved email:", error);
+  }
 };
 
-const sendApprovalRejectEmail= async (email, name) => {
-    try {
-        const response = await transporter.sendMail({
-            from: '"Icche Web Support Team" <i.sksingh113@gmail.com>',
-            to: email,
-            subject: "Your Admin Request is Rejected!", 
-            text: ` ${name}! Your Sigup request has been Rejected  by Admins.`, 
-            html: `
+const sendApprovalRejectEmail = async (email, name) => {
+  try {
+    const response = await transporter.sendMail({
+      from: '"Icche Web Support Team" <i.sksingh113@gmail.com>',
+      to: email,
+      subject: "Your Admin Request is Rejected!",
+      text: ` ${name}! Your Sigup request has been Rejected  by Admins.`,
+      html: `
                <div style="max-width: 600px; background-color: #ffffff; margin: 0 auto; padding: 20px; border-radius: 8px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); font-family: Arial, sans-serif;">
     <h2 style="color: #3de84e; font-size: 28px; margin-bottom: 10px; text-align: center;">
       <h2>We regret to inform you</h2><p>Your request to become an admin has been rejected.</p>
@@ -162,22 +161,33 @@ const sendApprovalRejectEmail= async (email, name) => {
   </div>
   
             `,
-        });
-        console.log('Rejected email sent successfully:', response);
-    } catch (error) {
-        console.error('Error sending Rejected email:', error);
-    }
+    });
+    console.log("Rejected email sent successfully:", response);
+  } catch (error) {
+    console.error("Error sending Rejected email:", error);
+  }
 };
 
-
-const sendAdminDashboardReportEmail= async (email,name,totalStudents,totalVolunteers,totalAlumni,totalGalleryItems,totalFestivals,totalActivities,totalFarewell,totalInduction,totalDonationDrive) => {
-    try {
-        const response = await transporter.sendMail({
-            from: '"Icche Web Support Team" <i.sksingh113@gmail.com>',
-            to: email,
-            subject: "ICCHE Website Statistics Report", 
-            text: ` ${name} This is your Websites Report`, 
-            html:`
+const sendAdminDashboardReportEmail = async (
+  email,
+  name,
+  totalStudents,
+  totalVolunteers,
+  totalAlumni,
+  totalGalleryItems,
+  totalFestivals,
+  totalActivities,
+  totalFarewell,
+  totalInduction,
+  totalDonationDrive
+) => {
+  try {
+    const response = await transporter.sendMail({
+      from: '"Icche Web Support Team" <i.sksingh113@gmail.com>',
+      to: email,
+      subject: "ICCHE Website Statistics Report",
+      text: ` ${name} This is your Websites Report`,
+      html: `
         <!DOCTYPE html>
     <html>
     <head>
@@ -247,21 +257,21 @@ const sendAdminDashboardReportEmail= async (email,name,totalStudents,totalVolunt
     </body>
     </html>
       `,
-        });
-        console.log('Report email sent successfully:', response);
-    } catch (error) {
-        console.error('Error sending Report email:', error);
-    }
+    });
+    console.log("Report email sent successfully:", response);
+  } catch (error) {
+    console.error("Error sending Report email:", error);
+  }
 };
 
 const sendAdminDashboardReportEmailPDF = async (email, name, pdfFilePath) => {
-    try {
-      const response = await transporter.sendMail({
-        from: '"Icche Web Support Team" <i.sksingh113@gmail.com>',
-        to: email,
-        subject: " ICCHE Website Statistics Report (PDF Attached)",
-        text: `Hello ${name},\n\nAttached is the latest ICCHE website statistics report.\n\nBest Regards,\nICCHE Team`,
-        html: `
+  try {
+    const response = await transporter.sendMail({
+      from: '"Icche Web Support Team" <i.sksingh113@gmail.com>',
+      to: email,
+      subject: " ICCHE Website Statistics Report (PDF Attached)",
+      text: `Hello ${name},\n\nAttached is the latest ICCHE website statistics report.\n\nBest Regards,\nICCHE Team`,
+      html: `
           <!DOCTYPE html>
           <html>
           <head>
@@ -289,20 +299,20 @@ const sendAdminDashboardReportEmailPDF = async (email, name, pdfFilePath) => {
           </body>
           </html>
         `,
-        attachments: [
-          {
-            filename: "ICCHE_Statistics_Report.pdf",
-            path: pdfFilePath,
-            contentType: "application/pdf",
-          },
-        ],
-      });
-  
-      console.log("Report email sent successfully:", response);
-    } catch (error) {
-      console.error(" Error sending Report email:", error);
-    }
-  };
+      attachments: [
+        {
+          filename: "ICCHE_Statistics_Report.pdf",
+          path: pdfFilePath,
+          contentType: "application/pdf",
+        },
+      ],
+    });
+
+    console.log("Report email sent successfully:", response);
+  } catch (error) {
+    console.error(" Error sending Report email:", error);
+  }
+};
 
 const sendStudentReportEmailPDF = async (email, name, pdfFilePath) => {
   try {
@@ -332,32 +342,98 @@ const sendStudentReportEmailPDF = async (email, name, pdfFilePath) => {
   }
 };
 
-const sendStudentReportEmailEXCEL = async (email,name, filePath) => {
-    try {
-      const response = await transporter.sendMail({
-        from: '"Icche Web Support Team" <i.sksingh113@gmail.com>',
-        to: email,
-        subject: "ICCHE Student Report",
-        text: `Hello ${name},\n\nAttached is the latest student report containing all student details.\n\nBest Regards,\nICCHE Team`,
-        html: `
+const sendStudentReportEmailEXCEL = async (email, name, filePath) => {
+  try {
+    const response = await transporter.sendMail({
+      from: '"Icche Web Support Team" <i.sksingh113@gmail.com>',
+      to: email,
+      subject: "ICCHE Student Report",
+      text: `Hello ${name},\n\nAttached is the latest student report containing all student details.\n\nBest Regards,\nICCHE Team`,
+      html: `
           <p>Hello ${name},</p>
           <p>Attached is the latest <b>Student Report</b> in EXCEL format, containing all student details.</p>
           <p>Best Regards,</p>
           <p><strong>ICCHE Team</strong></p>
         `,
-        attachments: [
-            {
-              filename: "student_report.xlsx",
-              path: filePath,
-            },
-          ],
-      });
-  
-      console.log(" Student Report email sent successfully:", response);
-    } catch (error) {
-      console.error(" Error sending Student Report email:", error);
-    }
-  };
+      attachments: [
+        {
+          filename: "student_report.xlsx",
+          path: filePath,
+        },
+      ],
+    });
 
+    console.log(" Student Report email sent successfully:", response);
+  } catch (error) {
+    console.error(" Error sending Student Report email:", error);
+  }
+};
 
-module.exports = { sendForgetPasswordURL, sendWelcomeEmail,sendApprovalEmail ,sendApprovedEmail,sendApprovalRejectEmail,sendAdminDashboardReportEmail,sendAdminDashboardReportEmailPDF,sendStudentReportEmailPDF,sendStudentReportEmailEXCEL};
+const sendVolunteerReportEmailEXCEL = async (email, name, filePath) => {
+  try {
+    const response = await transporter.sendMail({
+      from: '"Icche Web Support Team" <i.sksingh113@gmail.com>',
+      to: email,
+      subject: "ICCHE Volunteer Report",
+      text: `Hello ${name},\n\nAttached is the latest volunteer report containing all volunteer details.\n\nBest Regards,\nICCHE Team`,
+      html: `
+          <p>Hello ${name},</p>
+          <p>Attached is the latest <b>Volunteer Report</b> in EXCEL format, containing all volunteer details.</p>
+          <p>Best Regards,</p>
+          <p><strong>ICCHE Team</strong></p>
+        `,
+      attachments: [
+        {
+          filename: "volunteer_report.xlsx",
+          path: filePath,
+        },
+      ],
+    });
+
+    console.log(" Student Report email sent successfully:", response);
+  } catch (error) {
+    console.error(" Error sending Student Report email:", error);
+  }
+};
+
+const sendVolunteerReportEmailPDF = async (email, name, pdfFilePath) => {
+  try {
+    const response = await transporter.sendMail({
+      from: '"Icche Web Support Team" <i.sksingh113@gmail.com>',
+      to: email,
+      subject: "ICCHE Volunteer Report",
+      text: `Hello ${name},\n\nAttached is the latest volunteer report containing all volunteer details.\n\nBest Regards,\nICCHE Team`,
+      html: `
+          <p>Hello ${name},</p>
+          <p>Attached is the latest <b>Volunteer Report</b> in PDF format, containing all volunteer details.</p>
+          <p>Best Regards,</p>
+          <p><strong>ICCHE Team</strong></p>
+        `,
+      attachments: [
+        {
+          filename: `ICCHE_Volunteer_Report.pdf`,
+          path: pdfFilePath,
+          contentType: "application/pdf",
+        },
+      ],
+    });
+
+    console.log(" Student Report email sent successfully:", response);
+  } catch (error) {
+    console.error(" Error sending Student Report email:", error);
+  }
+};
+
+module.exports = {
+  sendForgetPasswordURL,
+  sendWelcomeEmail,
+  sendApprovalEmail,
+  sendApprovedEmail,
+  sendApprovalRejectEmail,
+  sendAdminDashboardReportEmail,
+  sendAdminDashboardReportEmailPDF,
+  sendStudentReportEmailPDF,
+  sendStudentReportEmailEXCEL,
+  sendVolunteerReportEmailEXCEL,
+  sendVolunteerReportEmailPDF,
+};

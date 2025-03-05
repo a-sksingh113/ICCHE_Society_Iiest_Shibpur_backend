@@ -27,7 +27,7 @@ const volunteerSchema = new mongoose.Schema({
         required: true
     },
     year: {
-        type: Number,
+        type: String,
         required: true,
         min: 1,
         max: 5

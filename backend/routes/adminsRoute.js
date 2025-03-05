@@ -16,6 +16,8 @@ const {
   sendAdminReportPDF,
   sendStudentReportPDF,
   sendStudentExcelReport,
+  sendVolunteerExcelReport,
+  sendVolunteerReportPDF,
 } = require("../controllers/adminsController");
 const {
   getAllVolunteer,
@@ -157,6 +159,18 @@ router.post(
   sendAdminReportPDF
 );
 // for Volunteer management
+router.post(
+  "/dashboard/volunteers/reportxlsx",
+  checkForAuthenticationCookie("token"),
+  authorizeRoles(["PIC", "Volunteer"]),
+  sendVolunteerExcelReport
+);
+router.post(
+  "/dashboard/volunteers/reportpdf",
+  checkForAuthenticationCookie("token"),
+  authorizeRoles(["PIC", "Volunteer"]),
+  sendVolunteerReportPDF
+);
 router.get(
   "/dashboard/volunteers",
   checkForAuthenticationCookie("token"),
@@ -191,12 +205,7 @@ router.delete(
 );
 
 // for students management
-router.get(
-  "/dashboard/students",
-  checkForAuthenticationCookie("token"),
-  authorizeRoles(["PIC", "Volunteer"]),
-  getAllStudents
-);
+
 router.post(
   "/dashboard/students/reportpdf",
   checkForAuthenticationCookie("token"),
@@ -213,10 +222,16 @@ router.get(
   "/dashboard/students",
   checkForAuthenticationCookie("token"),
   authorizeRoles(["PIC", "Volunteer"]),
+  getAllStudents
+);
+router.get(
+  "/dashboard/students/:id",
+  checkForAuthenticationCookie("token"),
+  authorizeRoles(["PIC", "Volunteer"]),
   getStudentById
 );
 router.post(
-  "/dashboard/volunteers/add-students",
+  "/dashboard/students/add-students",
   checkForAuthenticationCookie("token"),
   authorizeRoles(["PIC", "Volunteer"]),
   upload.single("coverImageURL"),

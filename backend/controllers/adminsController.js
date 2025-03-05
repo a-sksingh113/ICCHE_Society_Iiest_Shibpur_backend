@@ -1,11 +1,11 @@
 const Admin = require("../models/adminsModel");
-const Activity = require('../models/activitiesModels');
+const Activity = require("../models/activitiesModels");
 const Alumni = require("../models/alumniModel");
 const ClothDonation = require("../models/donationModel");
-const Farewell = require('../models/farewellModel');
-const Festival = require('../models/festivalModel')
+const Farewell = require("../models/farewellModel");
+const Festival = require("../models/festivalModel");
 const Gallery = require("../models/galleryModel");
-const FresherInduction = require('../models/fresherInductionModel');
+const FresherInduction = require("../models/fresherInductionModel");
 const Student = require("../models/studentModel");
 const Volunteer = require("../models/volunteerModel");
 const PDFDocument = require("pdfkit");
@@ -25,7 +25,9 @@ const {
   sendAdminDashboardReportEmail,
   sendAdminDashboardReportEmailPDF,
   sendStudentReportEmailPDF,
-  sendStudentReportEmailEXCEL
+  sendStudentReportEmailEXCEL,
+  sendVolunteerReportEmailEXCEL,
+  sendVolunteerReportEmailPDF,
 } = require("../middleware/emailSendMiddleware");
 const handleAdminSignup = async (req, res) => {
   try {
@@ -230,12 +232,10 @@ const handleAdminForgetPassword = async (req, res) => {
     // Send Reset Email
     const resetURL = `${process.env.FRONTEND_URL}/reset-password/${resetToken}`;
     await sendForgetPasswordURL(admin.email, resetURL);
-    return res
-      .status(200)
-      .json({
-        message: "Forget password link sent to your email",
-        data: resetURL,
-      });
+    return res.status(200).json({
+      message: "Forget password link sent to your email",
+      data: resetURL,
+    });
   } catch (error) {
     console.error("Error in forgot password: ", error);
     return res.status(500).json({ message: "Server error" });
@@ -399,10 +399,12 @@ const getAdminDashboard = async (req, res) => {
 
 const sendAdminReport = async (req, res) => {
   try {
-    const {email} = req.body;
-    const admin = await Admin.findOne({email});
+    const { email } = req.body;
+    const admin = await Admin.findOne({ email });
     if (!admin) {
-      return res.status(404).json({ success: false, message: "Admin not found" });
+      return res
+        .status(404)
+        .json({ success: false, message: "Admin not found" });
     }
     // Fetch counts from the database
     const totalStudents = await Student.countDocuments();
@@ -414,46 +416,74 @@ const sendAdminReport = async (req, res) => {
     const totalFarewell = await Farewell.countDocuments();
     const totalInduction = await FresherInduction.countDocuments();
     const totalDonationDrive = await ClothDonation.countDocuments();
-    await sendAdminDashboardReportEmail(admin.email, admin.fullName,totalStudents,totalVolunteers,totalAlumni,totalGalleryItems,totalFestivals,totalActivities,totalFarewell,totalInduction,totalDonationDrive);
-    res.status(200).json({ success: true, message: "Admin report sent successfully" });
+    await sendAdminDashboardReportEmail(
+      admin.email,
+      admin.fullName,
+      totalStudents,
+      totalVolunteers,
+      totalAlumni,
+      totalGalleryItems,
+      totalFestivals,
+      totalActivities,
+      totalFarewell,
+      totalInduction,
+      totalDonationDrive
+    );
+    res
+      .status(200)
+      .json({ success: true, message: "Admin report sent successfully" });
   } catch (error) {
     console.error("Error sending admin report:", error);
-    res.status(500).json({ success: false, message: "Error sending admin report", error });
+    res
+      .status(500)
+      .json({ success: false, message: "Error sending admin report", error });
   }
 };
-
 
 const sendAdminReportPDF = async (req, res) => {
   try {
     const { email } = req.body;
     const admin = await Admin.findOne({ email });
     if (!admin) {
-      return res.status(404).json({ success: false, message: "Admin not found" });
+      return res
+        .status(404)
+        .json({ success: false, message: "Admin not found" });
     }
     // Fetch statistics from the database
     const stats = {
-      totalStudents : await Student.countDocuments(),
-      totalVolunteers : await Volunteer.countDocuments(),
-      totalAlumni : await Alumni.countDocuments(),
-      totalGalleryItems : await Gallery.countDocuments(),
-      totalFestivals : await Festival.countDocuments(),
-      totalActivities : await Activity.countDocuments(),
-      totalFarewell : await Farewell.countDocuments(),
-      totalInduction : await FresherInduction.countDocuments(),
-      totalDonationDrive :await ClothDonation.countDocuments(),
-  
+      totalStudents: await Student.countDocuments(),
+      totalVolunteers: await Volunteer.countDocuments(),
+      totalAlumni: await Alumni.countDocuments(),
+      totalGalleryItems: await Gallery.countDocuments(),
+      totalFestivals: await Festival.countDocuments(),
+      totalActivities: await Activity.countDocuments(),
+      totalFarewell: await Farewell.countDocuments(),
+      totalInduction: await FresherInduction.countDocuments(),
+      totalDonationDrive: await ClothDonation.countDocuments(),
     };
     // Generate PDF report
     const pdfPath = path.join(__dirname, `admin_report_${Date.now()}.pdf`);
     await generatePDFReport(pdfPath, admin.fullName, stats);
     // Send email with PDF attachment
-    await sendAdminDashboardReportEmailPDF(admin.email, admin.fullName, pdfPath);
+    await sendAdminDashboardReportEmailPDF(
+      admin.email,
+      admin.fullName,
+      pdfPath
+    );
     // Delete the PDF file after sending
     fs.unlinkSync(pdfPath);
-    res.status(200).json({ success: true, message: "Admin report sent successfully" });
+    res
+      .status(200)
+      .json({ success: true, message: "Admin report sent successfully" });
   } catch (error) {
     console.error("Error sending admin report:", error);
-    res.status(500).json({ success: false, message: "Error sending admin report", error: error.message });
+    res
+      .status(500)
+      .json({
+        success: false,
+        message: "Error sending admin report",
+        error: error.message,
+      });
   }
 };
 /**
@@ -466,7 +496,10 @@ const generatePDFReport = async (pdfPath, adminName, stats) => {
       const writeStream = fs.createWriteStream(pdfPath);
       doc.pipe(writeStream);
       // Title
-      doc.fontSize(18).text("ICCHE Website Report", { align: "center" }).moveDown(2);
+      doc
+        .fontSize(18)
+        .text("ICCHE Website Report", { align: "center" })
+        .moveDown(2);
       // Admin Name
       doc.fontSize(14).text(`Admin Name: ${adminName}`).moveDown();
       // Report Data
@@ -483,16 +516,20 @@ const generatePDFReport = async (pdfPath, adminName, stats) => {
   });
 };
 
-
 const sendStudentReportPDF = async (req, res) => {
   try {
     const { email } = req.body;
     const admin = await Admin.findOne({ email });
     if (!admin) {
-      return res.status(404).json({ success: false, message: "Admin not found" });
+      return res
+        .status(404)
+        .json({ success: false, message: "Admin not found" });
     }
     // Fetch all students
-    const students = await Student.find({}, "fullName uniqueId gender studentClass address");
+    const students = await Student.find(
+      {},
+      "fullName uniqueId gender studentClass address"
+    );
     // Generate PDF
     const pdfPath = path.join(__dirname, `student_report_${Date.now()}.pdf`);
     await generateStudentReportPDF(pdfPath, admin.fullName, students);
@@ -500,13 +537,20 @@ const sendStudentReportPDF = async (req, res) => {
     await sendStudentReportEmailPDF(admin.email, admin.fullName, pdfPath);
     // Delete the PDF after sending
     fs.unlinkSync(pdfPath);
-    res.status(200).json({ success: true, message: "Student report sent successfully" });
+    res
+      .status(200)
+      .json({ success: true, message: "Student report sent successfully" });
   } catch (error) {
     console.error("Error sending student report:", error);
-    res.status(500).json({ success: false, message: "Error sending student report", error: error.message });
+    res
+      .status(500)
+      .json({
+        success: false,
+        message: "Error sending student report",
+        error: error.message,
+      });
   }
 };
-
 
 const generateStudentReportPDF = async (pdfPath, adminName, students) => {
   return new Promise((resolve, reject) => {
@@ -515,18 +559,32 @@ const generateStudentReportPDF = async (pdfPath, adminName, students) => {
       const writeStream = fs.createWriteStream(pdfPath);
       doc.pipe(writeStream);
       // Title
-      doc.fontSize(18).text(" ICCHE Student Report", { align: "center" }).moveDown(2);
+      doc
+        .fontSize(18)
+        .text(" ICCHE Student Report", { align: "center" })
+        .moveDown(2);
       doc.fontSize(14).text(`Admin: ${adminName}`).moveDown();
       doc.fontSize(12).text(`Total Students: ${students.length}`).moveDown(2);
       // Table Headers
-      doc.fontSize(12).text("S.No   Name                  Unique ID        Gender       Class          Address", { underline: true });
+      doc
+        .fontSize(12)
+        .text(
+          "S.No   Name                  Unique ID        Gender       Class          Address",
+          { underline: true }
+        );
       doc.moveDown(0.5);
       // Student Data Table
       students.forEach((student, index) => {
-        doc.fontSize(10).text(
-          `${index + 1}. ${student.fullName.padEnd(20)} ${student.uniqueId.padEnd(12)} ${student.gender.padEnd(8)} ${student.studentClass.padEnd(6)} ${student.address}`,
-          { continued: false }
-        );
+        doc
+          .fontSize(10)
+          .text(
+            `${index + 1}. ${student.fullName.padEnd(
+              20
+            )} ${student.uniqueId.padEnd(12)} ${student.gender.padEnd(
+              8
+            )} ${student.studentClass.padEnd(6)} ${student.address}`,
+            { continued: false }
+          );
       });
 
       doc.end();
@@ -538,7 +596,6 @@ const generateStudentReportPDF = async (pdfPath, adminName, students) => {
   });
 };
 
-
 const generateStudentExcelReport = async (filePath) => {
   try {
     const students = await Student.find();
@@ -546,7 +603,7 @@ const generateStudentExcelReport = async (filePath) => {
       "Full Name": student.fullName,
       "Unique ID": student.uniqueId,
       Gender: student.gender,
-      "Class": student.studentClass,
+      Class: student.studentClass,
       Address: student.address,
     }));
     const workbook = XLSX.utils.book_new();
@@ -563,18 +620,161 @@ const sendStudentExcelReport = async (req, res) => {
     const { email } = req.body;
     const admin = await Admin.findOne({ email });
     if (!admin) {
-      return res.status(404).json({ success: false, message: "Admin not found" });
+      return res
+        .status(404)
+        .json({ success: false, message: "Admin not found" });
     }
     const filePath = path.join(__dirname, `student_report_${Date.now()}.xlsx`);
     await generateStudentExcelReport(filePath);
-    await sendStudentReportEmailEXCEL(admin.email,admin.fullName,  filePath);
+    await sendStudentReportEmailEXCEL(admin.email, admin.fullName, filePath);
     fs.unlinkSync(filePath); // Delete file after sending
-    res.status(200).json({ success: true, message: "Student report sent successfully" });
+    res
+      .status(200)
+      .json({ success: true, message: "Student report sent successfully" });
   } catch (error) {
     console.error("Error sending student report:", error);
-    res.status(500).json({ success: false, message: "Error sending student report", error: error.message });
+    res
+      .status(500)
+      .json({
+        success: false,
+        message: "Error sending student report",
+        error: error.message,
+      });
   }
 };
+
+const generateVolunteerExcelReport = async (filePath) => {
+  try {
+    const volunteers = await Volunteer.find();
+    const volunteerData = volunteers.map((volunteer) => ({
+      "Full Name": volunteer.fullName,
+      "Enrollment No": volunteer.enrollmentNo,
+      Email: volunteer.email,
+      Gender: volunteer.gender,
+      "Contact No": volunteer.contactNumber,
+      Year: volunteer.year,
+      department: volunteer.department,
+    }));
+    const workbook = XLSX.utils.book_new();
+    const worksheet = XLSX.utils.json_to_sheet(volunteerData);
+    XLSX.utils.book_append_sheet(workbook, worksheet, "Volunteers");
+    XLSX.writeFile(workbook, filePath);
+  } catch (error) {
+    throw new Error("Error generating volunteer report: " + error.message);
+  }
+};
+const sendVolunteerExcelReport = async (req, res) => {
+  try {
+    const { email } = req.body;
+    const admin = await Admin.findOne({ email });
+    if (!admin) {
+      return res
+        .status(404)
+        .json({ success: false, message: "Admin not found" });
+    }
+    const filePath = path.join(
+      __dirname,
+      `volunteer_report_${Date.now()}.xlsx`
+    );
+    await generateVolunteerExcelReport(filePath);
+    await sendVolunteerReportEmailEXCEL(admin.email, admin.fullName, filePath);
+    fs.unlinkSync(filePath);
+    res
+      .status(200)
+      .json({ success: true, message: "Volunteer report sent successfully" });
+  } catch (error) {
+    console.error("Error sending volunteer report:", error);
+    res
+      .status(500)
+      .json({
+        success: false,
+        message: "Error sending volunteer report",
+        error: error.message,
+      });
+  }
+};
+
+
+const sendVolunteerReportPDF = async (req, res) => {
+  try {
+    const { email } = req.body;
+    const admin = await Admin.findOne({ email });
+    if (!admin) {
+      return res
+        .status(404)
+        .json({ success: false, message: "Admin not found" });
+    }
+    // Fetch all students
+    const volunteers = await Volunteer.find(
+      {},
+      "fullName email contactNumber enrollmentNo gender year department "
+    );
+    // Generate PDF
+    const pdfPath = path.join(__dirname, `volunteer_report_${Date.now()}.pdf`);
+    await generateVolunteerReportPDF(pdfPath, admin.fullName, volunteers);
+    // Send Email with PDF attachment
+    await sendVolunteerReportEmailPDF(admin.email, admin.fullName, pdfPath);
+    // Delete the PDF after sending
+    fs.unlinkSync(pdfPath);
+    res
+      .status(200)
+      .json({ success: true, message: "Volunteer report sent successfully" });
+  } catch (error) {
+    console.error("Error sending volunteer report:", error);
+    res
+      .status(500)
+      .json({
+        success: false,
+        message: "Error sending volunteer report",
+        error: error.message,
+      });
+  }
+};
+
+const generateVolunteerReportPDF = async (pdfPath, adminName, volunteers) => {
+  return new Promise((resolve, reject) => {
+    try {
+      const doc = new PDFDocument({ margin: 30 });
+      const writeStream = fs.createWriteStream(pdfPath);
+      doc.pipe(writeStream);
+
+      // Title
+      doc
+        .fontSize(18)
+        .text("ICCHE Volunteer Report", { align: "center" })
+        .moveDown(2);
+
+      doc.fontSize(14).text(`Admin: ${adminName}`).moveDown();
+      doc.fontSize(12).text(`Total Volunteers: ${volunteers.length}`).moveDown(2);
+
+      // Table Headers
+      doc
+        .fontSize(12)
+        .text(
+          "S.No   Full Name           Email              Contact No       Enrollment No   Gender  Year  Department",
+          { underline: true }
+        );
+      doc.moveDown(0.5);
+
+      // Volunteer Data Table
+      volunteers.forEach((volunteer, index) => {
+        doc
+          .fontSize(10)
+          .text(
+            `${(index + 1).toString().padEnd(5)} ${volunteer.fullName.padEnd(20)} ${volunteer.email.padEnd(25)} ${volunteer.contactNumber.padEnd(15)} ${volunteer.enrollmentNo.padEnd(15)} ${volunteer.gender.padEnd(8)} ${volunteer.year.padEnd(6)} ${volunteer.department}`,
+            { continued: false }
+          );
+      });
+
+      doc.end();
+      writeStream.on("finish", resolve);
+      writeStream.on("error", reject);
+    } catch (err) {
+      reject(err);
+    }
+  });
+};
+
 
 
 module.exports = {
@@ -591,5 +791,8 @@ module.exports = {
   getAdminDashboard,
   sendAdminReport,
   sendAdminReportPDF,
-  sendStudentReportPDF,sendStudentExcelReport
+  sendStudentReportPDF,
+  sendStudentExcelReport,
+  sendVolunteerExcelReport,
+  sendVolunteerReportPDF,
 };
