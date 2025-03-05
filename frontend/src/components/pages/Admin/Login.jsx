@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import Layout from "../layout/Layout";
+import Layout from "../../layout/Layout";
 import Style from "../../cssFiles/login.module.css";
 import { Link } from "react-router-dom";
 

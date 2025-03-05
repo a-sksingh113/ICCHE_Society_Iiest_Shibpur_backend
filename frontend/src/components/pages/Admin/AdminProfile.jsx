@@ -2,7 +2,7 @@ import React from 'react'
 import Layout from '../../layout/Layout'
 import { Link } from 'react-router-dom'
 
-const UserProfile = () => {
+const AdminProfile = () => {
   return (
     <Layout>
         <Link to='/signup' className='btn btn-primary ms-3'>Signup</Link>
@@ -11,4 +11,4 @@ const UserProfile = () => {
   )
 }
 
-export default UserProfile
+export default AdminProfile

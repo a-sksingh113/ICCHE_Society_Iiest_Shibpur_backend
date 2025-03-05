@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import Layout from "../layout/Layout";
+import Layout from "../../layout/Layout";
 import Style from "../../cssFiles/signup.module.css";
 import form_image from "../../assets/login_form_img.jpeg";
 import { Link } from "react-router-dom";

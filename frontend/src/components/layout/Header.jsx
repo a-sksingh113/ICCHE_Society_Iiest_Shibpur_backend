@@ -1,7 +1,7 @@
 import React from 'react'
 import {Link} from 'react-router-dom'
-import userImage from "../../assets/user.png"; 
-import Logo from "../../assets/logo.png"; 
+import userImage from "./../assets/user.png"; 
+import Logo from "./../assets/logo.png"; 
 const Header = () => {
   return (
     <header className="p-3 mb-3 border-bottom">
