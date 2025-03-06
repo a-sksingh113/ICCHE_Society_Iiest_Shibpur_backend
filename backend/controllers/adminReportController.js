@@ -9,7 +9,7 @@ const FresherInduction = require("../models/fresherInductionModel");
 const Student = require("../models/studentModel");
 const Volunteer = require("../models/volunteerModel");
 const PDFDocument = require("pdfkit");
-const XLSX = require("xlsx");
+const ExcelJS = require("exceljs");
 const fs = require("fs");
 const path = require("path");
 const bcrypt = require("bcrypt");
@@ -24,6 +24,7 @@ const {
     sendVolunteerReportEmailEXCEL,
     sendVolunteerReportEmailPDF,
   } = require("../middleware/emailSendMiddleware");
+
 
   const handleSendAdminDashboardReportEmail = async (req, res) => {
     try {
@@ -225,22 +226,35 @@ const {
       }
     });
   };
-  
-  
+
   const generateStudentExcelReport = async (filePath) => {
     try {
       const students = await Student.find();
-      const studentData = students.map((student) => ({
-        "Full Name": student.fullName,
-        "Unique ID": student.uniqueId,
-        Gender: student.gender,
-        Class: student.studentClass,
-        Address: student.address,
-      }));
-      const workbook = XLSX.utils.book_new();
-      const worksheet = XLSX.utils.json_to_sheet(studentData);
-      XLSX.utils.book_append_sheet(workbook, worksheet, "Students");
-      XLSX.writeFile(workbook, filePath);
+      const workbook = new ExcelJS.Workbook();
+      const worksheet = workbook.addWorksheet("Students");
+  
+      // Define columns
+      worksheet.columns = [
+        { header: "Full Name", key: "fullName", width: 20 },
+        { header: "Unique ID", key: "uniqueId", width: 15 },
+        { header: "Gender", key: "gender", width: 10 },
+        { header: "Class", key: "studentClass", width: 12 },
+        { header: "Address", key: "address", width: 30 },
+      ];
+  
+      // Add rows
+      students.forEach((student) => {
+        worksheet.addRow({
+          fullName: student.fullName,
+          uniqueId: student.uniqueId,
+          gender: student.gender,
+          studentClass: student.studentClass,
+          address: student.address,
+        });
+      });
+  
+      // Save file
+      await workbook.xlsx.writeFile(filePath);
     } catch (error) {
       throw new Error("Error generating student report: " + error.message);
     }
@@ -250,82 +264,94 @@ const {
     try {
       const { email } = req.body;
       const admin = await Admin.findOne({ email });
+  
       if (!admin) {
-        return res
-          .status(404)
-          .json({ success: false, message: "Admin not found" });
+        return res.status(404).json({ success: false, message: "Admin not found" });
       }
+  
       const filePath = path.join(__dirname, `student_report_${Date.now()}.xlsx`);
       await generateStudentExcelReport(filePath);
       await sendStudentReportEmailEXCEL(admin.email, admin.fullName, filePath);
-      fs.unlinkSync(filePath); // Delete file after sending
-      res
-        .status(200)
-        .json({ success: true, message: "Student report sent successfully" });
+  
+      // Delete the file after sending
+      fs.unlinkSync(filePath);
+  
+      res.status(200).json({ success: true, message: "Student report sent successfully" });
     } catch (error) {
       console.error("Error sending student report:", error);
-      res
-        .status(500)
-        .json({
-          success: false,
-          message: "Error sending student report",
-          error: error.message,
+      res.status(500).json({
+        success: false,
+        message: "Error sending student report",
+        error: error.message,
+      });
+    }
+  };
+
+  const generateVolunteerExcelReport = async (filePath) => {
+    try {
+      const volunteers = await Volunteer.find();
+      const workbook = new ExcelJS.Workbook();
+      const worksheet = workbook.addWorksheet("Volunteers");
+  
+      // Define columns
+      worksheet.columns = [
+        { header: "Full Name", key: "fullName", width: 20 },
+        { header: "Enrollment No", key: "enrollmentNo", width: 15 },
+        { header: "Email", key: "email", width: 25 },
+        { header: "Gender", key: "gender", width: 10 },
+        { header: "Contact No", key: "contactNumber", width: 15 },
+        { header: "Year", key: "year", width: 10 },
+        { header: "Department", key: "department", width: 20 },
+      ];
+  
+      // Add rows
+      volunteers.forEach((volunteer) => {
+        worksheet.addRow({
+          fullName: volunteer.fullName,
+          enrollmentNo: volunteer.enrollmentNo,
+          email: volunteer.email,
+          gender: volunteer.gender,
+          contactNumber: volunteer.contactNumber,
+          year: volunteer.year,
+          department: volunteer.department,
         });
+      });
+  
+      // Save file
+      await workbook.xlsx.writeFile(filePath);
+    } catch (error) {
+      throw new Error("Error generating volunteer report: " + error.message);
     }
   };
   
-
-const generateVolunteerExcelReport = async (filePath) => {
-  try {
-    const volunteers = await Volunteer.find();
-    const volunteerData = volunteers.map((volunteer) => ({
-      "Full Name": volunteer.fullName,
-      "Enrollment No": volunteer.enrollmentNo,
-      Email: volunteer.email,
-      Gender: volunteer.gender,
-      "Contact No": volunteer.contactNumber,
-      Year: volunteer.year,
-      department: volunteer.department,
-    }));
-    const workbook = XLSX.utils.book_new();
-    const worksheet = XLSX.utils.json_to_sheet(volunteerData);
-    XLSX.utils.book_append_sheet(workbook, worksheet, "Volunteers");
-    XLSX.writeFile(workbook, filePath);
-  } catch (error) {
-    throw new Error("Error generating volunteer report: " + error.message);
-  }
-};
-const handleSendVolunteerReportEmailEXCEL = async (req, res) => {
-  try {
-    const { email } = req.body;
-    const admin = await Admin.findOne({ email });
-    if (!admin) {
-      return res
-        .status(404)
-        .json({ success: false, message: "Admin not found" });
-    }
-    const filePath = path.join(
-      __dirname,
-      `volunteer_report_${Date.now()}.xlsx`
-    );
-    await generateVolunteerExcelReport(filePath);
-    await sendVolunteerReportEmailEXCEL(admin.email, admin.fullName, filePath);
-    fs.unlinkSync(filePath);
-    res
-      .status(200)
-      .json({ success: true, message: "Volunteer report sent successfully" });
-  } catch (error) {
-    console.error("Error sending volunteer report:", error);
-    res
-      .status(500)
-      .json({
+  const handleSendVolunteerReportEmailEXCEL = async (req, res) => {
+    try {
+      const { email } = req.body;
+      const admin = await Admin.findOne({ email });
+  
+      if (!admin) {
+        return res.status(404).json({ success: false, message: "Admin not found" });
+      }
+  
+      const filePath = path.join(__dirname, `volunteer_report_${Date.now()}.xlsx`);
+      await generateVolunteerExcelReport(filePath);
+      await sendVolunteerReportEmailEXCEL(admin.email, admin.fullName, filePath);
+  
+      // Delete the file after sending
+      fs.unlinkSync(filePath);
+  
+      res.status(200).json({ success: true, message: "Volunteer report sent successfully" });
+    } catch (error) {
+      console.error("Error sending volunteer report:", error);
+      res.status(500).json({
         success: false,
         message: "Error sending volunteer report",
         error: error.message,
       });
-  }
-};
-
+    }
+  };
+  
+ 
 
 const  handleSendVolunteerReportEmailPDF = async (req, res) => {
   try {
@@ -369,25 +395,22 @@ const generateVolunteerReportPDF = async (pdfPath, adminName, volunteers) => {
       const doc = new PDFDocument({ margin: 30 });
       const writeStream = fs.createWriteStream(pdfPath);
       doc.pipe(writeStream);
-
       // Title
       doc
         .fontSize(18)
         .text("ICCHE Volunteer Report", { align: "center" })
         .moveDown(2);
-
       doc.fontSize(14).text(`Admin: ${adminName}`).moveDown();
       doc.fontSize(12).text(`Total Volunteers: ${volunteers.length}`).moveDown(2);
 
       // Table Headers
       doc
         .fontSize(12)
-        .text(
+        .text(  
           "S.No   Full Name           Email              Contact No       Enrollment No   Gender  Year  Department",
           { underline: true }
         );
       doc.moveDown(0.5);
-
       // Volunteer Data Table
       volunteers.forEach((volunteer, index) => {
         doc
@@ -397,7 +420,6 @@ const generateVolunteerReportPDF = async (pdfPath, adminName, volunteers) => {
             { continued: false }
           );
       });
-
       doc.end();
       writeStream.on("finish", resolve);
       writeStream.on("error", reject);
@@ -406,8 +428,6 @@ const generateVolunteerReportPDF = async (pdfPath, adminName, volunteers) => {
     }
   });
 };
-
-
 
 
   module.exports = {

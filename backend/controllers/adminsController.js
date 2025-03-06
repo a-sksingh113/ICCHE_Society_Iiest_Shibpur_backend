@@ -9,7 +9,6 @@ const FresherInduction = require("../models/fresherInductionModel");
 const Student = require("../models/studentModel");
 const Volunteer = require("../models/volunteerModel");
 const PDFDocument = require("pdfkit");
-const XLSX = require("xlsx");
 const fs = require("fs");
 const path = require("path");
 const bcrypt = require("bcrypt");

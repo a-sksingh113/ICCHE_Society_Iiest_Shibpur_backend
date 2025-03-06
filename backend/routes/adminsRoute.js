@@ -162,7 +162,7 @@ router.post(
 );
 // for Volunteer management
 router.post(
-  "/dashboard/volunteers/reportxlsx",
+  "/dashboard/volunteers/reportexcel",
   checkForAuthenticationCookie("token"),
   authorizeRoles(["PIC", "Volunteer"]),
   handleSendVolunteerReportEmailEXCEL
@@ -215,7 +215,7 @@ router.post(
   handleSendStudentReportEmailPDF
 );
 router.post(
-  "/dashboard/students/reportxlsx",
+  "/dashboard/students/reportexcel",
   checkForAuthenticationCookie("token"),
   authorizeRoles(["PIC", "Volunteer"]),
   handleSendStudentReportEmailEXCEL

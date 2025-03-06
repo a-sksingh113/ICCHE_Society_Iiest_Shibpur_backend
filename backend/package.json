@@ -15,6 +15,7 @@
     "cloudinary": "^1.41.3",
     "cookie-parser": "^1.4.7",
     "dotenv": "^16.4.7",
+    "exceljs": "^4.4.0",
     "express": "^4.21.2",
     "fs": "^0.0.1-security",
     "jsonwebtoken": "^9.0.2",
@@ -23,8 +24,7 @@
     "multer-storage-cloudinary": "^4.0.0",
     "nodemailer": "^6.10.0",
     "path": "^0.12.7",
-    "pdfkit": "^0.16.0",
-    "xlsx": "^0.18.5"
+    "pdfkit": "^0.16.0"
   },
   "devDependencies": {
     "nodemon": "^3.1.9"
