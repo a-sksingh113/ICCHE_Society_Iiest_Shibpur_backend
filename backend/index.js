@@ -2,6 +2,10 @@ require('dotenv').config();
 const express = require('express')
 const connectDB = require('./config/dbConnection');
 const cookieParser = require('cookie-parser');
+const {logRequest} = require("./middleware/logMiddleware");
+const checkForAuthenticationCookie = require("./middleware/authMiddleware");
+const { authorizeRoles } = require("./middleware/roleMiddleware");
+
 
 const adminsRoute = require('./routes/adminsRoute');
 const studentRoute = require('./routes/studentRoute');
@@ -20,6 +24,7 @@ connectDB();
 
 app.use(express.json());
 app.use(cookieParser());
+app.use(logRequest);
 
 app.use('/api/admin',adminsRoute);
 app.use('/api/students',studentRoute);
