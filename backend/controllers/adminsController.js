@@ -239,8 +239,6 @@ const handleAdminResetPassword = async (req, res) => {
   try {
     const { resetToken } = req.params;
     const { newPassword } = req.body;
-    console.log("Received newPassword:", newPassword);
-
     if (!newPassword) {
       return res.status(400).json({ message: "New password is required" });
     }

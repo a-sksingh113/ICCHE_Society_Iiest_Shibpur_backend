@@ -117,8 +117,6 @@ router.put(
 );
 router.post(
   "/forget-password",
-  checkForAuthenticationCookie("token"),
-  authorizeRoles(["PIC", "Volunteer"]),
   handleAdminForgetPassword
 );
 router.post("/reset-password/:resetToken", handleAdminResetPassword);
