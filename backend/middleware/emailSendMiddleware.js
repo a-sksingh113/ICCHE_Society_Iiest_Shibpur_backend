@@ -451,7 +451,6 @@ const sendAlumniReportEmailEXCEL = async (email, name, filePath) => {
   }
 };
 
-
 const sendAlumniReportEmailPDF = async (email, name, pdfFilePath) => {
   try {
     const response = await transporter.sendMail({
@@ -479,6 +478,72 @@ const sendAlumniReportEmailPDF = async (email, name, pdfFilePath) => {
     console.error(" Error sending Alumni Report email:", error);
   }
 };
+const sendEmailCombinedReportOfVolunteerStudentAlumniPDF = async (
+  email,
+  name,
+  pdfFilePath
+) => {
+  try {
+    const response = await transporter.sendMail({
+      from: '"Icche Web Support Team" <i.sksingh113@gmail.com>',
+      to: email,
+      subject: "ICCHE Complete Students, Alumni, Volunteer Report",
+      text: `Hello ${name},\n\nAttached is the latest complete report containing all students, alumni and volunteer details.\n\nBest Regards,\nICCHE Team`,
+      html: `
+            <p>Hello ${name},</p>
+        <p>Attached is the latest <b>ICCHE Complete Report</b> in PDF format. It contains:</p>
+        <ul>
+          <li><b>Student Report</b></li>
+          <li><b>Volunteer Report</b></li>
+          <li><b>Alumni Report</b></li>
+        </ul>
+        <p>Best Regards,</p>
+        <p><strong>ICCHE Team</strong></p>
+        `,
+      attachments: [
+        {
+          filename: `ICCHE_Complete_Report.pdf`,
+          path: pdfFilePath,
+          contentType: "application/pdf",
+        },
+      ],
+    });
+
+    console.log("All Reports email sent successfully:", response);
+  } catch (error) {
+    console.error(" Error sending All Reports email:", error);
+  }
+};
+
+
+const sendEmailCombinedReportOfVolunteerStudentAlumniExcel = async (email, name, filePath) => {
+  try {
+    const response = await transporter.sendMail({
+      from: '"Icche Web Support Team" <i.sksingh113@gmail.com>',
+      to: email,
+      subject: "ICCHE Complete Report - Excel",
+      text: `Hello ${name},\n\nAttached is the latest ICCHE report in Excel format.\n\nBest Regards,\nICCHE Team`,
+      html: `
+         <p>Hello ${name},</p>
+          <p>Attached is the latest <b>ICCHE Report</b> in Excel format.</p>
+          <p>Best Regards,</p>
+          <p><strong>ICCHE Team</strong></p>
+        `,
+        attachments: [
+          {
+            filename: `ICCHE_Complete_Report.xlsx`,
+            path: filePath,
+            contentType: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+          },
+        ],
+    });
+
+    console.log(" Complete Report email sent successfully:", response);
+  } catch (error) {
+    console.error(" Error sending Complete Report email:", error);
+  }
+};
+
 
 
 module.exports = {
@@ -494,5 +559,7 @@ module.exports = {
   sendVolunteerReportEmailEXCEL,
   sendVolunteerReportEmailPDF,
   sendAlumniReportEmailEXCEL,
-  sendAlumniReportEmailPDF
+  sendAlumniReportEmailPDF,
+  sendEmailCombinedReportOfVolunteerStudentAlumniPDF,
+  sendEmailCombinedReportOfVolunteerStudentAlumniExcel,
 };

@@ -25,6 +25,8 @@ const {
   sendVolunteerReportEmailPDF,
   sendAlumniReportEmailEXCEL,
   sendAlumniReportEmailPDF,
+  sendEmailCombinedReportOfVolunteerStudentAlumniPDF,
+  sendEmailCombinedReportOfVolunteerStudentAlumniExcel,
 } = require("../middleware/emailSendMiddleware");
 
 // for email sending of admin dashboard report
@@ -580,6 +582,165 @@ const generateAlumniReportPDF = async (pdfPath, adminName, alumnus) => {
   });
 };
 
+const safeValue = (value) => (value ? value.toString() : "N/A");
+const handleSendAllReportsPDF = async (req, res) => {
+  try {
+    const { email } = req.body;
+    // Find Admin
+    const admin = await Admin.findOne({ email });
+    if (!admin) {
+      return res.status(404).json({ success: false, message: "Admin not found" });
+    }
+    // Fetch all data
+    const students = await Student.find({}, "fullName email contactNumber uniqueId gender studentClass address");
+    const volunteers = await Volunteer.find({}, "fullName email contactNumber enrollmentNo gender year department");
+    const alumni = await Alumni.find({}, "fullName email contactNumber enrollmentNo gender graduationYear department");
+    // Generate PDF
+    const pdfPath = path.join(__dirname, `all_reports_${Date.now()}.pdf`);
+    await generateCombinedReportOfVolunteerStudentAlumniEmailPDF(pdfPath, students, volunteers, alumni);
+    // Send Email with PDF attachment
+    await  sendEmailCombinedReportOfVolunteerStudentAlumniPDF(admin.email, admin.fullName, pdfPath);
+    // Delete the PDF after sending
+    fs.unlinkSync(pdfPath);
+    res.status(200).json({ success: true, message: "All reports sent successfully" });
+  } catch (error) {
+    console.error("Error sending reports:", error);
+    res.status(500).json({ success: false, message: "Error sending reports", error: error.message });
+  }
+};
+
+// Function to generate a single PDF with all reports
+const generateCombinedReportOfVolunteerStudentAlumniEmailPDF = async (filePath, students, volunteers, alumni) => {
+  return new Promise((resolve, reject) => {
+    try {
+      const doc = new PDFDocument({ margin: 30 });
+      const writeStream = fs.createWriteStream(filePath);
+      doc.pipe(writeStream);
+      // Helper function to add sections (Skip addPage() for the first section)
+      const addSection = (title, data, headers, isFirstSection = false) => {
+        if (!isFirstSection) {
+          doc.addPage(); // Add a new page only if it's NOT the first section
+        }
+        doc.fontSize(16).text(title, { underline: true }).moveDown(1);
+        doc.fontSize(12).text(`Total: ${data.length}`).moveDown(1);
+        if (data.length === 0) {
+          doc.text("No records available.").moveDown(2);
+          return;
+        }
+        // Table Headers
+        doc.fontSize(12).text(headers.join("  |  "), { underline: true });
+        doc.moveDown(0.5);
+        // Table Data
+        data.forEach((item, index) => {
+          const rowData = [
+            index + 1,
+            safeValue(item.fullName),
+            safeValue(item.email),
+            safeValue(item.contactNumber),
+            safeValue(item.enrollmentNo || item.uniqueId),
+            safeValue(item.gender),
+            safeValue(item.graduationYear || item.studentClass || item.year),
+            safeValue(item.department || item.address),
+          ].join("  |  ");
+          doc.fontSize(10).text(rowData);
+        });
+
+        doc.moveDown(2);
+      };
+
+      // Add each section to the PDF (First section starts without addPage)
+      addSection("STUDENT REPORT", students, ["S.No", "Full Name", "Email", "Contact No", "Unique ID", "Gender", "Class", "Address"], true);
+      addSection("VOLUNTEER REPORT", volunteers, ["S.No", "Full Name", "Email", "Contact No", "Enrollment No", "Gender", "Year", "Department"]);
+      addSection("ALUMNI REPORT", alumni, ["S.No", "Full Name", "Email", "Contact No", "Enrollment No", "Gender", "Graduation Year", "Department"]);
+
+      doc.end();
+      writeStream.on("finish", resolve);
+      writeStream.on("error", reject);
+    } catch (err) {
+      reject(err);
+    }
+  });
+};
+
+
+const generateCombinedReportOfVolunteerStudentAlumniExcel = async (filePath, students, volunteers, alumni) => {
+  return new Promise(async (resolve, reject) => {
+    try {
+      const workbook = new ExcelJS.Workbook();
+
+      // Helper function to add a sheet
+      const addSheet = (workbook, title, data, headers) => {
+        const sheet = workbook.addWorksheet(title);
+        
+        // Add headers
+        sheet.addRow(headers).font = { bold: true };
+
+        // Add data rows
+        data.forEach((item, index) => {
+          sheet.addRow([
+            index + 1,
+            safeValue(item.fullName),
+            safeValue(item.email),
+            safeValue(item.contactNumber),
+            safeValue(item.enrollmentNo || item.uniqueId),
+            safeValue(item.gender),
+            safeValue(item.graduationYear || item.studentClass || item.year),
+            safeValue(item.department || item.address),
+          ]);
+        });
+
+        // Auto adjust column widths
+        sheet.columns.forEach((column) => {
+          column.width = 20;
+        });
+      };
+
+      // Add separate sheets for each category
+      addSheet(workbook, "STUDENT REPORT", students, ["S.No", "Full Name", "Email", "Contact No", "Unique ID", "Gender", "Class", "Address"]);
+      addSheet(workbook, "VOLUNTEER REPORT", volunteers, ["S.No", "Full Name", "Email", "Contact No", "Enrollment No", "Gender", "Year", "Department"]);
+      addSheet(workbook, "ALUMNI REPORT", alumni, ["S.No", "Full Name", "Email", "Contact No", "Enrollment No", "Gender", "Graduation Year", "Department"]);
+
+      // Write to file
+      await workbook.xlsx.writeFile(filePath);
+      resolve();
+    } catch (err) {
+      reject(err);
+    }
+  });
+};
+
+const handleSendAllReportsExcel = async (req, res) => {
+  try {
+    const { email } = req.body;
+    
+    // Find Admin
+    const admin = await Admin.findOne({ email });
+    if (!admin) {
+      return res.status(404).json({ success: false, message: "Admin not found" });
+    }
+
+    // Fetch all data
+    const students = await Student.find({}, "fullName email contactNumber uniqueId gender studentClass address");
+    const volunteers = await Volunteer.find({}, "fullName email contactNumber enrollmentNo gender year department");
+    const alumni = await Alumni.find({}, "fullName email contactNumber enrollmentNo gender graduationYear department");
+
+    // Generate Excel Report
+    const excelPath = path.join(__dirname, `all_reports_${Date.now()}.xlsx`);
+    await generateCombinedReportOfVolunteerStudentAlumniExcel(excelPath, students, volunteers, alumni);
+
+    
+    await sendEmailCombinedReportOfVolunteerStudentAlumniExcel(admin.email, admin.fullName, excelPath);
+
+    // Delete the file after sending
+    fs.unlinkSync(excelPath);
+
+    res.status(200).json({ success: true, message: "All reports sent successfully" });
+  } catch (error) {
+    console.error("Error sending reports:", error);
+    res.status(500).json({ success: false, message: "Error sending reports", error: error.message });
+  }
+};
+
 module.exports = {
   handleSendAdminDashboardReportEmail,
   handleSendAdminDashboardReportPDF,
@@ -589,4 +750,6 @@ module.exports = {
   handleSendVolunteerReportEmailPDF,
   handleSendAlumniReportEmailEXCEL,
   handleSendAlumniReportEmailPDF,
+  handleSendAllReportsPDF,
+  handleSendAllReportsExcel
 };

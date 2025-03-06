@@ -98,6 +98,8 @@ const {
   handleSendStudentReportEmailEXCEL,
   handleSendAlumniReportEmailEXCEL,
   handleSendAlumniReportEmailPDF,
+  handleSendAllReportsPDF,
+  handleSendAllReportsExcel,
 } = require("../controllers/adminReportController");
 
 const router = express.Router();
@@ -151,7 +153,7 @@ router.get(
   getAdminDashboard
 );
 router.post(
-  "/dashboard/report",
+  "/dashboard/reportemail",
   checkForAuthenticationCookie("token"),
   authorizeRoles(["PIC", "Volunteer"]),
   handleSendAdminDashboardReportEmail
@@ -161,6 +163,18 @@ router.post(
   checkForAuthenticationCookie("token"),
   authorizeRoles(["PIC", "Volunteer"]),
   handleSendAdminDashboardReportPDF
+);
+router.post(
+  "/dashboard/allreportpdf",
+  checkForAuthenticationCookie("token"),
+  authorizeRoles(["PIC", "Volunteer"]),
+  handleSendAllReportsPDF
+);
+router.post(
+  "/dashboard/allreportexcel",
+  checkForAuthenticationCookie("token"),
+  authorizeRoles(["PIC", "Volunteer"]),
+  handleSendAllReportsExcel
 );
 // for Volunteer management
 router.post(
