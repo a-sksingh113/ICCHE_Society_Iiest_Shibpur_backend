@@ -390,9 +390,9 @@ const sendVolunteerReportEmailEXCEL = async (email, name, filePath) => {
       ],
     });
 
-    console.log(" Student Report email sent successfully:", response);
+    console.log(" Volunteer Report email sent successfully:", response);
   } catch (error) {
-    console.error(" Error sending Student Report email:", error);
+    console.error(" Error sending Volunteer Report email:", error);
   }
 };
 
@@ -418,11 +418,68 @@ const sendVolunteerReportEmailPDF = async (email, name, pdfFilePath) => {
       ],
     });
 
-    console.log(" Student Report email sent successfully:", response);
+    console.log(" Volunteer Report email sent successfully:", response);
   } catch (error) {
-    console.error(" Error sending Student Report email:", error);
+    console.error(" Error sending Volunteer Report email:", error);
   }
 };
+
+const sendAlumniReportEmailEXCEL = async (email, name, filePath) => {
+  try {
+    const response = await transporter.sendMail({
+      from: '"Icche Web Support Team" <i.sksingh113@gmail.com>',
+      to: email,
+      subject: "ICCHE Alumni Report",
+      text: `Hello ${name},\n\nAttached is the latest alumni report containing all alumni details.\n\nBest Regards,\nICCHE Team`,
+      html: `
+          <p>Hello ${name},</p>
+          <p>Attached is the latest <b>Alumni Report</b> in EXCEL format, containing all alumni details.</p>
+          <p>Best Regards,</p>
+          <p><strong>ICCHE Team</strong></p>
+        `,
+      attachments: [
+        {
+          filename: "alumni_report.xlsx",
+          path: filePath,
+        },
+      ],
+    });
+
+    console.log(" Alumni Report email sent successfully:", response);
+  } catch (error) {
+    console.error(" Error sending Alumni Report email:", error);
+  }
+};
+
+
+const sendAlumniReportEmailPDF = async (email, name, pdfFilePath) => {
+  try {
+    const response = await transporter.sendMail({
+      from: '"Icche Web Support Team" <i.sksingh113@gmail.com>',
+      to: email,
+      subject: "ICCHE Almuni Report",
+      text: `Hello ${name},\n\nAttached is the latest alumni report containing all alumni details.\n\nBest Regards,\nICCHE Team`,
+      html: `
+          <p>Hello ${name},</p>
+          <p>Attached is the latest <b>Alumni Report</b> in PDF format, containing all alumni details.</p>
+          <p>Best Regards,</p>
+          <p><strong>ICCHE Team</strong></p>
+        `,
+      attachments: [
+        {
+          filename: `ICCHE_Alumni_Report.pdf`,
+          path: pdfFilePath,
+          contentType: "application/pdf",
+        },
+      ],
+    });
+
+    console.log(" Alumni Report email sent successfully:", response);
+  } catch (error) {
+    console.error(" Error sending Alumni Report email:", error);
+  }
+};
+
 
 module.exports = {
   sendForgetPasswordURL,
@@ -436,4 +493,6 @@ module.exports = {
   sendStudentReportEmailEXCEL,
   sendVolunteerReportEmailEXCEL,
   sendVolunteerReportEmailPDF,
+  sendAlumniReportEmailEXCEL,
+  sendAlumniReportEmailPDF
 };

@@ -32,7 +32,7 @@ const alumniSchema = new mongoose.Schema({
         trim: true
     },
     graduationYear: {
-        type: Number,
+        type: String,
         required: true
     },
     company: {

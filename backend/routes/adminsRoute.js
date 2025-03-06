@@ -96,6 +96,8 @@ const {
   handleSendVolunteerReportEmailPDF,
   handleSendStudentReportEmailPDF,
   handleSendStudentReportEmailEXCEL,
+  handleSendAlumniReportEmailEXCEL,
+  handleSendAlumniReportEmailPDF,
 } = require("../controllers/adminReportController");
 
 const router = express.Router();
@@ -400,6 +402,18 @@ router.post(
   authorizeRoles(["PIC", "Volunteer"]),
   upload.single("coverImageURL"),
   handleAddAlumni
+);
+router.post(
+  "/dashboard/alumni/reportexcel",
+  checkForAuthenticationCookie("token"),
+  authorizeRoles(["PIC", "Volunteer"]),
+  handleSendAlumniReportEmailEXCEL
+);
+router.post(
+  "/dashboard/alumni/reportpdf",
+  checkForAuthenticationCookie("token"),
+  authorizeRoles(["PIC", "Volunteer"]),
+  handleSendAlumniReportEmailPDF
 );
 router.put(
   "/dashboard/alumni/:id",
