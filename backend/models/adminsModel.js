@@ -49,6 +49,7 @@ const adminSchema = new mongoose.Schema(
       type: Boolean,
       default: false,
     },
+    oldPasswords: { type: [String], default: [] },
     uniqueId: {
       type: String,
       required: true

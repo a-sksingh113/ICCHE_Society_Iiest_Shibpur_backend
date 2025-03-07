@@ -96,6 +96,7 @@ const handleAdminSignup = async (req, res) => {
       fullName,
       email,
       password: hashedPassword,
+      oldPasswords: [hashedPassword], 
       contactNumber,
       gender,
       role,
@@ -247,9 +248,21 @@ const handleAdminResetPassword = async (req, res) => {
     if (!admin) {
       return res.status(404).json({ message: "Admin not found" });
     }
+     const isUsedBefore = await Promise.all(
+            admin.oldPasswords.map(async (oldHashedPassword) =>
+              bcrypt.compare(newPassword, oldHashedPassword)
+            )
+          );
+          if (isUsedBefore.includes(true)) {
+            return res.status(400).json({ message: "You cannot use a previous password." });
+          }
     // Update Password
     const salt = 10;
     const hashedPassword = await bcrypt.hash(newPassword, salt);
+    admin.oldPasswords.unshift(admin.password); // Store current password before updating
+    if (admin.oldPasswords.length > 5) {
+      admin.oldPasswords.pop(); // Keep only last 5 passwords
+    }
     admin.password = hashedPassword;
     await admin.save();
     // Send Welcome Email after password reset
