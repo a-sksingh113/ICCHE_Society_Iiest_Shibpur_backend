@@ -1,0 +1,11 @@
+.section{
+  display: flex;
+}
+.second{
+  width: 100%;
+}
+.bg{
+  width: 100%;  /* or a fixed width like 300px */
+  height: 350px; /* Automatically adjusts height */
+ 
+}

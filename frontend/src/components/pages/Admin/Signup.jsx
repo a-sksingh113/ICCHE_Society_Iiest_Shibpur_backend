@@ -1,7 +1,6 @@
 import React, { useState } from "react";
-import Layout from "../layout/Layout";
+import Layout from "../../layout/Layout";
 import Style from "../../cssFiles/signup.module.css";
-import form_image from "../../assets/login_form_img.jpeg";
 import { Link } from "react-router-dom";
 
 const Signup = () => {
@@ -36,7 +35,6 @@ const Signup = () => {
   return (
     <Layout>
       <div className={`${Style.container}`}>
-        <img src={form_image} alt="form" className={`${Style.form_img}`} />
         <div className={`${Style.content}`}>
           <h1 className="text-center">Signup</h1>
           <form onSubmit={handleSubmit}>
