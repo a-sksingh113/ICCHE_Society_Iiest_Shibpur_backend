@@ -16,6 +16,8 @@ import Farewell from './components/pages/Events/Farewell';
 import Origami from './components/pages/Events/Origami';
 import Drawing from './components/pages/Events/Drawing';
 import Sports from './components/pages/Events/Sports';
+import Festival from './components/pages/Events/Festival';
+import Induction from './components/pages/Events/Induction';
 function App() {
   return(
     <BrowserRouter>
@@ -30,12 +32,15 @@ function App() {
       <Route path='/changepassword' element={<ChangePassword/>}/>
       <Route path='/pendingapproval' element={<PendingApproval/>}/>
       <Route path='/updateadmin' element={<UpdateAdmin/>}/>
+      
       <Route path='/activities' element={<Activities/>}/>
       <Route path="/sports" element={<Sports />} />
       <Route path="/drawing" element={<Drawing />} />
       <Route path="/origami" element={<Origami />} />
 
       <Route path='/farewell' element={<Farewell/>}/>
+      <Route path="/festival" element={<Festival />} />
+      <Route path="/induction" element={<Induction />} />
     </Routes>
     </BrowserRouter>
   )
