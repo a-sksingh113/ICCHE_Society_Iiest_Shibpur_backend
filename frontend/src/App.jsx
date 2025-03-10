@@ -11,6 +11,8 @@ import ForgotPassword from './components/pages/Admin/ForgotPassword';
 import ChangePassword from './components/pages/Admin/ChangePassword';
 import PendingApproval from './components/pages/Admin/PendingApproval';
 import UpdateAdmin from './components/pages/Admin/UpdateAdmin';
+import Activities from './components/pages/Events/Activities';
+import Farewell from './components/pages/Events/Farewell';
 function App() {
   return(
     <BrowserRouter>
@@ -25,6 +27,8 @@ function App() {
       <Route path='/changepassword' element={<ChangePassword/>}/>
       <Route path='/pendingapproval' element={<PendingApproval/>}/>
       <Route path='/updateadmin' element={<UpdateAdmin/>}/>
+      <Route path='/activities' element={<Activities/>}/>
+      <Route path='/farewell' element={<Farewell/>}/>
     </Routes>
     </BrowserRouter>
   )
