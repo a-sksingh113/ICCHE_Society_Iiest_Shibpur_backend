@@ -18,6 +18,9 @@ import Drawing from './components/pages/Events/Drawing';
 import Sports from './components/pages/Events/Sports';
 import Festival from './components/pages/Events/Festival';
 import Induction from './components/pages/Events/Induction';
+import ClothDonation from './components/pages/Donation_Drive/ClothDonation';
+import Alumni from './components/pages/AboutUs/Alumni';
+import Students from './components/pages/AboutUs/Students';
 function App() {
   return(
     <BrowserRouter>
@@ -41,6 +44,11 @@ function App() {
       <Route path='/farewell' element={<Farewell/>}/>
       <Route path="/festival" element={<Festival />} />
       <Route path="/induction" element={<Induction />} />
+
+      <Route path="/donation" element={<ClothDonation />} />
+
+      <Route path="/alumni" element={<Alumni />} />
+      <Route path="/students" element={<Students />} />
     </Routes>
     </BrowserRouter>
   )
