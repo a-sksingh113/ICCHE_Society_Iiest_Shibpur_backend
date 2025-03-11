@@ -21,11 +21,14 @@ import Induction from './components/pages/Events/Induction';
 import ClothDonation from './components/pages/Donation_Drive/ClothDonation';
 import Alumni from './components/pages/AboutUs/Alumni';
 import Students from './components/pages/AboutUs/Students';
+import Volunteers from './components/pages/AboutUs/Volunteers';
+import Gallery from './components/pages/Gallery/Gallery';
 function App() {
   return(
     <BrowserRouter>
     <Routes>
       <Route path='/' element={<Home/>}/>
+      <Route path='gallery' element={<Gallery/>}/>
       <Route path='/about' element={<About/>}/>
       <Route path='/resetPassword' element={<ResetPassword/>}/>
       <Route path='/adminProfile' element={<AdminProfile/>}/>
@@ -49,6 +52,7 @@ function App() {
 
       <Route path="/alumni" element={<Alumni />} />
       <Route path="/students" element={<Students />} />
+      <Route path="/volunteers" element={<Volunteers />} />
     </Routes>
     </BrowserRouter>
   )
