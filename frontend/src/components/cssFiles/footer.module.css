@@ -1,0 +1,121 @@
+/* Footer Container */
+.footer {
+    background: #1a1a2e;
+    color: white;
+    padding: 40px 20px;
+  }
+  
+  /* Centering content */
+  .container {
+    max-width: 1200px;
+    margin: auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start; /* Ensures items align at the top */
+    flex-wrap: wrap;
+    gap: 20px;
+  }
+  
+  /* Footer Columns */
+  .column {
+    flex: 1;
+    min-width: 250px;
+    text-align: left; /* Align text to the left */
+  }
+  .column h5 {
+    font-size: 1.3rem;
+    margin-bottom: 15px;
+  }
+  .column ul {
+    list-style: none;
+    padding: 0;
+  }
+  .column ul li {
+    margin-bottom: 8px;
+  }
+  .column ul li a {
+    text-decoration: none;
+    color: #aaa;
+    transition: color 0.3s ease-in-out;
+  }
+  .column ul li a:hover {
+    color: #007bff;
+  }
+  
+  /* Subscribe Section */
+  .subscribe {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-top: 10px;
+  }
+  .subscribe input {
+    flex: 1;
+    padding: 10px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    outline: none;
+    font-size: 14px;
+  }
+  .subscribe button {
+    background: #007bff;
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    cursor: pointer;
+    border-radius: 5px;
+    font-size: 14px;
+  }
+  .subscribe button:hover {
+    background: #0056b3;
+  }
+  
+  /* Bottom Section */
+  .bottomSection {
+    margin-top: 30px;
+    border-top: 1px solid #444;
+    padding-top: 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+  }
+  .bottomSection p {
+    margin: 0;
+    font-size: 14px;
+  }
+  
+  /* Social Icons */
+  .socialIcons {
+    display: flex;
+    gap: 15px;
+  }
+  .socialIcons a {
+    color: white;
+    font-size: 22px;
+    transition: color 0.3s ease-in-out;
+  }
+  .socialIcons a:hover {
+    color: #007bff;
+  }
+  
+  /* Responsive */
+  @media (max-width: 768px) {
+    .container {
+      flex-direction: column;
+      text-align: center;
+      align-items: center;
+    }
+    .column {
+      text-align: center;
+    }
+    .subscribe {
+      flex-direction: column;
+    }
+    .bottomSection {
+      flex-direction: column;
+      text-align: center;
+      gap: 10px;
+    }
+  }
+  

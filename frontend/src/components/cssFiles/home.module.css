@@ -1,44 +1,82 @@
-/* Styling for the main container */
-.container1 {
-    text-align: center;
-    background-color: #f8f9fa;
-    padding: 40px;
-    border-radius: 10px;
-    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
-    margin: 20px auto;
-    max-width: 800px;
-  }
-  
-  .container1 h1 {
-    font-size: 2.5rem;
-    color: #007bff;
-    margin-bottom: 10px;
-  }
-  
-  .container1 p {
-    font-size: 1.2rem;
-    color: #333;
-    line-height: 1.5;
-  }
-  
-  /* Styling for additional sections */
-  .container2 {
-    display: flex;
-    justify-content: space-around;
-    align-items: center;
-    margin-top: 40px;
-  }
-  
-  .container2 div {
-    width: 45%;
-    height: 200px;
-    background-color: #e9ecef;
-    border-radius: 10px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 1.5rem;
-    color: #495057;
-    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
-  }
-  
+/* Full-screen container */
+.fullScreenContainer {
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: linear-gradient(to right, #1a1a2e, #16213e); /* Dark gradient */
+  color: white;
+}
+
+/* Content wrapper */
+.content {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  max-width: 90%;
+  width: 100%;
+  height: auto;
+  text-align: center;
+  gap: 40px;
+}
+
+/* Image styling */
+.imageContainer {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.image {
+  max-width: 80%;
+  height: auto;
+  border-radius: 10px;
+}
+
+/* Text content */
+.textContainer {
+  flex: 1;
+  text-align: left;
+  max-width: 500px;
+}
+.heading {
+  font-size: 3rem;
+  font-weight: bold;
+}
+.paragraph {
+  font-size: 1.2rem;
+  margin-top: 10px;
+}
+
+/* Buttons */
+.buttonContainer {
+  margin-top: 20px;
+  display: flex;
+  gap: 15px;
+}
+.primaryButton, .secondaryButton {
+  padding: 10px 20px;
+  font-size: 1rem;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+.primaryButton {
+  background-color: #007bff;
+  color: white;
+}
+.secondaryButton {
+  background-color: transparent;
+  color: white;
+  border: 2px solid white;
+}
+.primaryButton:hover {
+  background-color: #0056b3;
+}
+.secondaryButton:hover {
+  background-color: white;
+  color: black;
+}

@@ -1,44 +1,40 @@
-import React, { useEffect, useState } from 'react'
-import {Link} from 'react-router-dom'
-import userImage from "./../assets/user.png"; 
-import Logo from "./../assets/logo.png"; 
+import { Link } from "react-router-dom";
+import Style from "../cssFiles/header.module.css";
+
 const Header = () => {
-
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
-
-  useEffect(() => {
-    const token = localStorage.getItem("Token");
-    setIsLoggedIn(!!token); // If token exists, set isLoggedIn to true
-  }, []);
-
   return (
-    <header className="p-3 mb-3 border-bottom">
-    <div className="container">
-      <div className="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start">
-        <Link to='/' className="d-flex align-items-center mb-2 mb-lg-0 link-body-emphasis text-decoration-none">
-        <img src={Logo} alt="mdo" width="100" height="70"  />
-        
+    <header className={Style.header}>
+      <div className={Style.container}>
+        <Link to="/" className={Style.logo}>
+          <img src="../assets/logo.png" alt="Logo" className={Style.logoImage} />
         </Link>
 
-        <ul className="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
-          <li><Link to='/'className="nav-link px-2 link-secondary">Home</Link></li>
-          <li><Link to='/gallery' className="nav-link px-2 link-body-emphasis">Gallery</Link></li>
-          <li><Link to='/events' className="nav-link px-2 link-body-emphasis">Events</Link></li>
-          <li><Link to='/donation' className="nav-link px-2 link-body-emphasis">Donation Drive</Link></li>
-          <li><Link to='/about' className="nav-link px-2 link-body-emphasis">About Us</Link></li>
-          
-        </ul>
+        <nav className={Style.nav}>
+          <ul className={Style.navList}>
+            <li><Link to="/overview" className={Style.navItem}>Overview</Link></li>
+            <li><Link to="/inventory" className={Style.navItem}>Inventory</Link></li>
+            <li><Link to="/customers" className={Style.navItem}>Customers</Link></li>
+            <li><Link to="/products" className={Style.navItem}>Products</Link></li>
+          </ul>
+        </nav>
 
-        <div className="dropdown text-end">
-          <Link to={isLoggedIn ? "/adminProfile" : "/signup"}  className="d-block link-body-emphasis text-decoration-none"  aria-expanded="false">
-          <img src={userImage} alt="mdo" width="32" height="32" className="rounded-circle" />
-          </Link>
-          
+        <div className={Style.rightSection}>
+          <input type="search" className={Style.search} placeholder="Search..." />
+
+          <div className={Style.profileDropdown}>
+            <img src="https://github.com/mdo.png" alt="User" className={Style.profileImage} />
+            <ul className={Style.dropdownMenu}>
+              <li><a href="#">New project...</a></li>
+              <li><a href="#">Settings</a></li>
+              <li><a href="#">Profile</a></li>
+              <li><hr /></li>
+              <li><a href="#">Sign out</a></li>
+            </ul>
+          </div>
         </div>
       </div>
-    </div>  
-  </header>
-  )
-}
+    </header>
+  );
+};
 
-export default Header
+export default Header;

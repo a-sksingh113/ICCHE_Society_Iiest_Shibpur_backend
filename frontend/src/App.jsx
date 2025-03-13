@@ -1,6 +1,5 @@
 import './App.css'
 import {BrowserRouter,Routes,Route} from 'react-router-dom'
-import "bootstrap/dist/css/bootstrap.min.css";
 import Home from './components/pages/Home/Home'
 import AdminProfile from './components/pages/Admin/AdminProfile';
 import About from './components/pages/AboutUs/About';
@@ -9,7 +8,6 @@ import Login from './components/pages/Admin/Login';
 import Signup from './components/pages/Admin/Signup';
 import ForgotPassword from './components/pages/Admin/ForgotPassword';
 import ChangePassword from './components/pages/Admin/ChangePassword';
-import PendingApproval from './components/pages/Admin/PendingApproval';
 import UpdateAdmin from './components/pages/Admin/UpdateAdmin';
 function App() {
   return(
@@ -23,7 +21,7 @@ function App() {
       <Route path='/signup' element={<Signup/>}/>
       <Route path='/forgotpassword' element={<ForgotPassword/>}/>
       <Route path='/changepassword' element={<ChangePassword/>}/>
-      <Route path='/pendingapproval' element={<PendingApproval/>}/>
+
       <Route path='/updateadmin' element={<UpdateAdmin/>}/>
     </Routes>
     </BrowserRouter>

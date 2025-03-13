@@ -1,0 +1,119 @@
+/* Header container */
+.header {
+    width: 100%;
+    background: #161632; /* Dark background */
+    padding: 15px 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 1000;
+  }
+  
+  /* Inner container */
+  .container {
+    width: 90%;
+    max-width: 1400px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  
+  /* Logo */
+  #logo113 {
+  
+    height: 15px;
+  }
+
+  /* Navigation */
+  .nav {
+    flex: 1;
+    text-align: center;
+  }
+  .navList {
+    list-style: none;
+    display: flex;
+    gap: 20px;
+    padding: 0;
+    margin: 0;
+  }
+  .navItem {
+    text-decoration: none;
+    color: white;
+    font-size: 1rem;
+    font-weight: bold;
+    transition: 0.3s;
+  }
+  .navItem:hover {
+    color: #007bff;
+  }
+  
+  /* Search Input */
+  .search {
+    padding: 5px 10px;
+    font-size: 1rem;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    outline: none;
+  }
+  
+  /* Profile Dropdown */
+  .rightSection {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+  }
+  .profileDropdown {
+    position: relative;
+    cursor: pointer;
+  }
+  .profileImage {
+    width: 35px;
+    height: 35px;
+    border-radius: 50%;
+    transition: 0.3s;
+  }
+  .profileImage:hover {
+    transform: scale(1.1);
+  }
+  
+  /* Dropdown Menu */
+  .dropdownMenu {
+    position: absolute;
+    top: 45px;
+    right: 0;
+    background: white;
+    border-radius: 5px;
+    padding: 10px;
+    list-style: none;
+    display: none;
+    width: 150px;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+  }
+  .profileDropdown:hover .dropdownMenu {
+    display: block;
+  }
+  .dropdownMenu li {
+    padding: 10px;
+  }
+  .dropdownMenu li a {
+    text-decoration: none;
+    color: black;
+  }
+  .dropdownMenu li a:hover {
+    color: red;
+  }
+  
+  /* Mobile Responsive */
+  @media (max-width: 768px) {
+    .container {
+      flex-direction: column;
+    }
+    .navList {
+      flex-direction: column;
+      gap: 10px;
+    }
+  }
+  
