@@ -1,13 +1,11 @@
 import React from 'react'
 import Layout from '../../layout/Layout'
-
-
-const Volunteers = () => {
+const Origami = () => {
   return (
     <Layout>
-        <h1> about Volunteers</h1>
+        <div>origami</div>
     </Layout>
   )
 }
 
-export default Volunteers
+export default Origami

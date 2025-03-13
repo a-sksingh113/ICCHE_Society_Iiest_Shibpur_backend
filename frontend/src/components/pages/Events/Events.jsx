@@ -1,13 +1,12 @@
 import React from 'react'
 import Layout from '../../layout/Layout'
 
-
-const Volunteers = () => {
+const Events = () => {
   return (
     <Layout>
-        <h1> about Volunteers</h1>
+        events
     </Layout>
   )
 }
 
-export default Volunteers
+export default Events
