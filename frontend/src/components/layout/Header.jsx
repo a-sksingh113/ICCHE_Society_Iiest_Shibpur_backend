@@ -5,7 +5,7 @@ import user from "../assets/user.png";
 
 const Header = () => {
   const [dropdownOpen, setDropdownOpen] = useState(false);
-  const [isLoggedIn, setIsLoggedIn] = useState(true);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
 
   // Close dropdown when clicking outside
   useEffect(() => {
