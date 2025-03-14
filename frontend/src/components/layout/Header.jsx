@@ -88,7 +88,7 @@ const Header = () => {
               onMouseEnter={() => openDropdown(setEventsDropdownOpen)}
               onMouseLeave={() => closeDropdown(setEventsDropdownOpen)}
             >
-              <Link to="/events" className="no-underline text-black ms-12 text-[18px]">
+              <Link className="no-underline text-black ms-12 text-[18px]">
                 Events
               </Link>
               {eventsDropdownOpen && (
@@ -124,7 +124,7 @@ const Header = () => {
             </li>
 
             <li className="nav-item">
-              <Link to="/donation" className="no-underline text-black ms-12 text-[18px]">
+              <Link to="/cloth-donations" className="no-underline text-black ms-12 text-[18px]">
                 Donation Drive
               </Link>
             </li>
@@ -135,7 +135,7 @@ const Header = () => {
               onMouseEnter={() => openDropdown(setAboutDropdownOpen)}
               onMouseLeave={() => closeDropdown(setAboutDropdownOpen)}
             >
-              <Link to="/about" className="no-underline text-black ms-12 text-[18px]">
+              <Link className="no-underline text-black ms-12 text-[18px]">
                 About Us
               </Link>
               {aboutDropdownOpen && (

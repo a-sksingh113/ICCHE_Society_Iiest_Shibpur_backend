@@ -1,21 +1,24 @@
 import React, { useEffect, useState } from "react";
+import axios from "axios";
 import Layout from "../../layout/Layout";
+import { AiOutlineDelete } from "react-icons/ai"; // Delete icon
+import { toast, ToastContainer, Slide } from "react-toastify"; // Toast
+import "react-toastify/dist/ReactToastify.css"; // Toast styles
 
 const Students = () => {
   const [students, setStudents] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
 
-  // Fetch Students from API
   useEffect(() => {
     const fetchStudents = async () => {
       try {
-        const response = await fetch("http://localhost:8000/api/students"); // Update with actual API
-        if (!response.ok) throw new Error("Failed to fetch students");
-        const data = await response.json();
-        setStudents(data);
+        const response = await axios.get("http://localhost:8000/api/students", {
+          headers: { Authorization: `Bearer ${localStorage.getItem("token")}` }, // Send token
+        });
+        setStudents(response.data);
       } catch (err) {
-        setError(err.message);
+        setError(err.response?.data?.message || "Failed to fetch students");
       } finally {
         setLoading(false);
       }
@@ -24,34 +27,80 @@ const Students = () => {
     fetchStudents();
   }, []);
 
+  const confirmDelete = (studentId) => {
+    const toastId = toast.warn(
+      <div>
+        <p className="font-semibold text-gray-800">Are you sure you want to delete this student?</p>
+        <div className="mt-2 flex gap-3 justify-center">
+          <button
+            onClick={() => {
+              toast.dismiss(toastId); // Close warning toast
+              deleteStudent(studentId);
+            }}
+            className="bg-red-500 text-white px-3 py-1 rounded hover:bg-red-700"
+          >
+            Yes
+          </button>
+          <button
+            onClick={() => toast.dismiss(toastId)} // Properly close the toast on "No"
+            className="bg-gray-400 text-white px-3 py-1 rounded hover:bg-gray-600"
+          >
+            No
+          </button>
+        </div>
+      </div>,
+      { autoClose: false, closeOnClick: false }
+    );
+  };
+
+  const deleteStudent = async (studentId) => {
+    try {
+      await axios.delete(`http://localhost:8000/api/admin/dashboard/students/${studentId}`, {
+        headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
+      });
+
+      setStudents((prevStudents) => prevStudents.filter((student) => student._id !== studentId));
+      toast.success("✅ Student deleted successfully!", { transition: Slide, autoClose: 3000 });
+    } catch (error) {
+      toast.error("❌ Failed to delete student. Please try again.", { autoClose: 3000 });
+    }
+  };
+
   return (
-    <Layout>
+    <Layout>    <div className="container mx-auto px-4">
+      <ToastContainer position="top-right" autoClose={3000} />
       <h2 className="text-center my-6 text-2xl font-bold">Our Students</h2>
 
       {loading && <p className="text-center text-lg">Loading students...</p>}
       {error && <p className="text-center text-red-500">{error}</p>}
 
-      <div className="container mx-auto px-4">
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-          {students.map((student) => (
-            <div
-              key={student.uniqueId}
-              className="bg-white p-5 shadow-md rounded-lg flex flex-col items-center text-center"
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+        {students.map((student) => (
+          <div
+            key={student._id}
+            className="bg-white p-5 shadow-md rounded-lg flex flex-col items-center text-center relative"
+          >
+            {/* Delete Icon at Top-Right Corner */}
+            <button
+              onClick={() => confirmDelete(student._id)}
+              className="absolute top-2 right-2 text-red-500 hover:text-red-700 p-2 rounded-full"
             >
-              <img
-                src={student.coverImageURL || "/uploads/default.png"}
-                alt={student.fullName}
-                className="w-24 h-24 rounded-full object-cover mb-3 border border-gray-300"
-              />
-              <h5 className="font-bold text-lg">{student.fullName}</h5>
-              <p className="text-gray-600 text-sm">ID: {student.uniqueId}</p>
-              <p className="text-gray-600 text-sm">Gender: {student.gender}</p>
-              <p className="text-gray-600 text-sm">Class: {student.studentClass}</p>
-              <p className="text-gray-600 text-sm">Address: {student.address}</p>
-            </div>
-          ))}
-        </div>
+              <AiOutlineDelete size={24} />
+            </button>
+
+            <img
+              src={student.coverImageURL || "/uploads/default.png"}
+              alt={student.fullName}
+              className="w-24 h-24 rounded-full object-cover mb-3 border border-gray-300"
+            />
+            <h5 className="font-bold text-lg">{student.fullName}</h5>
+            <p className="text-gray-600 text-sm">Gender: {student.gender}</p>
+            <p className="text-gray-600 text-sm">Class: {student.studentClass}</p>
+            <p className="text-gray-600 text-sm">Address: {student.address}</p>
+          </div>
+        ))}
       </div>
+    </div>
     </Layout>
   );
 };

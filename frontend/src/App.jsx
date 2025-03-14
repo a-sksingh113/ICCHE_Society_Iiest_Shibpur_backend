@@ -43,7 +43,7 @@ function App() {
       <Route path='/changepassword' element={<ChangePassword/>}/>
       <Route path='/admin/pendingapproval' element={<PendingApproval/>}/>
       <Route path='/admin/updateadmin' element={<UpdateAdmin/>}/>
-      <Route path='/donation' element={<ClothDonation/>}/>
+      <Route path='/cloth-donations' element={<ClothDonation/>}/>
       <Route path='/events/activities' element={<Activities/>}/>
       <Route path='/events/farewell' element={<Farewell/>}/>
       <Route path='/events/festivals' element={<Festival/>}/>

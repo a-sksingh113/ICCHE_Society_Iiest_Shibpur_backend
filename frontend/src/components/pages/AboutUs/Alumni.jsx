@@ -1,21 +1,24 @@
 import React, { useEffect, useState } from "react";
+import axios from "axios";
 import Layout from "../../layout/Layout";
+import { AiOutlineDelete } from "react-icons/ai";
+import { toast, ToastContainer, Slide } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const Alumni = () => {
   const [alumni, setAlumni] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
 
-  // Fetch alumni data from API
   useEffect(() => {
     const fetchAlumni = async () => {
       try {
-        const response = await fetch("http://localhost:8000/api/alumni"); // Update API URL
-        if (!response.ok) throw new Error("Failed to fetch alumni data");
-        const data = await response.json();
-        setAlumni(data);
+        const response = await axios.get("http://localhost:8000/api/alumni", {
+          headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
+        });
+        setAlumni(response.data);
       } catch (err) {
-        setError(err.message);
+        setError(err.response?.data?.message || "Failed to fetch alumni data");
       } finally {
         setLoading(false);
       }
@@ -24,8 +27,47 @@ const Alumni = () => {
     fetchAlumni();
   }, []);
 
+  const confirmDelete = (alumId) => {
+    const toastId = toast.warn(
+      <div>
+        <p className="font-semibold text-gray-800">Are you sure you want to delete this alumnus?</p>
+        <div className="mt-2 flex gap-3 justify-center">
+          <button
+            onClick={() => {
+              toast.dismiss(toastId);
+              deleteAlumnus(alumId);
+            }}
+            className="bg-red-500 text-white px-3 py-1 rounded hover:bg-red-700"
+          >
+            Yes
+          </button>
+          <button
+            onClick={() => toast.dismiss(toastId)}
+            className="bg-gray-400 text-white px-3 py-1 rounded hover:bg-gray-600"
+          >
+            No
+          </button>
+        </div>
+      </div>,
+      { autoClose: false, closeOnClick: false }
+    );
+  };
+
+  const deleteAlumnus = async (alumId) => {
+    try {
+      await axios.delete(`http://localhost:8000/api/admin/dashboard/alumni/${alumId}`, {
+        headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
+      });
+      setAlumni((prevAlumni) => prevAlumni.filter((alum) => alum._id !== alumId));
+      toast.success("✅ Alumnus deleted successfully!", { transition: Slide, autoClose: 3000 });
+    } catch (error) {
+      toast.error("❌ Failed to delete alumnus. Please try again.", { autoClose: 3000 });
+    }
+  };
+
   return (
     <Layout>
+      <ToastContainer position="top-right" autoClose={3000} />
       <h2 className="text-center my-6 text-2xl font-bold">Our Alumni</h2>
 
       {loading && <p className="text-center text-lg">Loading alumni data...</p>}
@@ -36,8 +78,15 @@ const Alumni = () => {
           {alumni.map((alum) => (
             <div
               key={alum._id}
-              className="bg-white p-5 shadow-md rounded-lg flex flex-col items-center text-center"
+              className="bg-white p-5 shadow-md rounded-lg flex flex-col items-center text-center relative"
             >
+              <button
+                onClick={() => confirmDelete(alum._id)}
+                className="absolute top-2 right-2 text-red-500 hover:text-red-700 p-2 rounded-full"
+              >
+                <AiOutlineDelete size={24} />
+              </button>
+
               <img
                 src={alum.coverImageURL || "/uploads/default.png"}
                 alt={alum.fullName}
