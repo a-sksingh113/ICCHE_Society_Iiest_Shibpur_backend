@@ -1,39 +1,142 @@
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import Style from "../cssFiles/header.module.css";
+import Logo from "./../assets/logo.png";
+import user from "../assets/user.png";
 
 const Header = () => {
+  const [dropdownOpen, setDropdownOpen] = useState(false);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+
+  // Close dropdown when clicking outside
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (!event.target.closest(".dropdown-container")) {
+        setDropdownOpen(false);
+      }
+    };
+    document.addEventListener("click", handleClickOutside);
+    return () => document.removeEventListener("click", handleClickOutside);
+  }, []);
+
   return (
-    <header className={Style.header}>
-      <div className={Style.container}>
-        <Link to="/" className={Style.logo}>
-          <img src="../assets/logo.png" alt="Logo" className={Style.logoImage} />
+    <nav className="navbar navbar-expand-lg bg-body-tertiary">
+      <div className="container-fluid">
+        <Link to="/" className="size-28 ms-10">
+          <img src={Logo} alt="Logo" />
         </Link>
-
-        <nav className={Style.nav}>
-          <ul className={Style.navList}>
-            <li><Link to="/overview" className={Style.navItem}>Overview</Link></li>
-            <li><Link to="/inventory" className={Style.navItem}>Inventory</Link></li>
-            <li><Link to="/customers" className={Style.navItem}>Customers</Link></li>
-            <li><Link to="/products" className={Style.navItem}>Products</Link></li>
+        <button
+          className="navbar-toggler"
+          type="button"
+          data-bs-toggle="collapse"
+          data-bs-target="#navbarSupportedContent"
+          aria-controls="navbarSupportedContent"
+          aria-expanded="false"
+          aria-label="Toggle navigation"
+        >
+          <span className="navbar-toggler-icon"></span>
+        </button>
+        <div className="collapse navbar-collapse" id="navbarSupportedContent">
+          <ul className="navbar-nav me-auto mb-2 mb-lg-0">
+            <li className="nav-item">
+              <Link to="/" className="no-underline text-black ms-12 text-[18px]">
+                Home
+              </Link>
+            </li>
+            <li className="nav-item">
+              <Link
+                to="/gallery"
+                className="no-underline text-black ms-12 text-[18px]"
+              >
+                Gallery
+              </Link>
+            </li>
+            <li className="nav-item">
+              <Link
+                to="/events"
+                className="no-underline text-black ms-12 text-[18px]"
+              >
+                Events
+              </Link>
+            </li>
+            <li className="nav-item">
+              <Link
+                to="/donation"
+                className="no-underline text-black ms-12 text-[18px]"
+              >
+                Donation Drive
+              </Link>
+            </li>
+            <li className="nav-item">
+              <Link
+                to="/about"
+                className="no-underline text-black ms-12 text-[18px]"
+              >
+                About Us
+              </Link>
+            </li>
           </ul>
-        </nav>
 
-        <div className={Style.rightSection}>
-          <input type="search" className={Style.search} placeholder="Search..." />
+          {/* User Icon */}
+          <div className="relative dropdown-container">
+            <button
+              onClick={() => setDropdownOpen(!dropdownOpen)}
+              className="border-0 bg-transparent"
+            >
+              <img
+                src={user}
+                className="size-10 ms-12 cursor-pointer"
+                alt="User"
+              />
+            </button>
 
-          <div className={Style.profileDropdown}>
-            <img src="https://github.com/mdo.png" alt="User" className={Style.profileImage} />
-            <ul className={Style.dropdownMenu}>
-              <li><a href="#">New project...</a></li>
-              <li><a href="#">Settings</a></li>
-              <li><a href="#">Profile</a></li>
-              <li><hr /></li>
-              <li><a href="#">Sign out</a></li>
-            </ul>
+            {/* Dropdown Menu - Adjusted for Mobile */}
+            {dropdownOpen && (
+              <div className="absolute sm:right-0 sm:left-auto left-1/2 -translate-x-1/2 sm:translate-x-0 mt-2 w-60 bg-white shadow-md rounded-lg border z-10">
+                <ul className="py-2">
+                  {isLoggedIn ? (
+                    <>
+                      <li>
+                        <Link
+                          to="/admin/adminProfile"
+                          className="block px-4 py-2 no-underline hover:bg-gray-200 text-black"
+                        >
+                          Admin Dashboard
+                        </Link>
+                      </li>
+                      <li>
+                        <Link
+                          to="/profile"
+                          className="block px-4 py-2 hover:bg-gray-200 no-underline text-black"
+                        >
+                          View Profile
+                        </Link>
+                      </li>
+                      <li>
+                        <button
+                          onClick={() => console.log("Logout clicked")} // Replace with your logout function
+                          className="block w-full text-left px-4 py-2 text-red-600 hover:bg-gray-200"
+                        >
+                          Logout
+                        </button>
+                      </li>
+                    </>
+                  ) : (
+                    <li>
+                      <Link
+                        to="/admin/login"
+                        className="block px-4 py-2 no-underline hover:bg-gray-200 text-black"
+                      >
+                        Log In
+                      </Link>
+                    </li>
+                  )}
+                </ul>
+              </div>
+            )}
           </div>
         </div>
       </div>
-    </header>
+    </nav>
   );
 };
 
