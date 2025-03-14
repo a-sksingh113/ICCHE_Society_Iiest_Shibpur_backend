@@ -53,9 +53,6 @@ const ForgotPassword = () => {
               <p className="text-lg font-semibold text-gray-700">
                 Reset password instructions sent to your email!
               </p>
-              <Link to="/resetPassword" className="no-underline">
-                Reset Password
-              </Link>
             </div>
           )}
         </div>

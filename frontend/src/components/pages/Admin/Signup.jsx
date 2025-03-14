@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import Layout from "../../layout/Layout";
 
 import { Link } from "react-router-dom";
+import axios from "axios";
 
 const Signup = () => {
   const [formData, setFormData] = useState({
@@ -30,9 +31,22 @@ const Signup = () => {
     }));
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async(e) => {
     e.preventDefault();
-    console.log("Form Data Submitted:", formData);
+
+
+    try {
+      const response = await axios.post('http://localhost:8000/api/admin/signup', formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data'
+        }
+      });
+      console.log('Signup success:', response.data);
+    } catch (error) {
+      console.error('Signup error:', error);
+    }
+  
+
   };
 
   return (

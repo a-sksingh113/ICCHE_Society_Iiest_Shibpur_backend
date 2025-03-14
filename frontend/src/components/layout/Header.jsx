@@ -1,11 +1,27 @@
 import React, { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import Logo from "./../assets/logo.png";
 import user from "../assets/user.png";
 
 const Header = () => {
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const navigate = useNavigate();
+
+  // Check if the user is logged in when the component loads
+  useEffect(() => {
+    const token = localStorage.getItem("token"); // Get token from localStorage
+    if (token) {
+      setIsLoggedIn(true); // User is logged in
+    }
+  }, []);
+
+  // Logout function
+  const handleLogout = () => {
+    localStorage.removeItem("token"); // Remove token
+    setIsLoggedIn(false); // Update state
+    navigate("/admin/login"); // Redirect to login page
+  };
 
   // Close dropdown when clicking outside
   useEffect(() => {
@@ -43,34 +59,22 @@ const Header = () => {
               </Link>
             </li>
             <li className="nav-item">
-              <Link
-                to="/gallery"
-                className="no-underline text-black ms-12 text-[18px]"
-              >
+              <Link to="/gallery" className="no-underline text-black ms-12 text-[18px]">
                 Gallery
               </Link>
             </li>
             <li className="nav-item">
-              <Link
-                to="/events"
-                className="no-underline text-black ms-12 text-[18px]"
-              >
+              <Link to="/events" className="no-underline text-black ms-12 text-[18px]">
                 Events
               </Link>
             </li>
             <li className="nav-item">
-              <Link
-                to="/donation"
-                className="no-underline text-black ms-12 text-[18px]"
-              >
+              <Link to="/donation" className="no-underline text-black ms-12 text-[18px]">
                 Donation Drive
               </Link>
             </li>
             <li className="nav-item">
-              <Link
-                to="/about"
-                className="no-underline text-black ms-12 text-[18px]"
-              >
+              <Link to="/about" className="no-underline text-black ms-12 text-[18px]">
                 About Us
               </Link>
             </li>
@@ -82,50 +86,34 @@ const Header = () => {
               onClick={() => setDropdownOpen(!dropdownOpen)}
               className="border-0 bg-transparent"
             >
-              <img
-                src={user}
-                className="size-10 ms-12 cursor-pointer"
-                alt="User"
-              />
+              <img src={user} className="size-10 ms-12 cursor-pointer" alt="User" />
             </button>
 
-            {/* Dropdown Menu - Adjusted for Mobile */}
+            {/* Dropdown Menu */}
             {dropdownOpen && (
               <div className="absolute sm:right-0 sm:left-auto left-1/2 -translate-x-1/2 sm:translate-x-0 mt-2 w-60 bg-white shadow-md rounded-lg border z-10">
                 <ul className="py-2">
                   {isLoggedIn ? (
                     <>
                       <li>
-                        <Link
-                          to="/admin/adminProfile"
-                          className="block px-4 py-2 no-underline hover:bg-gray-200 text-black"
-                        >
+                        <Link to="/admin/adminProfile" className="block px-4 py-2 no-underline hover:bg-gray-200 text-black">
                           Admin Dashboard
                         </Link>
                       </li>
                       <li>
-                        <Link
-                          to="/profile"
-                          className="block px-4 py-2 hover:bg-gray-200 no-underline text-black"
-                        >
+                        <Link to="/profile" className="block px-4 py-2 hover:bg-gray-200 no-underline text-black">
                           View Profile
                         </Link>
                       </li>
                       <li>
-                        <button
-                          onClick={() => console.log("Logout clicked")} // Replace with your logout function
-                          className="block w-full text-left px-4 py-2 text-red-600 hover:bg-gray-200"
-                        >
+                        <button onClick={handleLogout} className="block w-full text-left px-4 py-2 text-red-600 hover:bg-gray-200">
                           Logout
                         </button>
                       </li>
                     </>
                   ) : (
                     <li>
-                      <Link
-                        to="/admin/login"
-                        className="block px-4 py-2 no-underline hover:bg-gray-200 text-black"
-                      >
+                      <Link to="/admin/login" className="block px-4 py-2 no-underline hover:bg-gray-200 text-black">
                         Log In
                       </Link>
                     </li>
