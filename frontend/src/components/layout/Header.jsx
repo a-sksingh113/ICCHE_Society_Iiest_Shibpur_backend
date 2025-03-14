@@ -6,6 +6,7 @@ import user from "../assets/user.png";
 const Header = () => {
   const [userDropdownOpen, setUserDropdownOpen] = useState(false);
   const [aboutDropdownOpen, setAboutDropdownOpen] = useState(false);
+  const [eventsDropdownOpen, setEventsDropdownOpen] = useState(false);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const navigate = useNavigate();
 
@@ -22,18 +23,17 @@ const Header = () => {
     navigate("/admin/login");
   };
 
-  // Delayed dropdown close to allow smooth hovering
   let timeout;
 
-  const openAboutDropdown = () => {
+  const openDropdown = (setDropdown) => {
     clearTimeout(timeout);
-    setAboutDropdownOpen(true);
+    setDropdown(true);
   };
 
-  const closeAboutDropdown = () => {
+  const closeDropdown = (setDropdown) => {
     timeout = setTimeout(() => {
-      setAboutDropdownOpen(false);
-    }, 200); // Small delay to allow transition
+      setDropdown(false);
+    }, 200);
   };
 
   useEffect(() => {
@@ -43,6 +43,9 @@ const Header = () => {
       }
       if (!event.target.closest(".about-dropdown-container")) {
         setAboutDropdownOpen(false);
+      }
+      if (!event.target.closest(".events-dropdown-container")) {
+        setEventsDropdownOpen(false);
       }
     };
     document.addEventListener("click", handleClickOutside);
@@ -78,11 +81,48 @@ const Header = () => {
                 Gallery
               </Link>
             </li>
-            <li className="nav-item">
+
+            {/* Events Dropdown */}
+            <li
+              className="nav-item relative events-dropdown-container"
+              onMouseEnter={() => openDropdown(setEventsDropdownOpen)}
+              onMouseLeave={() => closeDropdown(setEventsDropdownOpen)}
+            >
               <Link to="/events" className="no-underline text-black ms-12 text-[18px]">
                 Events
               </Link>
+              {eventsDropdownOpen && (
+                <div
+                  className="absolute left-0 mt-2 w-48 bg-white shadow-md rounded-lg border z-10"
+                  onMouseEnter={() => openDropdown(setEventsDropdownOpen)}
+                  onMouseLeave={() => closeDropdown(setEventsDropdownOpen)}
+                >
+                  <ul className="py-2">
+                    <li>
+                      <Link to="/events/festivals" className="block px-4 py-2 no-underline hover:bg-gray-200 text-black">
+                        Festival
+                      </Link>
+                    </li>
+                    <li>
+                      <Link to="/events/activities" className="block px-4 py-2 no-underline hover:bg-gray-200 text-black">
+                        Activities
+                      </Link>
+                    </li>
+                    <li>
+                      <Link to="/events/farewell" className="block px-4 py-2 no-underline hover:bg-gray-200 text-black">
+                        Farewell
+                      </Link>
+                    </li>
+                    <li>
+                      <Link to="/events/induction" className="block px-4 py-2 no-underline hover:bg-gray-200 text-black">
+                        Induction
+                      </Link>
+                    </li>
+                  </ul>
+                </div>
+              )}
             </li>
+
             <li className="nav-item">
               <Link to="/donation" className="no-underline text-black ms-12 text-[18px]">
                 Donation Drive
@@ -92,8 +132,8 @@ const Header = () => {
             {/* About Us Dropdown */}
             <li
               className="nav-item relative about-dropdown-container"
-              onMouseEnter={openAboutDropdown}
-              onMouseLeave={closeAboutDropdown}
+              onMouseEnter={() => openDropdown(setAboutDropdownOpen)}
+              onMouseLeave={() => closeDropdown(setAboutDropdownOpen)}
             >
               <Link to="/about" className="no-underline text-black ms-12 text-[18px]">
                 About Us
@@ -101,8 +141,8 @@ const Header = () => {
               {aboutDropdownOpen && (
                 <div
                   className="absolute left-0 mt-2 w-48 bg-white shadow-md rounded-lg border z-10"
-                  onMouseEnter={openAboutDropdown} // Keep open when hovering over submenu
-                  onMouseLeave={closeAboutDropdown} // Close when leaving submenu
+                  onMouseEnter={() => openDropdown(setAboutDropdownOpen)}
+                  onMouseLeave={() => closeDropdown(setAboutDropdownOpen)}
                 >
                   <ul className="py-2">
                     <li>

@@ -21,10 +21,9 @@ import Farewell from './components/pages/Events/Farewell';
 import Festival from './components/pages/Events/Festival';
 import Induction from './components/pages/Events/Induction';
 import Gallery from './components/pages/Gallery/Gallery';
-import Events from './components/pages/Events/Events';
+
 import Error from './components/pages/Error/Error';
-import Origami from './components/pages/Events/Origami';
-import Sports from './components/pages/Events/Sports';
+
 import Dashboard from './components/pages/Admin/Dashboard';
 function App() {
   return(
@@ -45,11 +44,8 @@ function App() {
       <Route path='/admin/pendingapproval' element={<PendingApproval/>}/>
       <Route path='/admin/updateadmin' element={<UpdateAdmin/>}/>
       <Route path='/donation' element={<ClothDonation/>}/>
-      <Route path='/events' element={<Events/>}/>
       <Route path='/events/activities' element={<Activities/>}/>
       <Route path='/events/farewell' element={<Farewell/>}/>
-      <Route path='/events/origami' element={<Origami/>}/>
-      <Route path='/events/sports' element={<Sports/>}/>
       <Route path='/events/festivals' element={<Festival/>}/>
       <Route path='/events/induction' element={<Induction/>}/>
       <Route path='/gallery' element={<Gallery/>}/>
