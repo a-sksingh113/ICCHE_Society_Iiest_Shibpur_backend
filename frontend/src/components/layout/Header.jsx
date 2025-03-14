@@ -4,30 +4,45 @@ import Logo from "./../assets/logo.png";
 import user from "../assets/user.png";
 
 const Header = () => {
-  const [dropdownOpen, setDropdownOpen] = useState(false);
+  const [userDropdownOpen, setUserDropdownOpen] = useState(false);
+  const [aboutDropdownOpen, setAboutDropdownOpen] = useState(false);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const navigate = useNavigate();
 
-  // Check if the user is logged in when the component loads
   useEffect(() => {
-    const token = localStorage.getItem("token"); // Get token from localStorage
+    const token = localStorage.getItem("token");
     if (token) {
-      setIsLoggedIn(true); // User is logged in
+      setIsLoggedIn(true);
     }
   }, []);
 
-  // Logout function
   const handleLogout = () => {
-    localStorage.removeItem("token"); // Remove token
-    setIsLoggedIn(false); // Update state
-    navigate("/admin/login"); // Redirect to login page
+    localStorage.removeItem("token");
+    setIsLoggedIn(false);
+    navigate("/admin/login");
   };
 
-  // Close dropdown when clicking outside
+  // Delayed dropdown close to allow smooth hovering
+  let timeout;
+
+  const openAboutDropdown = () => {
+    clearTimeout(timeout);
+    setAboutDropdownOpen(true);
+  };
+
+  const closeAboutDropdown = () => {
+    timeout = setTimeout(() => {
+      setAboutDropdownOpen(false);
+    }, 200); // Small delay to allow transition
+  };
+
   useEffect(() => {
     const handleClickOutside = (event) => {
       if (!event.target.closest(".dropdown-container")) {
-        setDropdownOpen(false);
+        setUserDropdownOpen(false);
+      }
+      if (!event.target.closest(".about-dropdown-container")) {
+        setAboutDropdownOpen(false);
       }
     };
     document.addEventListener("click", handleClickOutside);
@@ -73,35 +88,70 @@ const Header = () => {
                 Donation Drive
               </Link>
             </li>
-            <li className="nav-item">
+
+            {/* About Us Dropdown */}
+            <li
+              className="nav-item relative about-dropdown-container"
+              onMouseEnter={openAboutDropdown}
+              onMouseLeave={closeAboutDropdown}
+            >
               <Link to="/about" className="no-underline text-black ms-12 text-[18px]">
                 About Us
               </Link>
+              {aboutDropdownOpen && (
+                <div
+                  className="absolute left-0 mt-2 w-48 bg-white shadow-md rounded-lg border z-10"
+                  onMouseEnter={openAboutDropdown} // Keep open when hovering over submenu
+                  onMouseLeave={closeAboutDropdown} // Close when leaving submenu
+                >
+                  <ul className="py-2">
+                    <li>
+                      <Link to="/about" className="block px-4 py-2 no-underline hover:bg-gray-200 text-black">
+                        About
+                      </Link>
+                    </li>
+                    <li>
+                      <Link to="/about/students" className="block px-4 py-2 no-underline hover:bg-gray-200 text-black">
+                        Students
+                      </Link>
+                    </li>
+                    <li>
+                      <Link to="/about/alumni" className="block px-4 py-2 no-underline hover:bg-gray-200 text-black">
+                        Alumni
+                      </Link>
+                    </li>
+                    <li>
+                      <Link to="/about/volunteers" className="block px-4 py-2 no-underline hover:bg-gray-200 text-black">
+                        Volunteers
+                      </Link>
+                    </li>
+                  </ul>
+                </div>
+              )}
             </li>
           </ul>
 
-          {/* User Icon */}
+          {/* User Icon Dropdown */}
           <div className="relative dropdown-container">
             <button
-              onClick={() => setDropdownOpen(!dropdownOpen)}
+              onClick={() => setUserDropdownOpen(!userDropdownOpen)}
               className="border-0 bg-transparent"
             >
               <img src={user} className="size-10 ms-12 cursor-pointer" alt="User" />
             </button>
 
-            {/* Dropdown Menu */}
-            {dropdownOpen && (
+            {userDropdownOpen && (
               <div className="absolute sm:right-0 sm:left-auto left-1/2 -translate-x-1/2 sm:translate-x-0 mt-2 w-60 bg-white shadow-md rounded-lg border z-10">
                 <ul className="py-2">
                   {isLoggedIn ? (
                     <>
                       <li>
-                        <Link to="/admin/adminProfile" className="block px-4 py-2 no-underline hover:bg-gray-200 text-black">
+                        <Link to="/admin/dashboard" className="block px-4 py-2 no-underline hover:bg-gray-200 text-black">
                           Admin Dashboard
                         </Link>
                       </li>
                       <li>
-                        <Link to="/profile" className="block px-4 py-2 hover:bg-gray-200 no-underline text-black">
+                        <Link to="/admin/profile" className="block px-4 py-2 hover:bg-gray-200 no-underline text-black">
                           View Profile
                         </Link>
                       </li>

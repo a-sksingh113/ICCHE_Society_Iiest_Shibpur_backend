@@ -25,7 +25,7 @@ import Events from './components/pages/Events/Events';
 import Error from './components/pages/Error/Error';
 import Origami from './components/pages/Events/Origami';
 import Sports from './components/pages/Events/Sports';
-import Profile from './components/pages/Profile/Profile';
+import Dashboard from './components/pages/Admin/Dashboard';
 function App() {
   return(
     <BrowserRouter>
@@ -35,8 +35,9 @@ function App() {
       <Route path='/about/alumni' element={<Alumni/>}/>
       <Route path='/about/students' element={<Students/>}/>
       <Route path='/about/volunteers' element={<Volunteers/>}/>
-      <Route path='/resetPassword' element={<ResetPassword/>}/>
-      <Route path='/admin/adminProfile' element={<AdminProfile/>}/>
+      <Route path='/reset-password/:resetToken' element={<ResetPassword/>}/>
+      <Route path='/admin/profile' element={<AdminProfile/>}/>
+      <Route path='/admin/dashboard'element={<Dashboard/>}/>
       <Route path='/admin/login' element={<Login/>}/>
       <Route path='/admin/signup' element={<Signup/>}/>
       <Route path='/forgotpassword' element={<ForgotPassword/>}/>
@@ -52,7 +53,6 @@ function App() {
       <Route path='/events/festivals' element={<Festival/>}/>
       <Route path='/events/induction' element={<Induction/>}/>
       <Route path='/gallery' element={<Gallery/>}/>
-      <Route path='/profile' element={<Profile/>}/>
       <Route path='*' element={<Error/>}/>
 
 
