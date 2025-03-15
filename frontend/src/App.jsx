@@ -22,10 +22,14 @@ import Festival from './components/pages/Events/Festival';
 import Induction from './components/pages/Events/Induction';
 import Gallery from './components/pages/Gallery/Gallery';
 import AddStudentForm from './components/pages/Admin/AddStudentForm';
-
+import AddVolunteer from './components/pages/Admin/AddVolunteer';
 import Error from './components/pages/Error/Error';
-
+import AddAlumni from './components/pages/Admin/AddAlumni';
 import Dashboard from './components/pages/Admin/Dashboard';
+import AddActivities from './components/pages/Admin/AddActivities';
+import AddFestivals from './components/pages/Admin/AddFestivals';
+import AddInduction from './components/pages/Admin/AddInduction';
+import AddFarewell from './components/pages/Admin/AddFarewell';
 function App() {
   return(
     <BrowserRouter>
@@ -51,6 +55,12 @@ function App() {
       <Route path='/events/induction' element={<Induction/>}/>
       <Route path='/gallery' element={<Gallery/>}/>
       <Route path='/admin/dashboard/add-students' element={<AddStudentForm/>}/>
+      <Route path='/admin/dashboard/add-volunteers' element={<AddVolunteer/>}/>
+      <Route path='/admin/dashboard/add-alumni' element={<AddAlumni/>}/>
+      <Route path='/admin/dashboard/add-activities' element={<AddActivities/>}/>
+      <Route path='/admin/dashboard/add-festivals' element={<AddFestivals/>}/>
+      <Route path='/admin/dashboard/add-freshersInduction' element={<AddInduction/>}/>
+      <Route path='/admin/dashboard/add-farewell' element={<AddFarewell/>}/>
       <Route path='*' element={<Error/>}/>
 
 

@@ -1,16 +1,16 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
+import Layout from "../../layout/Layout";
 import {
   Menu,
   X,
   Users,
-  GraduationCap,
   Activity,
   Calendar,
   Award,
   Briefcase,
   CalendarClock,
-  BarChart,
+  PartyPopper
 } from "lucide-react";
 import axios from "axios";
 import { toast, ToastContainer } from "react-toastify";
@@ -104,6 +104,7 @@ const Dashboard = () => {
   };
 
   return (
+    <Layout>
     <div className="flex h-screen bg-gray-100">
       {/* Toast Notification Container */}
       <ToastContainer position="top-right" autoClose={3000} />
@@ -128,7 +129,7 @@ const Dashboard = () => {
         {/* Sidebar Links */}
         <nav className="mt-4 space-y-2">
           <SidebarItem
-            to="/dashboard/volunteers"
+            to="/admin/dashboard/add-volunteers"
             icon={<Users size={20} />}
             label="Add Volunteers"
             isOpen={isSidebarOpen}
@@ -141,33 +142,33 @@ const Dashboard = () => {
           />
 
           <SidebarItem
-            to="/dashboard/alumni"
+            to="/admin/dashboard/add-alumni"
             icon={<Briefcase size={20} />}
             label="Add Alumni"
             isOpen={isSidebarOpen}
           />
           <SidebarItem
-            to="/dashboard/activities"
+            to="/admin/dashboard/add-activities"
             icon={<Activity size={20} />}
             label="Add Activities"
             isOpen={isSidebarOpen}
           />
           <SidebarItem
-            to="/dashboard/festivals"
+            to="/admin/dashboard/add-festivals"
             icon={<Award size={20} />}
             label="Add Festivals"
             isOpen={isSidebarOpen}
           />
           <SidebarItem
-            to="/dashboard/induction"
+            to="/admin/dashboard/add-freshersInduction"
             icon={<Calendar size={20} />}
             label="Add Induction"
             isOpen={isSidebarOpen}
           />
           <SidebarItem
-            to="/dashboard/analytics"
-            icon={<BarChart size={20} />}
-            label="Analytics"
+            to="/admin/dashboard/add-farewell"
+            icon={<PartyPopper size={20} />}
+            label="Add Farewell"
             isOpen={isSidebarOpen}
           />
 
@@ -260,6 +261,7 @@ const Dashboard = () => {
         </div>
       </div>
     </div>
+    </Layout>
   );
 };
 
@@ -283,6 +285,7 @@ const StatCard = ({ title, count }) => {
       <h3 className="text-md font-medium text-gray-700">{title}</h3>
       <p className="text-2xl font-bold text-blue-500 mt-2">{count}</p>
     </div>
+    
   );
 };
 export default Dashboard;

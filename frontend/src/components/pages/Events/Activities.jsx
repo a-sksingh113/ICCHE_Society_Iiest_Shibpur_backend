@@ -22,6 +22,7 @@ const Activities = () => {
     const fetchActivities = async () => {
       try {
         const response = await axios.get("http://localhost:8000/api/events/activities");
+        console.log("Fetched Activities:", response.data);
         setActivities(response.data); // Store activities with their Object IDs
       } catch (err) {
         setError("Failed to fetch activities. Please try again.");
