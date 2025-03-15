@@ -103,6 +103,7 @@ const Students = () => {
                 className="w-24 h-24 rounded-full object-cover mb-3 border border-gray-300"
               />
               <h5 className="font-bold text-lg">{student.fullName}</h5>
+              <p className="text-gray-600 text-sm">ID: {student.uniqueId}</p>
               <p className="text-gray-600 text-sm">Gender: {student.gender}</p>
               <p className="text-gray-600 text-sm">Class: {student.studentClass}</p>
               <p className="text-gray-600 text-sm">Address: {student.address}</p>

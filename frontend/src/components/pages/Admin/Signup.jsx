@@ -44,8 +44,6 @@ const Signup = () => {
         headers: { "Content-Type": "multipart/form-data" },
       });
 
-      console.log("Signup success:", response.data);
-
       // Reset form fields
       setFormData({
         fullName: "",

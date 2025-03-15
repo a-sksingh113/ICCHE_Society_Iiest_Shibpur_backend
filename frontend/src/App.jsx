@@ -21,6 +21,7 @@ import Farewell from './components/pages/Events/Farewell';
 import Festival from './components/pages/Events/Festival';
 import Induction from './components/pages/Events/Induction';
 import Gallery from './components/pages/Gallery/Gallery';
+import AddStudentForm from './components/pages/Admin/AddStudentForm';
 
 import Error from './components/pages/Error/Error';
 
@@ -41,7 +42,7 @@ function App() {
       <Route path='/admin/signup' element={<Signup/>}/>
       <Route path='/forgotpassword' element={<ForgotPassword/>}/>
       <Route path='/changepassword' element={<ChangePassword/>}/>
-      <Route path='/admin/pendingapproval' element={<PendingApproval/>}/>
+      <Route path='/admin/dashboard/pending-approvals' element={<PendingApproval/>}/>
       <Route path='/admin/updateadmin' element={<UpdateAdmin/>}/>
       <Route path='/cloth-donations' element={<ClothDonation/>}/>
       <Route path='/events/activities' element={<Activities/>}/>
@@ -49,6 +50,7 @@ function App() {
       <Route path='/events/festivals' element={<Festival/>}/>
       <Route path='/events/induction' element={<Induction/>}/>
       <Route path='/gallery' element={<Gallery/>}/>
+      <Route path='/admin/dashboard/add-students' element={<AddStudentForm/>}/>
       <Route path='*' element={<Error/>}/>
 
 
