@@ -19,7 +19,7 @@ const handleAddStudents = async (req, res) => {
         coverImageURL,
       });
       await newStudent.save();
-      res.status(201).json({ message: "Student added successfully", student: newStudent });
+      res.status(201).json({success:"true", message: "Student added successfully", student: newStudent });
     } catch (error) {
       res.status(500).json({ message: "Failed to add student", error: error.message });
     }

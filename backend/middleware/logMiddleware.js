@@ -25,6 +25,7 @@ const logger = winston.createLogger({
 const logRequest = (req, res, next) => {
     const user = req.user ? req.user.email || req.user.fullName || "Unknown User" : "Guest";
     logger.info(`API CALL -> ${req.method} ${req.url} | User: ${user} | IP: ${req.ip}`);
+    
     next();
   };
 

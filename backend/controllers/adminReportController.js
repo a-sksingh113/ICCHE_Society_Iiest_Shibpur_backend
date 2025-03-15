@@ -30,6 +30,45 @@ const {
 } = require("../middleware/emailSendMiddleware");
 
 // for email sending of admin dashboard report
+
+const getAdminDashboardCounts = async (req, res) => {
+  try {
+    // Fetch all counts from the database
+    const totalStudents = await Student.countDocuments();
+    const totalVolunteers = await Volunteer.countDocuments();
+    const totalAlumni = await Alumni.countDocuments();
+    const totalGalleryItems = await Gallery.countDocuments();
+    const totalFestivals = await Festival.countDocuments();
+    const totalActivities = await Activity.countDocuments();
+    const totalFarewell = await Farewell.countDocuments();
+    const totalInduction = await FresherInduction.countDocuments();
+    const totalDonationDrive = await ClothDonation.countDocuments();
+
+    // Send response
+    res.status(200).json({
+      success: true,
+      counts: {
+        totalStudents,
+        totalVolunteers,
+        totalAlumni,
+        totalGalleryItems,
+        totalFestivals,
+        totalActivities,
+        totalFarewell,
+        totalInduction,
+        totalDonationDrive,
+      },
+    });
+  } catch (error) {
+    console.error("Error fetching admin dashboard counts:", error);
+    res.status(500).json({
+      success: false,
+      message: "Error fetching admin dashboard counts",
+      error: error.message,
+    });
+  }
+};
+
 const handleSendAdminDashboardReportEmail = async (req, res) => {
   try {
     const { email } = req.body;
@@ -751,5 +790,6 @@ module.exports = {
   handleSendAlumniReportEmailEXCEL,
   handleSendAlumniReportEmailPDF,
   handleSendAllReportsPDF,
-  handleSendAllReportsExcel
+  handleSendAllReportsExcel,
+  getAdminDashboardCounts
 };

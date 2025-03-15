@@ -101,6 +101,7 @@ const {
   handleSendAlumniReportEmailPDF,
   handleSendAllReportsPDF,
   handleSendAllReportsExcel,
+  getAdminDashboardCounts,
 } = require("../controllers/adminReportController");
 
 const router = express.Router();
@@ -140,13 +141,13 @@ router.get(
   getPendingAdminsApproval
 );
 router.put(
-  "/dashboard/approve/:adminId",
+  "/dashboard/approve/:id",
   checkForAuthenticationCookie("token"),
   authorizeRoles(["PIC", "Volunteer"]),
   handleApproveAdmin
 );
 router.delete(
-  "/dashboard/reject/:adminId",
+  "/dashboard/reject/:id",
   checkForAuthenticationCookie("token"),
   authorizeRoles(["PIC", "Volunteer"]),
   handleRejectAdmin
@@ -163,6 +164,15 @@ router.post(
   authorizeRoles(["PIC", "Volunteer"]),
   handleSendAdminDashboardReportEmail
 );
+
+router.get(
+  "/dashboard/counts",
+  checkForAuthenticationCookie("token"),
+  authorizeRoles(["PIC", "Volunteer"]),
+  getAdminDashboardCounts
+);
+
+//getAdminDashboardCounts
 router.post(
   "/dashboard/reportpdf",
   checkForAuthenticationCookie("token"),

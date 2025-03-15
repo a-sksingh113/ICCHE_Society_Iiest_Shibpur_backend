@@ -329,8 +329,8 @@ const handleAdminChangePassword = async (req, res) => {
 
 const getPendingAdminsApproval = async (req, res) => {
   try {
-    const pendingAdmins = await Admin.find({ isApproved: false });
-    res.status(200).json({ success: true, pendingAdmins });
+    const pendingApprovals = await Admin.find({ isApproved: false });
+    res.status(200).json({ success: true, data:pendingApprovals });
   } catch (error) {
     res.status(500).json({
       success: false,
@@ -341,8 +341,8 @@ const getPendingAdminsApproval = async (req, res) => {
 };
 const handleApproveAdmin = async (req, res) => {
   try {
-    const { adminId } = req.params;
-    const admin = await Admin.findById(adminId);
+    const { id } = req.params;
+    const admin = await Admin.findById(id);
     if (!admin) {
       return res
         .status(404)
@@ -367,14 +367,14 @@ const handleApproveAdmin = async (req, res) => {
 
 const handleRejectAdmin = async (req, res) => {
   try {
-    const { adminId } = req.params;
-    const admin = await Admin.findById(adminId);
+    const { id } = req.params;
+    const admin = await Admin.findById(id);
     if (!admin) {
       return res
         .status(404)
         .json({ success: false, message: "Admin not found" });
     }
-    await Admin.findByIdAndDelete(adminId);
+    await Admin.findByIdAndDelete(id);
     // Send rejection email
     await sendApprovalRejectEmail(admin.email, admin.fullName);
     res
