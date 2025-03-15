@@ -12,6 +12,7 @@ const {
   handleRejectAdmin,
   handleApproveAdmin,
   getAdminDashboard,
+  getAdminProfile,
 } = require("../controllers/adminsController");
 const {
   getAllVolunteer,
@@ -127,19 +128,25 @@ router.put(
   handleAdminChangePassword
 );
 router.get(
-  "/pending-approvals",
+  "/profile",
+  checkForAuthenticationCookie("token"),
+  authorizeRoles(["PIC", "Volunteer"]),
+ getAdminProfile
+);
+router.get(
+  "/dashboard/pending-approvals",
   checkForAuthenticationCookie("token"),
   authorizeRoles(["PIC", "Volunteer"]),
   getPendingAdminsApproval
 );
 router.put(
-  "/approve/:adminId",
+  "/dashboard/approve/:adminId",
   checkForAuthenticationCookie("token"),
   authorizeRoles(["PIC", "Volunteer"]),
   handleApproveAdmin
 );
 router.delete(
-  "/reject/:adminId",
+  "/dashboard/reject/:adminId",
   checkForAuthenticationCookie("token"),
   authorizeRoles(["PIC", "Volunteer"]),
   handleRejectAdmin

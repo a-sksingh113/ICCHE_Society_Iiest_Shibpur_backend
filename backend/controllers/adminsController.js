@@ -210,6 +210,28 @@ const handleUpdateAdmin = async (req, res) => {
   }
 };
 
+const getAdminProfile = async (req, res) => {
+  try {
+    const adminId = req.user._id; // ✅ Change `id` to `_id`
+    if (!adminId) {
+      return res.status(401).json({ message: "Unauthorized: No admin ID found in token" });
+    }
+    const admin = await Admin.findById(adminId).select("-password");
+    if (!admin) {
+      return res.status(404).json({ message: "Admin not found in database" });
+    }
+    res.status(200).json({
+      success: true,
+      message: "Admin profile fetched successfully",
+      admin,
+    });
+  } catch (error) {
+    console.error("Error fetching admin profile:", error);
+    res.status(500).json({ success: false, message: "Server error" });
+  }
+};
+
+
 const handleAdminForgetPassword = async (req, res) => {
   const { email } = req.body;
   try {
@@ -224,9 +246,10 @@ const handleAdminForgetPassword = async (req, res) => {
       { expiresIn: "1h" }
     );
     // Send Reset Email
-    const resetURL = `${process.env.FRONTEND_URL}/reset-password/${resetToken}`;
+    const resetURL = `http://localhost:5173/reset-password/${resetToken}`;
     await sendForgetPasswordURL(admin.email, resetURL);
     return res.status(200).json({
+      success: true,
       message: "Forget password link sent to your email",
       data: resetURL,
     });
@@ -238,9 +261,9 @@ const handleAdminForgetPassword = async (req, res) => {
 
 const handleAdminResetPassword = async (req, res) => {
   try {
-    const { resetToken } = req.params;
-    const { newPassword } = req.body;
-    if (!newPassword) {
+    const {  resetToken } = req.params;
+    const { password } = req.body;
+    if (!password) {
       return res.status(400).json({ message: "New password is required" });
     }
     const decoded = JWT.verify(resetToken, process.env.JWT_SECRET);
@@ -250,7 +273,7 @@ const handleAdminResetPassword = async (req, res) => {
     }
      const isUsedBefore = await Promise.all(
             admin.oldPasswords.map(async (oldHashedPassword) =>
-              bcrypt.compare(newPassword, oldHashedPassword)
+              bcrypt.compare(password, oldHashedPassword)
             )
           );
           if (isUsedBefore.includes(true)) {
@@ -258,7 +281,7 @@ const handleAdminResetPassword = async (req, res) => {
           }
     // Update Password
     const salt = 10;
-    const hashedPassword = await bcrypt.hash(newPassword, salt);
+    const hashedPassword = await bcrypt.hash(password, salt);
     admin.oldPasswords.unshift(admin.password); // Store current password before updating
     if (admin.oldPasswords.length > 5) {
       admin.oldPasswords.pop(); // Keep only last 5 passwords
@@ -277,8 +300,8 @@ const handleAdminResetPassword = async (req, res) => {
 const handleAdminChangePassword = async (req, res) => {
   try {
     const { adminId } = req.params; // Admin's ID
-    const { oldPassword, newPassword } = req.body;
-    if (!oldPassword || !newPassword) {
+    const { oldPassword, password } = req.body;
+    if (!oldPassword || !password) {
       return res
         .status(400)
         .json({ message: "Old and new passwords are required" });
@@ -293,7 +316,7 @@ const handleAdminChangePassword = async (req, res) => {
       return res.status(401).json({ message: "Incorrect old password" });
     }
     const saltRounds = 10;
-    const newHashedPassword = await bcrypt.hash(newPassword, saltRounds);
+    const newHashedPassword = await bcrypt.hash(password, saltRounds);
     admin.password = newHashedPassword;
     await admin.save();
     return res.status(200).json({ message: "Password changed successfully" });
@@ -415,5 +438,5 @@ module.exports = {
   handleApproveAdmin,
   handleRejectAdmin,
   getAdminDashboard,
-  
+  getAdminProfile
 };

@@ -34,9 +34,7 @@ const handleAddClothDonation = async (req, res) => {
         return res.status(400).json({ message: "Please fill all fields" });
       }
 
-      if (typeof location !== "object" || !location.latitude || !location.longitude) {
-        return res.status(400).json({ message: "Invalid location format. Must include latitude and longitude." });
-    }
+    
         const newDonation = new ClothDonation({
             title,
             description,

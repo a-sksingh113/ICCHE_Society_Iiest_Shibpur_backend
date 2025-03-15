@@ -3,6 +3,7 @@ const express = require('express')
 const connectDB = require('./config/dbConnection');
 const cookieParser = require('cookie-parser');
 const {logRequest} = require("./middleware/logMiddleware");
+const cors = require('cors');
 const checkForAuthenticationCookie = require("./middleware/authMiddleware");
 const { authorizeRoles } = require("./middleware/roleMiddleware");
 
@@ -22,9 +23,18 @@ const app = express();
 PORT = process.env.PORT || 8001;
 connectDB();
 
+app.use(cors());
 app.use(express.json());
 app.use(cookieParser());
 app.use(logRequest);
+
+app.use(cors({
+    origin: process.env.FRONTEND_URL,  
+    methods: ['GET', 'POST', 'PUT', 'DELETE'],  
+    allowedHeaders: ['Content-Type', 'Authorization'],  
+    credentials:true                                                 
+  }));
+
 
 app.use('/api/admin',adminsRoute);
 app.use('/api/students',studentRoute);
