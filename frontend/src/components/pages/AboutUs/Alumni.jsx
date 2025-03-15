@@ -9,8 +9,11 @@ const Alumni = () => {
   const [alumni, setAlumni] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
+  const [isAdmin, setIsAdmin] = useState(false);
 
   useEffect(() => {
+    const token = localStorage.getItem("token");
+    setIsAdmin(!!token);
     const fetchAlumni = async () => {
       try {
         const response = await axios.get("http://localhost:8000/api/alumni", {
@@ -30,7 +33,9 @@ const Alumni = () => {
   const confirmDelete = (alumId) => {
     const toastId = toast.warn(
       <div>
-        <p className="font-semibold text-gray-800">Are you sure you want to delete this alumnus?</p>
+        <p className="font-semibold text-gray-800">
+          Are you sure you want to delete this alumnus?
+        </p>
         <div className="mt-2 flex gap-3 justify-center">
           <button
             onClick={() => {
@@ -55,13 +60,23 @@ const Alumni = () => {
 
   const deleteAlumnus = async (alumId) => {
     try {
-      await axios.delete(`http://localhost:8000/api/admin/dashboard/alumni/${alumId}`, {
-        headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
+      await axios.delete(
+        `http://localhost:8000/api/admin/dashboard/alumni/${alumId}`,
+        {
+          headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
+        }
+      );
+      setAlumni((prevAlumni) =>
+        prevAlumni.filter((alum) => alum._id !== alumId)
+      );
+      toast.success(" Alumnus deleted successfully!", {
+        transition: Slide,
+        autoClose: 3000,
       });
-      setAlumni((prevAlumni) => prevAlumni.filter((alum) => alum._id !== alumId));
-      toast.success("✅ Alumnus deleted successfully!", { transition: Slide, autoClose: 3000 });
     } catch (error) {
-      toast.error("❌ Failed to delete alumnus. Please try again.", { autoClose: 3000 });
+      toast.error(" Failed to delete alumnus. Please try again.", {
+        autoClose: 3000,
+      });
     }
   };
 
@@ -80,12 +95,14 @@ const Alumni = () => {
               key={alum._id}
               className="bg-white p-5 shadow-md rounded-lg flex flex-col items-center text-center relative"
             >
-              <button
-                onClick={() => confirmDelete(alum._id)}
-                className="absolute top-2 right-2 text-red-500 hover:text-red-700 p-2 rounded-full"
-              >
-                <AiOutlineDelete size={24} />
-              </button>
+              {isAdmin && (
+                <button
+                  onClick={() => confirmDelete(alum._id)}
+                  className="absolute top-2 right-2 text-red-500 hover:text-red-700 p-2 rounded-full"
+                >
+                  <AiOutlineDelete size={24} />
+                </button>
+              )}
 
               <img
                 src={alum.coverImageURL || "/uploads/default.png"}
@@ -93,14 +110,30 @@ const Alumni = () => {
                 className="w-24 h-24 rounded-full object-cover mb-3 border border-gray-300"
               />
               <h5 className="font-bold text-lg">{alum.fullName}</h5>
-              <p className="text-gray-600 text-sm"><strong>Email:</strong> {alum.email}</p>
-              <p className="text-gray-600 text-sm"><strong>Contact:</strong> {alum.contactNumber}</p>
-              <p className="text-gray-600 text-sm"><strong>Enrollment No:</strong> {alum.enrollmentNo}</p>
-              <p className="text-gray-600 text-sm"><strong>Gender:</strong> {alum.gender}</p>
-              <p className="text-gray-600 text-sm"><strong>Department:</strong> {alum.department}</p>
-              <p className="text-gray-600 text-sm"><strong>Graduation Year:</strong> {alum.graduationYear}</p>
-              <p className="text-gray-600 text-sm"><strong>Company:</strong> {alum.company || "N/A"}</p>
-              <p className="text-gray-600 text-sm"><strong>Address:</strong> {alum.address || "N/A"}</p>
+              <p className="text-gray-600 text-sm">
+                <strong>Email:</strong> {alum.email}
+              </p>
+              <p className="text-gray-600 text-sm">
+                <strong>Contact:</strong> {alum.contactNumber}
+              </p>
+              <p className="text-gray-600 text-sm">
+                <strong>Enrollment No:</strong> {alum.enrollmentNo}
+              </p>
+              <p className="text-gray-600 text-sm">
+                <strong>Gender:</strong> {alum.gender}
+              </p>
+              <p className="text-gray-600 text-sm">
+                <strong>Department:</strong> {alum.department}
+              </p>
+              <p className="text-gray-600 text-sm">
+                <strong>Graduation Year:</strong> {alum.graduationYear}
+              </p>
+              <p className="text-gray-600 text-sm">
+                <strong>Company:</strong> {alum.company || "N/A"}
+              </p>
+              <p className="text-gray-600 text-sm">
+                <strong>Address:</strong> {alum.address || "N/A"}
+              </p>
             </div>
           ))}
         </div>

@@ -8,8 +8,11 @@ const Volunteers = () => {
   const [volunteers, setVolunteers] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
+  const [isAdmin, setIsAdmin] = useState(false);
 
   useEffect(() => {
+    const token = localStorage.getItem("token");
+    setIsAdmin(!!token);
     const fetchVolunteers = async () => {
       try {
         const response = await fetch("http://localhost:8000/api/volunteers", {
@@ -31,7 +34,9 @@ const Volunteers = () => {
   const confirmDelete = (volunteerId) => {
     const toastId = toast.warn(
       <div>
-        <p className="font-semibold text-gray-800">Are you sure you want to delete this volunteer?</p>
+        <p className="font-semibold text-gray-800">
+          Are you sure you want to delete this volunteer?
+        </p>
         <div className="mt-2 flex gap-3 justify-center">
           <button
             onClick={() => {
@@ -56,15 +61,25 @@ const Volunteers = () => {
 
   const deleteVolunteer = async (volunteerId) => {
     try {
-      await fetch(`http://localhost:8000/api/admin/dashboard/volunteers/${volunteerId}`, {
-        method: "DELETE",
-        headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
+      await fetch(
+        `http://localhost:8000/api/admin/dashboard/volunteers/${volunteerId}`,
+        {
+          method: "DELETE",
+          headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
+        }
+      );
+
+      setVolunteers((prevVolunteers) =>
+        prevVolunteers.filter((volunteer) => volunteer._id !== volunteerId)
+      );
+      toast.success(" Volunteer deleted successfully!", {
+        transition: Slide,
+        autoClose: 3000,
       });
-      
-      setVolunteers((prevVolunteers) => prevVolunteers.filter((volunteer) => volunteer._id !== volunteerId));
-      toast.success("✅ Volunteer deleted successfully!", { transition: Slide, autoClose: 3000 });
     } catch (error) {
-      toast.error("❌ Failed to delete volunteer. Please try again.", { autoClose: 3000 });
+      toast.error(" Failed to delete volunteer. Please try again.", {
+        autoClose: 3000,
+      });
     }
   };
 
@@ -83,12 +98,14 @@ const Volunteers = () => {
               key={volunteer._id}
               className="bg-white p-5 shadow-md rounded-lg flex flex-col items-center text-center relative"
             >
-              <button
-                onClick={() => confirmDelete(volunteer._id)}
-                className="absolute top-2 right-2 text-red-500 hover:text-red-700 p-2 rounded-full"
-              >
-                <AiOutlineDelete size={24} />
-              </button>
+              {isAdmin && (
+                <button
+                  onClick={() => confirmDelete(volunteer._id)}
+                  className="absolute top-2 right-2 text-red-500 hover:text-red-700 p-2 rounded-full"
+                >
+                  <AiOutlineDelete size={24} />
+                </button>
+              )}
 
               <img
                 src={volunteer.coverImageURL || "/uploads/default.png"}
@@ -97,15 +114,37 @@ const Volunteers = () => {
               />
               <h5 className="font-bold text-lg">{volunteer.fullName}</h5>
               <p className="text-gray-600 text-sm">Email: {volunteer.email}</p>
-              <p className="text-gray-600 text-sm">Contact: {volunteer.contactNumber}</p>
-              <p className="text-gray-600 text-sm">Enrollment No: {volunteer.enrollmentNo}</p>
-              <p className="text-gray-600 text-sm">Gender: {volunteer.gender}</p>
+              <p className="text-gray-600 text-sm">
+                Contact: {volunteer.contactNumber}
+              </p>
+              <p className="text-gray-600 text-sm">
+                Enrollment No: {volunteer.enrollmentNo}
+              </p>
+              <p className="text-gray-600 text-sm">
+                Gender: {volunteer.gender}
+              </p>
               <p className="text-gray-600 text-sm">Year: {volunteer.year}</p>
-              <p className="text-gray-600 text-sm">Department: {volunteer.department}</p>
-              <p className="text-gray-600 text-sm">Residence: {volunteer.residenceType}</p>
-              {volunteer.residenceType === "Hostel" && <p className="text-gray-600 text-sm">Hostel: {volunteer.hostelName}</p>}
-              {volunteer.residenceType === "Hall" && <p className="text-gray-600 text-sm">Hall: {volunteer.hallName}</p>}
-              {volunteer.residenceType === "Day Scholar" && <p className="text-gray-600 text-sm">Address: {volunteer.address}</p>}
+              <p className="text-gray-600 text-sm">
+                Department: {volunteer.department}
+              </p>
+              <p className="text-gray-600 text-sm">
+                Residence: {volunteer.residenceType}
+              </p>
+              {volunteer.residenceType === "Hostel" && (
+                <p className="text-gray-600 text-sm">
+                  Hostel: {volunteer.hostelName}
+                </p>
+              )}
+              {volunteer.residenceType === "Hall" && (
+                <p className="text-gray-600 text-sm">
+                  Hall: {volunteer.hallName}
+                </p>
+              )}
+              {volunteer.residenceType === "Day Scholar" && (
+                <p className="text-gray-600 text-sm">
+                  Address: {volunteer.address}
+                </p>
+              )}
             </div>
           ))}
         </div>

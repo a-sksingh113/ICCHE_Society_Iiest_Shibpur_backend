@@ -3,18 +3,26 @@ import Layout from "../../layout/Layout";
 import axios from "axios";
 import { toast, ToastContainer, Slide } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { AiOutlineDelete, AiOutlineEdit } from "react-icons/ai"; // Import icons
 
 const Activities = () => {
   const [activities, setActivities] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [selectedMedia, setSelectedMedia] = useState(null);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+
+  // Check login status
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+    setIsLoggedIn(!!token); // Set true if token exists
+  }, []);
 
   useEffect(() => {
     const fetchActivities = async () => {
       try {
         const response = await axios.get("http://localhost:8000/api/events/activities");
-        setActivities(response.data);
+        setActivities(response.data); // Store activities with their Object IDs
       } catch (err) {
         setError("Failed to fetch activities. Please try again.");
       } finally {
@@ -51,15 +59,30 @@ const Activities = () => {
     );
   };
 
-  const deleteActivity = async (id) => {
+  const deleteActivity = async (activityId) => {
     try {
-      await axios.delete(`http://localhost:8000/api/events/activities/${id}`);
-      setActivities(activities.filter((activity) => activity._id !== id));
-      toast.success("✅ Activity deleted successfully!", { transition: Slide, autoClose: 3000 });
-    } catch (err) {
-      toast.error("❌ Failed to delete activity. Please try again.", { autoClose: 3000 });
+      await axios.delete(
+        `http://localhost:8000/api/admin/dashboard/events/activities/${activityId}`,
+        {
+          headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
+        }
+      );
+      
+      setActivities((prevActivities) =>
+        prevActivities.filter((activity) => activity._id !== activityId)
+      );
+  
+      toast.success("Activity deleted successfully!", {
+        transition: Slide,
+        autoClose: 3000,
+      });
+    } catch (error) {
+      toast.error("Failed to delete activity. Please try again.", {
+        autoClose: 3000,
+      });
     }
   };
+  
 
   return (
     <Layout>
@@ -88,20 +111,23 @@ const Activities = () => {
               <p><strong>Students Present:</strong> {activity.studentsPresent}</p>
               <p><strong>Volunteers Present:</strong> {activity.volunteersPresent}</p>
               
-              <div className="absolute top-2 right-2 flex gap-2">
-                <button
-                  onClick={() => confirmDelete(activity._id)}
-                  className="bg-red-500 text-white px-3 py-1 text-sm rounded-lg"
-                >
-                  Delete
-                </button>
-                <button
-                  onClick={() => toast.info("Edit functionality coming soon!")}
-                  className="bg-blue-500 text-white px-3 py-1 text-sm rounded-lg"
-                >
-                  Edit
-                </button>
-              </div>
+              {/* Hide ID but use it for actions */}
+              {isLoggedIn && (
+                <div className="absolute top-2 right-2 flex gap-2">
+                  <button
+                    onClick={() => confirmDelete(activity._id)}
+                    className="text-red-500 hover:text-red-700 p-2"
+                  >
+                    <AiOutlineDelete size={24} />
+                  </button>
+                  <button
+                    onClick={() => toast.info(`Editing Activity: ${activity._id}`)}
+                    className="text-blue-500 hover:text-blue-700 p-2"
+                  >
+                    <AiOutlineEdit size={24} />
+                  </button>
+                </div>
+              )}
             </div>
           ))}
         </div>
