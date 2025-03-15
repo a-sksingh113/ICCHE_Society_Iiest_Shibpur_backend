@@ -35,7 +35,6 @@ app.use(cors({
     credentials:true                                                 
   }));
 
-
 app.use('/api/admin',adminsRoute);
 app.use('/api/students',studentRoute);
 app.use('/api/volunteers',volunteerRoute);

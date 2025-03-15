@@ -12,10 +12,14 @@ cloudinary.config({
 // 🔹 Configure Multer Storage for Cloudinary
 const storage = new CloudinaryStorage({
     cloudinary: cloudinary,
-    params: {
-        folder: "uploads", // Your folder in Cloudinary
-        format: async (req, file) => "png", // Supports 'jpeg', 'png', etc.
-        public_id: (req, file) => `${Date.now()}_${file.originalname}`,
+    params: async (req, file) => {
+        const isVideo = file.mimetype.startsWith("video/");
+        return {
+            folder: "uploads", // Your Cloudinary folder
+            format: file.mimetype.split("/")[1], // Retain original format (jpeg, png, mp4, etc.)
+            resource_type: isVideo ? "video" : "image", // Set resource type
+            public_id: `${Date.now()}_${file.originalname.replace(/\s+/g, "_").replace(/\W+/g, "")}`, // Clean filename
+        };
     },
 });
 
