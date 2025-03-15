@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import Layout from "../../layout/Layout";
-import { toast } from "react-toastify";
+import { toast, ToastContainer, Slide } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const PendingApproval = () => {
   const [pendingApprovals, setPendingApprovals] = useState([]);
@@ -43,6 +44,7 @@ const PendingApproval = () => {
     try {
       await axios.put(
         `http://localhost:8000/api/admin/dashboard/approve/${id}`,
+        {},
         {
           headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
         }
@@ -60,7 +62,8 @@ const PendingApproval = () => {
   const handleReject = async (id) => {
     const loadingToast = toast.loading("Rejecting user...");
     try {
-      await axios.delete(`http://localhost:8000/api/admin/dashboard/reject/${id}`, {
+      await axios.delete(`http://localhost:8000/api/admin/dashboard/reject/${id}`,
+         {
         headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
       });
 
@@ -74,6 +77,7 @@ const PendingApproval = () => {
 
   return (
     <Layout>
+      <ToastContainer position="top-right" autoClose={3000} />
       <div className="p-6 bg-white rounded-lg shadow-md">
         <h2 className="text-2xl font-bold mb-4">Pending Approvals</h2>
 
