@@ -30,6 +30,7 @@ import AddActivities from './components/pages/Admin/AddActivities';
 import AddFestivals from './components/pages/Admin/AddFestivals';
 import AddInduction from './components/pages/Admin/AddInduction';
 import AddFarewell from './components/pages/Admin/AddFarewell';
+import AddHomePageImage from './components/pages/Admin/AddHomePageImage';
 function App() {
   return(
     <BrowserRouter>
@@ -61,6 +62,7 @@ function App() {
       <Route path='/admin/dashboard/add-festivals' element={<AddFestivals/>}/>
       <Route path='/admin/dashboard/add-freshersInduction' element={<AddInduction/>}/>
       <Route path='/admin/dashboard/add-farewell' element={<AddFarewell/>}/>
+      <Route path='/admin/dashboard/add-homePageImage' element={<AddHomePageImage/>}/>
       <Route path='*' element={<Error/>}/>
 
 

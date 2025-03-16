@@ -10,7 +10,8 @@ import {
   Award,
   Briefcase,
   CalendarClock,
-  PartyPopper
+  PartyPopper,
+  ImagePlus
 } from "lucide-react";
 import axios from "axios";
 import { toast, ToastContainer } from "react-toastify";
@@ -169,6 +170,12 @@ const Dashboard = () => {
             to="/admin/dashboard/add-farewell"
             icon={<PartyPopper size={20} />}
             label="Add Farewell"
+            isOpen={isSidebarOpen}
+          />
+           <SidebarItem
+            to="/admin/dashboard/add-homePageImage"
+            icon={<ImagePlus size={20} />}
+            label="Add HomePageImage"
             isOpen={isSidebarOpen}
           />
 
