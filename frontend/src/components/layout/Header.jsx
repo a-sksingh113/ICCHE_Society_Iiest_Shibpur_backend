@@ -1,6 +1,7 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import Logo from "./../assets/logo.png";
+import { Sun, Moon,BellRing  } from "lucide-react";
 import user from "../assets/user.png";
 
 const Header = () => {
@@ -8,6 +9,9 @@ const Header = () => {
   const [aboutDropdownOpen, setAboutDropdownOpen] = useState(false);
   const [eventsDropdownOpen, setEventsDropdownOpen] = useState(false);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [notifications, setNotifications] = useState(2);
+  const timeoutRef = useRef(null);
+
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -23,15 +27,13 @@ const Header = () => {
     navigate("/admin/login");
   };
 
-  let timeout;
-
   const openDropdown = (setDropdown) => {
-    clearTimeout(timeout);
+    clearTimeout(timeoutRef.current);
     setDropdown(true);
   };
-
+  
   const closeDropdown = (setDropdown) => {
-    timeout = setTimeout(() => {
+    timeoutRef.current = setTimeout(() => {
       setDropdown(false);
     }, 200);
   };
@@ -55,7 +57,7 @@ const Header = () => {
   return (
     <nav className="navbar navbar-expand-lg bg-body-tertiary">
       <div className="container-fluid">
-        <Link to="/" className="size-28 ms-10">
+        <Link to="/" className="size-20 ms-8">
           <img src={Logo} alt="Logo" />
         </Link>
         <button
@@ -170,6 +172,15 @@ const Header = () => {
               )}
             </li>
           </ul>
+
+          <Link to="/home/notification" className="relative me-4">
+  <BellRing className="size-9 cursor-pointer text-gray-700" />
+  {notifications > 0 && (
+    <span className="absolute top-0 right-0 bg-red-500 text-white text-xs px-2 py-0.5 rounded-full">
+      {notifications}
+    </span>
+  )}
+</Link>
 
           {/* User Icon Dropdown */}
           <div className="relative dropdown-container">

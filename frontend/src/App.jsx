@@ -31,6 +31,9 @@ import AddFestivals from './components/pages/Admin/AddFestivals';
 import AddInduction from './components/pages/Admin/AddInduction';
 import AddFarewell from './components/pages/Admin/AddFarewell';
 import AddHomePageImage from './components/pages/Admin/AddHomePageImage';
+import Feedback from './components/pages/Admin/Feedback';
+import AddNotification from './components/pages/Admin/AddNotification';
+import Notification from './components/pages/Admin/Notification';
 function App() {
   return(
     <BrowserRouter>
@@ -63,6 +66,9 @@ function App() {
       <Route path='/admin/dashboard/add-freshersInduction' element={<AddInduction/>}/>
       <Route path='/admin/dashboard/add-farewell' element={<AddFarewell/>}/>
       <Route path='/admin/dashboard/add-homePageImage' element={<AddHomePageImage/>}/>
+      <Route path='/admin/dashboard/feedback' element={<Feedback/>}/>
+      <Route path='/admin/dashboard/add-notification' element={<AddNotification/>}/>
+      <Route path='/home/notification' element={<Notification/>}/>
       <Route path='*' element={<Error/>}/>
 
 

@@ -11,7 +11,9 @@ import {
   Briefcase,
   CalendarClock,
   PartyPopper,
-  ImagePlus
+  ImagePlus,
+  MessageSquare,
+  BellRing
 } from "lucide-react";
 import axios from "axios";
 import { toast, ToastContainer } from "react-toastify";
@@ -178,6 +180,12 @@ const Dashboard = () => {
             label="Add HomePageImage"
             isOpen={isSidebarOpen}
           />
+           <SidebarItem
+            to="/admin/dashboard/add-notification"
+            icon={<BellRing size={20} />}
+            label="Add Notification"
+            isOpen={isSidebarOpen}
+          />
 
           {/* Pending Approval Section */}
           <div className="mt-6 border-t border-gray-700 pt-4">
@@ -187,6 +195,13 @@ const Dashboard = () => {
               label="Pending Approval"
               isOpen={isSidebarOpen}
             />
+             <SidebarItem
+              to="/admin/dashboard/feedback"
+              icon={<MessageSquare size={20} />}
+              label="Feedbacks"
+              isOpen={isSidebarOpen}
+            />
+            
           </div>
         </nav>
       </div>
