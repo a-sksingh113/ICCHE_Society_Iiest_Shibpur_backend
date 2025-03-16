@@ -103,6 +103,14 @@ const {
   handleSendAllReportsExcel,
   getAdminDashboardCounts,
 } = require("../controllers/adminReportController");
+const {
+  handleAddHomePageImage,
+} = require("../controllers/homePageImageController");
+const { getPublicFeedback } = require("../controllers/feedbackController");
+const {
+  handleAddNotification,
+  handleDeleteNotification,
+} = require("../controllers/notificationController");
 
 const router = express.Router();
 
@@ -117,10 +125,7 @@ router.put(
   upload.single("profileImageURL"),
   handleUpdateAdmin
 );
-router.post(
-  "/forget-password",
-  handleAdminForgetPassword
-);
+router.post("/forget-password", handleAdminForgetPassword);
 router.post("/reset-password/:resetToken", handleAdminResetPassword);
 router.put(
   "/change-password/:adminId",
@@ -132,7 +137,7 @@ router.get(
   "/profile",
   checkForAuthenticationCookie("token"),
   authorizeRoles(["PIC", "Volunteer"]),
- getAdminProfile
+  getAdminProfile
 );
 router.get(
   "/dashboard/pending-approvals",
@@ -170,6 +175,32 @@ router.get(
   checkForAuthenticationCookie("token"),
   authorizeRoles(["PIC", "Volunteer"]),
   getAdminDashboardCounts
+);
+router.get(
+  "/dashboard/feedback",
+  checkForAuthenticationCookie("token"),
+  authorizeRoles(["PIC", "Volunteer"]),
+  getPublicFeedback
+);
+router.post(
+  "/dashboard/add-homePageImage",
+  checkForAuthenticationCookie("token"),
+  authorizeRoles(["PIC", "Volunteer"]),
+  upload.single("image"),
+  handleAddHomePageImage
+);
+router.post(
+  "/dashboard/add-notification",
+  checkForAuthenticationCookie("token"),
+  authorizeRoles(["PIC", "Volunteer"]),
+  upload.fields([{ name: "imageFile" }, { name: "pdfFile" }]),
+  handleAddNotification
+);
+router.delete(
+  "/dashboard/notification/:id",
+  checkForAuthenticationCookie("token"),
+  authorizeRoles(["PIC", "Volunteer"]),
+  handleDeleteNotification
 );
 
 //getAdminDashboardCounts
