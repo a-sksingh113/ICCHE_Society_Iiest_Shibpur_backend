@@ -2,7 +2,7 @@ const Student = require("../models/studentModel");
 const handleAddStudents = async (req, res) => {
     try {
       const { fullName, uniqueId, gender, studentClass, address } = req.body;
-      const coverImageURL = req.files["coverImageURL"] ? req.files["coverImageURL"][0].path : "/uploads/default.png";
+      const coverImageURL = req.file ? req.file.path : "/uploads/default.png";
       if (!fullName || !uniqueId || !gender || !studentClass || !address) {
         return res.status(400).json({ message: "All fields are required" });
       }
