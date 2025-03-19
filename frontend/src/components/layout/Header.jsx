@@ -1,8 +1,8 @@
 import React, { useEffect, useRef, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import Logo from "./../assets/logo.png";
+import Logo from "../../assets/logo.png";
 import { Sun, Moon, BellRing } from "lucide-react";
-import user from "../assets/user.png";
+import user from "../../assets/user.png";
 import { IoIosArrowDown } from "react-icons/io";
 
 const Header = () => {

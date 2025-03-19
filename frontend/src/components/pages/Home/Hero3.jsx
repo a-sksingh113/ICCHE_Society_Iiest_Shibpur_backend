@@ -1,5 +1,5 @@
 import React from 'react'
-import image from '../../assets/11598.jpg'
+import image from '../../../assets/11598.jpg'
 
 const Hero3 = () => {
   return (
