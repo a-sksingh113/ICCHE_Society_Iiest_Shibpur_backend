@@ -70,28 +70,7 @@ const Home = () => {
         </div>
       </div>
 
-      {/* Our Mission and Get Involved Section Below */}
-      <div id="mission" className="w-full bg-gray-100 py-20 flex flex-col items-center text-center px-6">
-        <h2 className="text-3xl font-bold text-gray-800 mb-8">Our Mission & Get Involved</h2>
-
-        <div className="flex flex-col md:flex-row items-center justify-center gap-6 w-full max-w-4xl">
-          {/* Our Mission Card */}
-          <div className="p-6 w-80 md:w-96 rounded-2xl shadow-xl bg-gray-700 border border-gray-600 hover:shadow-2xl transition text-center">
-            <h2 className="text-2xl font-semibold text-blue-300">Our Mission</h2>
-            <p className="text-gray-300 mt-2">
-              Providing education, mentorship, and support to shape a brighter future.
-            </p>
-          </div>
-
-          {/* Get Involved Card */}
-          <div className="p-6 w-80 md:w-96 rounded-2xl shadow-xl bg-gray-700 border border-gray-600 hover:shadow-2xl transition text-center">
-            <h2 className="text-2xl font-semibold text-blue-300">Get Involved</h2>
-            <p className="text-gray-300 mt-2">
-              Join our community and contribute to making a meaningful impact.
-            </p>
-          </div>
-        </div>
-      </div>
+    
       <Hero/>
       <Hero2/>
       <Hero3/>
