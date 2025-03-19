@@ -8,7 +8,7 @@ const Gallery = () => {
   useEffect(() => {
     const fetchGallery = async () => {
       try {
-        const response = await axios.get("http://localhost:8000/api/gallery");
+        const response = await axios.get("https://icche.vercel.app/api/gallery");
         console.log("Gallery API Response:", response.data);
 
         if (response.data && response.data.success) {

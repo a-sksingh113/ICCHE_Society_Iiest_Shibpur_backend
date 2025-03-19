@@ -57,7 +57,7 @@ const AddActivities = () => {
 
     try {
       await axios.post(
-        "http://localhost:8000/api/admin/dashboard/events/activities/add-activities",
+        "https://icche.vercel.app/api/admin/dashboard/events/activities/add-activities",
         formDataToSend,
         {
           headers: {

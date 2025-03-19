@@ -59,7 +59,7 @@ const ClothDonation = () => {
 
   const deleteEvent = async (eventId) => {
     try {
-      await axios.delete(`http://localhost:8000/api/admin/dashboard/cloth-donations/${eventId}`, {
+      await axios.delete(`https://icche.vercel.app/api/admin/dashboard/cloth-donations/${eventId}`, {
         headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
       });
 

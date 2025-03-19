@@ -15,7 +15,7 @@ const Volunteers = () => {
     setIsAdmin(!!token);
     const fetchVolunteers = async () => {
       try {
-        const response = await fetch("http://localhost:8000/api/volunteers", {
+        const response = await fetch("https://icche.vercel.app/api/volunteers", {
           headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
         });
         if (!response.ok) throw new Error("Failed to fetch volunteers");

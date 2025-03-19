@@ -17,7 +17,7 @@ const Students = () => {
 
     const fetchStudents = async () => {
       try {
-        const response = await axios.get("http://localhost:8000/api/students", {
+        const response = await axios.get("https://icche.vercel.app/api/students", {
           headers: { Authorization: `Bearer ${token}` },
         });
         setStudents(response.data);

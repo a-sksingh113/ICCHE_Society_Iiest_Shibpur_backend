@@ -19,7 +19,7 @@ const Farewell = () => {
   useEffect(() => {
     const fetchFarewellEvents = async () => {
       try {
-        const response = await axios.get("http://localhost:8000/api/events/farewells");
+        const response = await axios.get("https://icche.vercel.app/api/events/farewells");
         setFarewellEvents(response.data);
       } catch (err) {
         setError("Failed to fetch farewell events");
@@ -60,7 +60,7 @@ const Farewell = () => {
   const deleteEvent = async (eventId) => {
     try {
       await axios.delete(
-        `http://localhost:8000/api/admin/dashboard/events/farewell/${eventId}`,
+        `https://icche.vercel.app/api/admin/dashboard/events/farewell/${eventId}`,
         {
           headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
         }

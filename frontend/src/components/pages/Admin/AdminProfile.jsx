@@ -19,7 +19,7 @@ const AdminProfile = () => {
           return;
         }
 
-        const response = await axios.get("http://localhost:8000/api/admin/profile", {
+        const response = await axios.get("https://icche.vercel.app/api/admin/profile", {
           headers: { Authorization: `Bearer ${token}` },
         });
 

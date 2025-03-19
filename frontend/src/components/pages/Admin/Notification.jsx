@@ -10,7 +10,7 @@ const Notification = () => {
   useEffect(() => {
     const fetchNotifications = async () => {
       try {
-        const response = await axios.get("http://localhost:8000/api/notification");
+        const response = await axios.get("https://icche.vercel.app/api/notification");
         console.log("API Response:", response.data);
 
         if (Array.isArray(response.data)) {

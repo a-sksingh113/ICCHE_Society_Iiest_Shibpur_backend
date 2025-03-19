@@ -60,7 +60,7 @@ const Festival = () => {
 
   const deleteFestival = async (eventId) => {
     try {
-      await axios.delete(`http://localhost:8000/api/admin/dashboard/events/festivals/${eventId}`, {
+      await axios.delete(`https://icche.vercel.app/api/admin/dashboard/events/festivals/${eventId}`, {
         headers: { Authorization: `Bearer ${token}` },
       });
       setFestivalEvents((prev) => prev.filter((event) => event._id !== eventId));

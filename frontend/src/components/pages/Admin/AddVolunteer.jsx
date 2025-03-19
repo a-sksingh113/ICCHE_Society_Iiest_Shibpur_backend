@@ -48,7 +48,7 @@ const AddVolunteer = () => {
 
     try {
       await axios.post(
-        "http://localhost:8000/api/admin/dashboard/volunteers/add-volunteers",
+        "https://icche.vercel.app/api/admin/dashboard/volunteers/add-volunteers",
         formDataToSend,
         {
           headers: {
