@@ -53,10 +53,11 @@ const Footer = () => {
     } finally {
       setLoading(false);
     }
+
   };
 
   return (
-    <footer className="bg-gray-900 text-white py-6 px-6 md:px-16">
+    <footer className="bg-gray-200 text-black py-6 px-6 md:px-16">
       <ToastContainer position="top-right" autoClose={3000} transition={Slide} />
       <div className="container mx-auto grid grid-cols-1 md:grid-cols-3 gap-10 items-start">
         
@@ -88,7 +89,7 @@ const Footer = () => {
         </div>
 
         {/* Feedback Form */}
-        <div className="bg-gray-800 p-4 rounded-lg w-full">
+        <div className="bg-gray-200 p-4  border border-gray-900  shadow-2xl rounded-lg w-full">
           <h2 className="text-lg font-semibold mb-4">Feedback Form</h2>
           <form onSubmit={handleSubmit} className="space-y-4">
             <div className="space-y-2">

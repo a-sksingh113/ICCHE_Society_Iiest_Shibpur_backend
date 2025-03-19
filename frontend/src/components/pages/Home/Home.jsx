@@ -2,6 +2,9 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import Layout from "../../layout/Layout";
 import { FaMapMarkerAlt } from "react-icons/fa";
+import Hero from "./Hero1";
+import Hero2 from "./Hero2";
+import Hero3 from "./Hero3";
 
 const Home = () => {
   const [images, setImages] = useState([]);
@@ -89,6 +92,9 @@ const Home = () => {
           </div>
         </div>
       </div>
+      <Hero/>
+      <Hero2/>
+      <Hero3/>
     </Layout>
   );
 };

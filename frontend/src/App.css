@@ -8,3 +8,6 @@
     text-decoration: none !important; 
   }
   
+  .no-underline:hover{
+    color: rgb(255, 3, 8) !important;
+  }
