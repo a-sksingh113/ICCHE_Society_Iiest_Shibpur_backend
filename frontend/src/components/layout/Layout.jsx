@@ -1,7 +1,7 @@
 import React from 'react'
 import Header from './Header'
 // import Footer from './Footer'
-import FooterDemo from './FooterDemo'
+import Footer from './Footer';
 const Layout = (props) => {
   return (
     <div>
@@ -9,7 +9,7 @@ const Layout = (props) => {
       <main style={{minHeight:'80vh'}}>
       {props.children}
       </main>
-      <FooterDemo/>
+      <Footer/>
     </div>
   )
 }
