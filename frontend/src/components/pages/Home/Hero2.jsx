@@ -1,5 +1,5 @@
 import React from "react";
-
+import image1 from './high-angle-group-smily-childrens.jpg';
 const Hero2 = () => {
   return (
     <div>
@@ -19,9 +19,9 @@ const Hero2 = () => {
           </div>
           <div className="col-10 col-sm-8 col-lg-6">
             <img
-              src="high-angle-group-smily-childrens.jpg"
+              src={image1}
               className="d-block mx-lg-auto img-fluid"
-              alt="Bootstrap Themes"
+              alt="image loading"
               width="700"
               height="500"
               loading="lazy"

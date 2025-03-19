@@ -1,4 +1,5 @@
 import React from "react";
+import image2 from './3907.jpg';
 
 const Hero = () => {
   return (
@@ -7,9 +8,9 @@ const Hero = () => {
         <div className="row flex-lg-row-reverse align-items-center g-5 py-5">
           <div className="col-10 col-sm-8 col-lg-6">
             <img
-              src="3907.jpg"
+              src={image2}
               className="d-block mx-lg-auto img-fluid"
-              alt="Bootstrap Themes"
+              alt="image loading"
               width="700"
               height="500"
               loading="lazy"
