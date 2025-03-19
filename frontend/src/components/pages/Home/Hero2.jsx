@@ -1,5 +1,5 @@
 import React from "react";
-import image1 from '../../../assets/high-angle-group-smily-childrens.jpg';
+import image1 from "../../../assets/high-angle-group-smiley-childrens.jpg";
 const Hero2 = () => {
   return (
     <div>
