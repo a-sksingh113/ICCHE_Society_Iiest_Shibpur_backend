@@ -246,7 +246,7 @@ const handleAdminForgetPassword = async (req, res) => {
       { expiresIn: "1h" }
     );
     // Send Reset Email
-    const resetURL = `http://localhost:5173/reset-password/${resetToken}`;
+    const resetURL = `https://iccheiiest.vercel.app/reset-password/${resetToken}`;
     await sendForgetPasswordURL(admin.email, resetURL);
     return res.status(200).json({
       success: true,
