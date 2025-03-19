@@ -19,7 +19,7 @@ const Hero2 = () => {
           </div>
           <div className="col-10 col-sm-8 col-lg-6">
             <img
-              src="bootstrap-themes.png"
+              src="high-angle-group-smily-childrens.jpg"
               className="d-block mx-lg-auto img-fluid"
               alt="Bootstrap Themes"
               width="700"
