@@ -61,7 +61,7 @@ const Header = () => {
   }, []);
 
   return (
-    <nav className="navbar navbar-expand-lg bg-body-tertiary text-[14px] sm:text-[16px]">
+    <nav className="navbar navbar-expand-lg bg-body-tertiary text-[14px] sm:text-[16px] ">
 
       {/* logo */}
       <div className="container-fluid  border-bottom shadow-md">
