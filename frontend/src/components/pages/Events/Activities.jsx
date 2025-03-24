@@ -63,7 +63,7 @@ const Activities = () => {
   const deleteActivity = async (activityId) => {
     try {
       await axios.delete(
-        `https://icche.vercel.app/api/admin/dashboard/events/activities/${activityId}`,
+        `http://localhost:8000/api/admin/dashboard/events/activities/${activityId}`,
         {
           headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
         }

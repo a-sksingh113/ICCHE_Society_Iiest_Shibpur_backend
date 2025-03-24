@@ -22,7 +22,7 @@ const Login = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post("https://icche.vercel.app/api/admin/signin", formData);
+      const response = await axios.post("http://localhost:8000/api/admin/signin", formData);
 
       if (!response.data.success) {
         setError("Invalid email or password.");

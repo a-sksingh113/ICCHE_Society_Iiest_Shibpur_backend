@@ -35,7 +35,7 @@ const AddStudentForm = () => {
 
     try {
       const response = await axios.post(
-        "https://icche.vercel.app/api/admin/dashboard/students/add-students",
+        "http://localhost:8000/api/admin/dashboard/students/add-students",
         form,
         {
           headers: {

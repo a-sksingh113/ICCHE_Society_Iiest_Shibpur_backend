@@ -6,7 +6,7 @@ import axios from "axios";
 import { toast, ToastContainer, Slide } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
-const FooterDemo = () => {
+const Footer = () => {
   const [formData, setFormData] = useState({
     fullName: "",
     email: "",
@@ -26,7 +26,7 @@ const FooterDemo = () => {
     setLoading(true);
 
     try {
-      await axios.post("https://icche.vercel.app/api/feedback/add-feedback", formData);
+      await axios.post("http://localhost:8000/api/feedback/add-feedback", formData);
       
       toast.update(loadingToast, {
         render: "Feedback submitted successfully!",
@@ -93,4 +93,4 @@ const FooterDemo = () => {
   );
 };
 
-export default FooterDemo;
+export default Footer;

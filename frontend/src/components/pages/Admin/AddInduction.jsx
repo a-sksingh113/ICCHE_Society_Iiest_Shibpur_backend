@@ -50,7 +50,7 @@ const AddInduction = () => {
 
     try {
       await axios.post(
-        "https://icche.vercel.app/api/admin/dashboard/events/freshersInductions/add-freshersInduction",
+        "http://localhost:8000/api/admin/dashboard/events/freshersInductions/add-freshersInduction",
         formDataToSend,
         {
           headers: {

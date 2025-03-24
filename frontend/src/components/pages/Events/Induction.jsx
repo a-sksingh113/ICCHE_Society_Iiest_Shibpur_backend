@@ -58,7 +58,7 @@ const Induction = () => {
 
   const deleteInduction = async (eventId) => {
     try {
-      await axios.delete(`https://icche.vercel.app/api/admin/dashboard/events/freshersInductions/${eventId}`, {
+      await axios.delete(`http://localhost:8000/api/admin/dashboard/events/freshersInductions/${eventId}`, {
         headers: { Authorization: `Bearer ${token}` },
       });
       setInductionEvents((prev) => prev.filter((event) => event._id !== eventId));

@@ -48,7 +48,7 @@ const AddFarewell = () => {
 
     try {
       await axios.post(
-        "https://icche.vercel.app/api/admin/dashboard/events/farewells/add-farewell",
+        "http://localhost:8000/api/admin/dashboard/events/farewells/add-farewell",
         formDataToSend,
         {
           headers: {

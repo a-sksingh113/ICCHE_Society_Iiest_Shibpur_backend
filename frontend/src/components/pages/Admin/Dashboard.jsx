@@ -39,7 +39,7 @@ const Dashboard = () => {
     const fetchCounts = async () => {
       try {
         const response = await axios.get(
-          "https://icche.vercel.app/api/admin/dashboard/counts",
+          "http://localhost:8000/api/admin/dashboard/counts",
           {
             headers: {
               Authorization: `Bearer ${localStorage.getItem("token")}`,
@@ -70,8 +70,8 @@ const Dashboard = () => {
 
     const url =
       reportType === "email"
-        ? "https://icche.vercel.app/api/admin/dashboard/reportemail"
-        : "https://icche.vercel.app/admin/dashboard/reportpdf";
+        ? "http://localhost:8000/api/admin/dashboard/reportemail"
+        : "http://localhost:8000/admin/dashboard/reportpdf";
 
     try {
       await axios.post(

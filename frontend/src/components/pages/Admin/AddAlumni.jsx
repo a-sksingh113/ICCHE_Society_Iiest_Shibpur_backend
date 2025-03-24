@@ -42,7 +42,7 @@ const AddAlumni = () => {
     }
 
     try {
-      await axios.post("https://icche.vercel.app/api/admin/dashboard/alumni/add-alumni", formDataToSend, {
+      await axios.post("http://localhost:8000/api/admin/dashboard/alumni/add-alumni", formDataToSend, {
         headers: {
           Authorization: `Bearer ${localStorage.getItem("token")}`,
           "Content-Type": "multipart/form-data",

@@ -48,7 +48,7 @@ const AddFestivals = () => {
 
     try {
       await axios.post(
-        "https://icche.vercel.app/api/admin/dashboard/events/festivals/add-festival",
+        "http://localhost:8000/api/admin/dashboard/events/festivals/add-festival",
         formDataToSend,
         {
           headers: {

@@ -23,7 +23,7 @@ const AddNotification = () => {
 
     try {
       await axios.post(
-        "https://icche.vercel.app/api/admin/dashboard/add-notification",
+        "http://localhost:8000/api/admin/dashboard/add-notification",
         formData,
         {
           headers: {

@@ -13,7 +13,7 @@ const Home = () => {
 
   useEffect(() => {
     axios
-      .get("https://icche.vercel.app/api/homePageImage")
+      .get("http://localhost:8000/api/homePageImage")
       .then((response) => {
         console.log("Fetched Images:", response.data);
         setImages(response.data);

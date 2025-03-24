@@ -17,7 +17,7 @@ const PendingApproval = () => {
   const fetchPendingApprovals = async () => {
     setLoading(true);
     try {
-      const response = await axios.get("https://icche.vercel.app//admin/dashboard/pending-approvals", {
+      const response = await axios.get("http://localhost:8000/api/admin/dashboard/pending-approvals", {
         headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
       });
 

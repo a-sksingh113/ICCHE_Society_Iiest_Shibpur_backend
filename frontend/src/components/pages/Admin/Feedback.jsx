@@ -12,7 +12,7 @@ const Feedback = () => {
       try {
         
         const response = await axios.get(
-          "https://icche.vercel.app/api/admin/dashboard/feedback",
+          "http://localhost:8000/api/admin/dashboard/feedback",
           {
             headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
           }
