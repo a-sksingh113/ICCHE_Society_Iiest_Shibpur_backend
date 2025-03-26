@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import Layout from "../../layout/Layout";
+import Layout from "../../../layout/Layout";
 
 const Feedback = () => {
   const [feedbacks, setFeedbacks] = useState([]);
@@ -31,7 +31,7 @@ const Feedback = () => {
 
   return (
     <Layout>
-      <div className="container mx-auto p-6">
+      <div className="container mx-auto p-6 text-xs sm:text-base ">
         <h2 className="text-2xl font-semibold text-center mb-6">
           User Feedback
         </h2>
@@ -50,14 +50,14 @@ const Feedback = () => {
                 key={feedback._id}
                 className="border rounded-lg p-4 shadow-md bg-white"
               >
-                <h3 className="text-lg font-semibold">{feedback.fullName}</h3>
+                <h3 className="text-lg font-semibold py-3">{feedback.fullName}</h3>
                 <p className="text-gray-700">
-                  <strong>Email:</strong> {feedback.email}
+                  <strong className='me-2 '>Email:</strong> {feedback.email}
                 </p>
                 <p className="text-gray-700">
-                  <strong>Contact:</strong> {feedback.contact}
+                  <strong className='me-2'>Contact:</strong> {feedback.contact}
                 </p>
-                <p className="text-gray-600 mt-2">{feedback.message}</p>
+                <p className="text-gray-600 mt-2"><strong className='me-2'>Message:</strong>{feedback.message}</p>
               </div>
             ))}
           </div>

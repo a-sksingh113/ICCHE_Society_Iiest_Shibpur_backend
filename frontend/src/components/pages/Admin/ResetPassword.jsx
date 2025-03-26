@@ -14,7 +14,8 @@ const ResetPassword = () => {
   const [error, setError] = useState("");
 
   const handleTogglePassword = () => setShowPassword(!showPassword);
-  const handleToggleConfirmPassword = () => setShowConfirmPassword(!showConfirmPassword);
+  const handleToggleConfirmPassword = () =>
+    setShowConfirmPassword(!showConfirmPassword);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -30,40 +31,50 @@ const ResetPassword = () => {
     }
 
     try {
-      const response = await axios.post(`http://localhost:8000/api/admin/reset-password/${resetToken}`, {
-        password,
-      });
+      const response = await axios.post(
+        `http://localhost:8000/api/admin/reset-password/${resetToken}`,
+        {
+          password,
+        }
+      );
 
       if (response.status === 200) {
-        setIsSubmitted(true); 
+        setIsSubmitted(true);
       } else {
         setError("Failed to reset password. Try again.");
       }
     } catch (error) {
       console.error("Reset password error:", error);
-      setError(error.response?.data?.message || "Server error. Please try again.");
+      setError(
+        error.response?.data?.message || "Server error. Please try again."
+      );
     }
   };
 
   return (
     <Layout>
       <div className="flex items-center justify-center min-h-screen">
-        <div className="lg:w-1/4 border border-slate-500 rounded-xl p-6 shadow-lg text-center w-[250px]">
+        <div className="w-[80%] max-w-xs mx-auto p-6  bg-white rounded-lg shadow-lg mt-7 text-xs sm:text-base ">
           {!isSubmitted ? (
             <>
-              <h1 className="text-xl font-bold text-start">Reset Your Password</h1>
+              <h1 className="text-xl font-bold text-start">
+                Reset Your Password
+              </h1>
               {error && <p className="text-red-500 text-sm">{error}</p>}
-              <form className="flex flex-col gap-3 text-start" onSubmit={handleSubmit}>
+              <form
+                className="flex flex-col gap-3 text-start"
+                onSubmit={handleSubmit}
+              >
                 <div className="flex flex-col relative">
-                  <label>New Password</label>
+                  <label className='form-label'>New Password</label>
                   <input
                     type={showPassword ? "text" : "password"}
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
-                    className="form-control mt-2"
+                    className="w-full border p-2 rounded focus:ring-2 focus:ring-gray-400 focus:outline-none transition"
                     required
                   />
-                  <span 
+                  <span
                     className="absolute right-3 top-9 cursor-pointer text-gray-500"
                     onClick={handleTogglePassword}
                   >
@@ -72,15 +83,15 @@ const ResetPassword = () => {
                 </div>
 
                 <div className="flex flex-col relative">
-                  <label>Confirm Password</label>
+                  <label className='form-label'>Confirm Password</label>
                   <input
                     type={showConfirmPassword ? "text" : "password"}
                     value={confirmPassword}
                     onChange={(e) => setConfirmPassword(e.target.value)}
-                    className="form-control mt-2"
+                    className="w-full border p-2 rounded focus:ring-2 focus:ring-gray-400 focus:outline-none transition"
                     required
                   />
-                  <span 
+                  <span
                     className="absolute right-3 top-9 cursor-pointer text-gray-500"
                     onClick={handleToggleConfirmPassword}
                   >
@@ -90,7 +101,7 @@ const ResetPassword = () => {
 
                 <button
                   type="submit"
-                  className="bg-blue-500 text-white p-2 rounded text-center transition duration-300 ease-in-out hover:bg-blue-700 mt-2"
+                  className=" border-2 border-gray-600 py-2 link  px-5 mt-2 mb-4 rounded"
                 >
                   Reset Password
                 </button>
@@ -102,7 +113,7 @@ const ResetPassword = () => {
               <p className="text-lg font-semibold text-gray-700">
                 Your password has been successfully changed!
               </p>
-              <Link to="/" className="text-blue-500 mt-4">
+              <Link to="/" className="text-black border-2 border-gray-600 py-2 link  px-5 mt-2 mb-4 rounded no-underline ">
                 Go to Login
               </Link>
             </div>

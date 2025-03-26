@@ -59,7 +59,7 @@ const Login = () => {
   return (
     <Layout>
       <div className="flex items-center justify-center min-h-screen">
-        <div className="lg:w-1/4 border border-slate-500 rounded-xl p-6 shadow-lg">
+        <div className="lg:w-1/4 border border-slate-500 rounded-xl p-6 shadow-lg text-xs sm:text-base">
           <h1 className="text-center text-lg font-bold">Admin Login</h1>
           <form onSubmit={handleSubmit} className="flex flex-col gap-3">
             <div className="flex flex-col">
@@ -69,7 +69,7 @@ const Login = () => {
                 name="email"
                 value={formData.email}
                 onChange={handleChange}
-                className="border p-2 rounded"
+                className="border p-2 rounded col-span-2 focus:ring-2 focus:ring-gray-400 focus:outline-none transition"
                 required
               />
             </div>
@@ -81,12 +81,12 @@ const Login = () => {
                 name="password"
                 value={formData.password}
                 onChange={handleChange}
-                className="border p-2 rounded"
+                className="border p-2 rounded col-span-2 focus:ring-2 focus:ring-gray-400 focus:outline-none transition"
                 required
               />
             </div>
 
-            <button type="submit" className="bg-blue-500 text-white p-2 border border-primary rounded no-underline text-center transition duration-300 ease-in-out hover:bg-blue-700">
+            <button type="submit" className="border-2 py-2 transition-colors duration-300 border-gray-500 hover:bg-gray-600 link active:bg-gray-700 rounded">
               Login
             </button>
 
@@ -94,10 +94,10 @@ const Login = () => {
             {error && <p className="text-red-500 text-sm">{error}</p>}
 
             <p className="text-center">
-              Not registered? <Link to="/admin/signup" className="no-underline">Register Now</Link>
+              Not registered? <Link to="/admin/signup" className="no-underline home-link">Register Now</Link>
             </p>
             <p className="text-center">
-              <Link to="/forgotpassword" className="no-underline">Forgot Password?</Link>
+              <Link to="/forgotpassword" className="no-underline  home-link">Forgot Password?</Link>
             </p>
           </form>
         </div>

@@ -86,7 +86,7 @@ const Header = () => {
             <li className="nav-item">
               <Link
                 to="/"
-                className="no-underline text-black ms-12  sm:text-[18px]   transition-colors duration-200"
+                className="no-underline text-black ms-12  sm:text-[18px]   transition-colors duration-200   home-link"
               >
                 Home
               </Link>
@@ -94,7 +94,7 @@ const Header = () => {
             <li className="nav-item">
               <Link
                 to="/gallery"
-                className="no-underline text-black ms-12 text-[14px] sm:text-[16px]"
+                className="no-underline text-black ms-12 text-[14px] sm:text-[16px] home-link"
               >
                 Gallery
               </Link>
@@ -103,7 +103,7 @@ const Header = () => {
             {/* Events Dropdown */}
             <li className="nav-item relative events-dropdown-container">
               
-              <Link className="no-underline text-black ms-12 text-[14px] sm:text-[16px] flex" onClick={() => setEventsDropdownOpen((prev) => !prev)}>
+              <Link className="no-underline text-black ms-12 text-[14px] sm:text-[16px] flex home-link" onClick={() => setEventsDropdownOpen((prev) => !prev)}>
                 Events{" "}
                 <IoIosArrowDown
                   className="mt-1.5 sm:ms-2 ml-auto "
@@ -119,7 +119,7 @@ const Header = () => {
                     <li>
                       <Link
                         to="/events/festivals"
-                        className="inline-block px-0 py-2 no-underline text-black "
+                        className="inline-block px-0 py-2 no-underline text-black home-link"
                       >
                         Festival
                       </Link>
@@ -129,7 +129,7 @@ const Header = () => {
                     <li>
                       <Link
                         to="/events/activities"
-                        className="block px-0  py-2 no-underline text-black"
+                        className="block px-0  py-2 no-underline text-black home-link"
                       >
                         Activities
                       </Link>
@@ -137,7 +137,7 @@ const Header = () => {
                     <li>
                       <Link
                         to="/events/farewell"
-                        className="block px-0  py-2 no-underline  text-black"
+                        className="block px-0  py-2 no-underline  text-black home-link"
                       >
                         Farewell
                       </Link>
@@ -145,7 +145,7 @@ const Header = () => {
                     <li>
                       <Link
                         to="/events/induction"
-                        className="block px-0  py-2 no-underline  text-black"
+                        className="block px-0  py-2 no-underline  text-black home-link"
                       >
                         Induction
                       </Link>
@@ -158,7 +158,7 @@ const Header = () => {
             <li className="nav-item">
               <Link
                 to="/cloth-donations"
-                className="no-underline text-black ms-12 text-[14px] sm:text-[16px]"
+                className="no-underline text-black ms-12 text-[14px] sm:text-[16px] home-link"
               >
                 Donation Drive
               </Link>
@@ -166,7 +166,7 @@ const Header = () => {
 
             {/* About Us Dropdown */}
             <li className="nav-item relative about-dropdown-container">
-              <Link className="no-underline flex text-black ms-12 text-[14px] sm:text-[16px]"   onClick={() => setAboutDropdownOpen((prev) => !prev)}>
+              <Link className="no-underline flex text-black ms-12 text-[14px] sm:text-[16px] home-link"   onClick={() => setAboutDropdownOpen((prev) => !prev)}>
                 About Us{" "}
                 <IoIosArrowDown
                   className="mt-1.5  ml-auto sm:ms-2"
@@ -179,7 +179,7 @@ const Header = () => {
                     <li>
                       <Link
                         to="/about"
-                        className="block  px-0  py-2 no-underline text-black"
+                        className="block  px-0  py-2 no-underline text-black home-link"
                       >
                         About
                       </Link>
@@ -187,7 +187,7 @@ const Header = () => {
                     <li>
                       <Link
                         to="/about/students"
-                        className="block px-0  py-2 no-underline text-black"
+                        className="block px-0  py-2 no-underline text-black home-link"
                       >
                         Students
                       </Link>
@@ -195,7 +195,7 @@ const Header = () => {
                     <li>
                       <Link
                         to="/about/alumni"
-                        className="block px-0 py-2 no-underline text-black"
+                        className="block px-0 py-2 no-underline text-black home-link"
                       >
                         Alumni
                       </Link>
@@ -203,7 +203,7 @@ const Header = () => {
                     <li>
                       <Link
                         to="/about/volunteers"
-                        className="block px-0  py-2 no-underline  text-black"
+                        className="block px-0  py-2 no-underline  text-black home-link"
                       >
                         Volunteers
                       </Link>
@@ -246,7 +246,7 @@ const Header = () => {
                       <li>
                         <Link
                           to="/admin/dashboard"
-                          className="block px-0  py-2 no-underline text-black"
+                          className="block px-0  py-2 no-underline text-black home-link"
                         >
                           Admin Dashboard
                         </Link>
@@ -254,7 +254,7 @@ const Header = () => {
                       <li>
                         <Link
                           to="/admin/profile"
-                          className="block px-0  py-2 no-underline text-black"
+                          className="block px-0  py-2 no-underline text-black home-link"
                         >
                           View Profile
                         </Link>
@@ -262,7 +262,7 @@ const Header = () => {
                       <li>
                         <button
                           onClick={handleLogout}
-                          className="block w-full text-left px-0  py-2 text-red-600 "
+                          className="block w-full text-left px-0  py-2 text-red-600 home-link "
                         >
                           Logout
                         </button>
@@ -272,7 +272,7 @@ const Header = () => {
                     <li>
                       <Link
                         to="/admin/login"
-                        className="block px-0 py-2 no-underline text-black"
+                        className="block px-0 py-2 no-underline text-black home-link"
                       >
                         Log In
                       </Link>

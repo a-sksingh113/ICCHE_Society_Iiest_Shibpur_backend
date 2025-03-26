@@ -19,11 +19,14 @@ const AdminProfile = () => {
           return;
         }
 
-        const response = await axios.get("http://localhost:8000/api/admin/profile", {
-          headers: { Authorization: `Bearer ${token}` },
-        });
+        const response = await axios.get(
+          "http://localhost:8000/api/admin/profile",
+          {
+            headers: { Authorization: `Bearer ${token}` },
+          }
+        );
 
-        console.log("API Response:", response.data);  
+        console.log("API Response:", response.data);
         if (response.data.success) {
           setAdmin(response.data.admin); // Fix: Accessing 'admin' properly
         } else {
@@ -31,7 +34,7 @@ const AdminProfile = () => {
         }
       } catch (err) {
         console.error("Fetch Error:", err);
-        
+
         if (err.response) {
           if (err.response.status === 404) {
             setError("Profile not found. Please contact support.");
@@ -56,30 +59,53 @@ const AdminProfile = () => {
 
   return (
     <Layout>
-      <div className="p-6">
-        <h2 className="text-2xl font-bold">Admin Profile</h2>
+      <div className="flex justify-center items-center min-h-screen bg-gray-200 p-6">
+        <div className="bg-white shadow-lg rounded-2xl p-6 text-center w-full max-w-lg relative">
+          {/* Profile Image */}
+          {admin?.profileImageURL && (
+            <div className="absolute -top-12 left-1/2 transform -translate-x-1/2">
+              <img
+                src={admin.profileImageURL}
+                alt="Profile"
+                className="w-24 h-24 md:w-32 md:h-32 rounded-full border-4 border-white shadow"
+              />
+            </div>
+          )}
 
-        {/* Profile Image */}
-        {admin?.profileImageURL && (
-          <img
-            src={admin.profileImageURL}
-            alt="Profile"
-            className="w-32 h-32 rounded-full mb-4"
-          />
-        )}
+          {/* Profile Content */}
+          <div className="mt-14">
+            <h2 className="text-2xl font-bold">{admin?.fullName || "N/A"}</h2>
+            <p className="text-gray-500">{admin?.email || "N/A"}</p>
+            <div className="w-4/6 text-start mx-auto flex flex-col items-center p-2">
+              <p className="text-gray-600">
+                <div className="mb-2">
+                  <strong className="me-2">Role:</strong> {admin?.role || "N/A"}
+                </div>
+                <div className="mb-2">
+                  <strong className="me-2">Contact:</strong>{" "}
+                  {admin?.contactNumber || "N/A"}
+                </div>
+                <div className="mb-2">
+                  <strong className="me-2">Gender:</strong>{" "}
+                  {admin?.gender || "N/A"}
+                </div>
+                <div className="mb-2">
+                  <strong className="me-2">Unique ID:</strong>{" "}
+                  {admin?.uniqueId || "N/A"}
+                </div>
+              </p>
+            </div>
 
-        <p><strong>Name:</strong> {admin?.fullName || "N/A"}</p>
-        <p><strong>Email:</strong> {admin?.email || "N/A"}</p>
-        <p><strong>Role:</strong> {admin?.role || "N/A"}</p>
-        <p><strong>Contact:</strong> {admin?.contactNumber || "N/A"}</p>
-        <p><strong>Gender:</strong> {admin?.gender || "N/A"}</p>
-        <p><strong>Unique ID:</strong> {admin?.uniqueId || "N/A"}</p>
-
-        {/* Edit Profile Button */}
-        <div className="mt-4">
-          <Link to="/edit-profile" className="text-blue-500 hover:underline">
-            Edit Profile
-          </Link>
+            {/* Edit Profile Button */}
+            <div className="mt-3 mb-4">
+              <Link
+                to="/edit-profile"
+                className="bg-gray-300 hover:bg-gray-400 text-black no-underline font-bold py-3 px-8 rounded-3xl link transition duration-300"
+              >
+                Edit Profile
+              </Link>
+            </div>
+          </div>
         </div>
       </div>
     </Layout>
