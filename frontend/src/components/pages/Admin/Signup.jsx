@@ -81,8 +81,8 @@ const Signup = () => {
 
   return (
     <Layout>
-      <div className="flex items-center justify-center min-h-screen">
-        <div className="lg:w-1/3 sm:w-[400px] border border-slate-500 rounded-xl p-6 shadow-lg">
+      <div className="flex items-center justify-center min-h-screen overflow-auto px-3 text-xs sm:text-base">
+        <div className="lg:w-1/3 sm:w-[400px] border border-slate-500 rounded-xl p-6 shadow-lg mt-7 mb-7 ">
           <h1 className="text-center">Admin Signup</h1>
           <form onSubmit={handleSubmit}>
             {/* Basic Information Fields */}
@@ -90,7 +90,7 @@ const Signup = () => {
               <label className="form-label">
                 Full Name <span style={{ color: "red" }}>*</span>
               </label>
-              <input type="text" name="fullName" className="form-control" required value={formData.fullName} onChange={handleChange} />
+              <input type="text" name="fullName" className="form-control " required value={formData.fullName} onChange={handleChange} />
             </div>
             <div>
               <label className="form-label">
@@ -195,12 +195,12 @@ const Signup = () => {
               </>
             )}
 
-            <button type="submit" className="btn btn-outline-primary w-full mt-4" disabled={loading}>
+            <button type="submit" className=" border-2 border-gray-600 py-2 link w-full mt-4 rounded" disabled={loading}>
               {loading ? "Signing Up..." : "Signup"}
             </button>
 
             <p className="text-center mt-3">
-              Already registered? <Link to="/admin/login">Login</Link>
+              Already registered? <Link to="/admin/login" className='no-underline ms-2 home-link '>Login</Link>
             </p>
           </form>
         </div>

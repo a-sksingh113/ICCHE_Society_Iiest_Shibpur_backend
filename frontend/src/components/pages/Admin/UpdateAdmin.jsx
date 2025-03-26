@@ -41,24 +41,68 @@ const UpdateAdmin = ({ adminId }) => {
 
   return (
     <Layout>
-  
-    <div>
-      <h2>Update Profile</h2>
-      <input type="text" name="contactNumber" value={adminData.contactNumber} onChange={handleChange} placeholder="Contact Number" />
-      <input type="text" name="year" value={adminData.year} onChange={handleChange} placeholder="Year (For Volunteers)" />
-      <input type="text" name="department" value={adminData.department} onChange={handleChange} placeholder="Department" />
-      <select name="residenceType" value={adminData.residenceType} onChange={handleChange}>
-        <option value="">Select Residence Type</option>
-        <option value="Hostel">Hostel</option>
-        <option value="Hall">Hall</option>
-        <option value="Day Scholar">Day Scholar</option>
-      </select>
-      {adminData.residenceType === "Hostel" && <input type="text" name="hostelName" value={adminData.hostelName} onChange={handleChange} placeholder="Hostel Name" />}
-      {adminData.residenceType === "Hall" && <input type="text" name="hallName" value={adminData.hallName} onChange={handleChange} placeholder="Hall Name" />}
-      {adminData.residenceType === "Day Scholar" && <input type="text" name="address" value={adminData.address} onChange={handleChange} placeholder="Address" />}
-      <button onClick={handleUpdate}>Update Profile</button>
-    </div>
-          
+      <div>
+        <h2>Update Profile</h2>
+        <input
+          type="text"
+          name="contactNumber"
+          value={adminData.contactNumber}
+          onChange={handleChange}
+          placeholder="Contact Number"
+        />
+        <input
+          type="text"
+          name="year"
+          value={adminData.year}
+          onChange={handleChange}
+          placeholder="Year (For Volunteers)"
+        />
+        <input
+          type="text"
+          name="department"
+          value={adminData.department}
+          onChange={handleChange}
+          placeholder="Department"
+        />
+        <select
+          name="residenceType"
+          value={adminData.residenceType}
+          onChange={handleChange}
+        >
+          <option value="">Select Residence Type</option>
+          <option value="Hostel">Hostel</option>
+          <option value="Hall">Hall</option>
+          <option value="Day Scholar">Day Scholar</option>
+        </select>
+        {adminData.residenceType === "Hostel" && (
+          <input
+            type="text"
+            name="hostelName"
+            value={adminData.hostelName}
+            onChange={handleChange}
+            placeholder="Hostel Name"
+          />
+        )}
+        {adminData.residenceType === "Hall" && (
+          <input
+            type="text"
+            name="hallName"
+            value={adminData.hallName}
+            onChange={handleChange}
+            placeholder="Hall Name"
+          />
+        )}
+        {adminData.residenceType === "Day Scholar" && (
+          <input
+            type="text"
+            name="address"
+            value={adminData.address}
+            onChange={handleChange}
+            placeholder="Address"
+          />
+        )}
+        <button onClick={handleUpdate}>Update Profile</button>
+      </div>
     </Layout>
   );
 };

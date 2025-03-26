@@ -8,6 +8,13 @@
     text-decoration: none !important; 
   }
   
-  .no-underline:hover{
+  .home-link:hover {
     color: rgb(255, 3, 8) !important;
-  }
+}
+
+.link:hover {
+  color: white !important;
+  background-color: rgb(76, 76, 76);
+  transition-duration: .7s ;
+}
+

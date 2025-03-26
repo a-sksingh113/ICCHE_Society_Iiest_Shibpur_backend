@@ -82,7 +82,7 @@ const ForgotPassword = () => {
 
   return (
     <Layout>
-      <div className="flex items-center justify-center min-h-screen">
+      <div className="flex items-center justify-center min-h-screen text-xs sm:text-base">
         <div className="lg:w-1/4 border border-slate-500 rounded-xl p-6 shadow-lg w-[250px] text-center">
           {!isSubmitted ? (
             <>
@@ -104,7 +104,7 @@ const ForgotPassword = () => {
                 </div>
                 <button
                   type="submit"
-                  className="bg-blue-500 text-white p-2 rounded text-center transition duration-300 ease-in-out hover:bg-blue-700"
+                  className="border-2 border-gray-600 py-2 link rounded"
                 >
                   Send
                 </button>
@@ -121,7 +121,7 @@ const ForgotPassword = () => {
               <button
                 onClick={handleResend}
                 disabled={timer > 0}
-                className={`mt-4 bg-blue-500 text-white p-2 rounded transition ${
+                className={`link border-2 border-gray-600 py-2 px-5 rounded ${
                   timer > 0 ? "opacity-50 cursor-not-allowed" : "hover:bg-blue-700"
                 }`}
               >
