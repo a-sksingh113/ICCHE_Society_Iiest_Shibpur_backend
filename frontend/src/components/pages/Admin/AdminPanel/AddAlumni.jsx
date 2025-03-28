@@ -74,6 +74,7 @@ const AddAlumni = () => {
       });
       setCoverImageURL(null);
     } catch (error) {
+      console.log(error)
       toast.update(loadingToast, {
         render: error.response?.data?.message || "Failed to add alumni!",
         type: "error",

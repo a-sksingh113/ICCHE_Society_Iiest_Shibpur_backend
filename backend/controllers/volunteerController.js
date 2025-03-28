@@ -14,7 +14,8 @@ const handleAddVolunteer = async (req, res) => {
       hallName,
       address,
     } = req.body;
-    const coverImageURL = req.files["coverImageURL"] ? req.files["coverImageURL"][0].path : "/uploads/default.png";
+    // const coverImageURL = req.files["coverImageURL"] ? req.files["coverImageURL"][0].path : "/uploads/default.png";
+    const coverImageURL = req.file ? req.file.path : "/uploads/default.png";
     // Ensure required fields are provided
     if (
       !fullName ||
