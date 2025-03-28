@@ -4,7 +4,7 @@ const Program  = require('../models/activitiesProgramModel');
 const handleAddActivities = async (req, res) => {
     try {
       const { title, description, activityType, date, chiefGuest, venue, studentsPresent, volunteersPresent } = req.body;
-      const coverImageURL = req.files["coverImageURL"] ? req.files["coverImageURL"][0].path : "/uploads/default.png";
+      const coverImageURL = req.file ? req.file.path : "/uploads/default.png";
       const photos = req.files?.photos?.map(file => file.path) || [];
       const videos = req.files?.videos?.map(file => file.path) || [];
   
