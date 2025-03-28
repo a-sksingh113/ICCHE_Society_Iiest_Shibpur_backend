@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import axios from "axios";
 import { toast, ToastContainer, Slide } from "react-toastify";
-import Layout from "../../layout/Layout";
+import Layout from "../../../layout/Layout";
 import "react-toastify/dist/ReactToastify.css";
 
 const AddVolunteer = () => {
@@ -96,8 +96,8 @@ const AddVolunteer = () => {
     <Layout>
       <ToastContainer position="top-right" autoClose={3000} transition={Slide} />
 
-      <div className="max-w-3xl mx-auto p-6 bg-white rounded-lg shadow-lg">
-        <h2 className="text-2xl font-semibold text-gray-700 mb-6">
+      <div className="w-[90%] max-w-xl mx-auto p-6  bg-white rounded-lg shadow-lg mt-7 text-xs sm:text-base ">
+        <h2 className="text-xl sm:text-2xl font-semibold text-gray-700 mb-6 text-center">
           Add Volunteer
         </h2>
 
@@ -109,7 +109,7 @@ const AddVolunteer = () => {
             placeholder="Full Name"
             value={formData.fullName}
             onChange={handleChange}
-            className="border p-2 rounded focus:ring-2 focus:ring-blue-400 focus:outline-none transition"
+            className="border p-2 rounded focus:ring-2 focus:ring-gray-400 focus:outline-none transition "
             required
           />
 
@@ -120,7 +120,7 @@ const AddVolunteer = () => {
             placeholder="Email"
             value={formData.email}
             onChange={handleChange}
-            className="border p-2 rounded focus:ring-2 focus:ring-blue-400 focus:outline-none transition"
+            className="border p-2 rounded focus:ring-2 focus:ring-gray-400 focus:outline-none transition text-xs sm:text-sm"
             required
           />
 
@@ -131,7 +131,7 @@ const AddVolunteer = () => {
             placeholder="Contact Number"
             value={formData.contactNumber}
             onChange={handleChange}
-            className="border p-2 rounded focus:ring-2 focus:ring-blue-400 focus:outline-none transition"
+            className="border p-2 rounded focus:ring-2 focus:ring-gray-400 focus:outline-none transition text-xs sm:text-sm"
             required
           />
 
@@ -142,7 +142,7 @@ const AddVolunteer = () => {
             placeholder="Enrollment No"
             value={formData.enrollmentNo}
             onChange={handleChange}
-            className="border p-2 rounded focus:ring-2 focus:ring-blue-400 focus:outline-none transition"
+            className="border p-2 rounded focus:ring-2 focus:ring-gray-400 focus:outline-none transition text-xs sm:text-sm"
             required
           />
 
@@ -151,7 +151,7 @@ const AddVolunteer = () => {
             name="gender"
             value={formData.gender}
             onChange={handleChange}
-            className="border p-2 rounded focus:ring-2 focus:ring-blue-400 focus:outline-none transition"
+            className="border p-2 rounded focus:ring-2 focus:ring-gray-400 focus:outline-none transition text-xs sm:text-sm"
             required
           >
             <option value="">Select Gender</option>
@@ -167,7 +167,7 @@ const AddVolunteer = () => {
             placeholder="Year"
             value={formData.year}
             onChange={handleChange}
-            className="border p-2 rounded focus:ring-2 focus:ring-blue-400 focus:outline-none transition"
+            className="border p-2 rounded focus:ring-2 focus:ring-gray-400 focus:outline-none transition text-xs sm:text-sm"
             required
           />
 
@@ -178,7 +178,7 @@ const AddVolunteer = () => {
             placeholder="Department"
             value={formData.department}
             onChange={handleChange}
-            className="border p-2 rounded focus:ring-2 focus:ring-blue-400 focus:outline-none transition"
+            className="border p-2 rounded focus:ring-2 focus:ring-gray-400 focus:outline-none transition text-xs sm:text-sm"
             required
           />
 
@@ -187,7 +187,7 @@ const AddVolunteer = () => {
             name="residenceType"
             value={formData.residenceType}
             onChange={handleChange}
-            className="border p-2 rounded focus:ring-2 focus:ring-blue-400 focus:outline-none transition"
+            className="border p-2 rounded focus:ring-2 focus:ring-gray-400 focus:outline-none transition text-xs sm:text-sm"
             required
           >
             <option value="">Select Residence Type</option>
@@ -204,7 +204,7 @@ const AddVolunteer = () => {
               placeholder="Hostel Name"
               value={formData.hostelName}
               onChange={handleChange}
-              className="border p-2 rounded focus:ring-2 focus:ring-blue-400 focus:outline-none transition"
+              className="border p-2 rounded focus:ring-2 focus:ring-gray-400 focus:outline-none transition text-xs sm:text-sm"
               required
             />
           )}
@@ -216,7 +216,7 @@ const AddVolunteer = () => {
               placeholder="Hall Name"
               value={formData.hallName}
               onChange={handleChange}
-              className="border p-2 rounded focus:ring-2 focus:ring-blue-400 focus:outline-none transition"
+              className="border p-2 rounded focus:ring-2 focus:ring-gray-400 focus:outline-none transition text-xs sm:text-sm"
               required
             />
           )}
@@ -228,7 +228,7 @@ const AddVolunteer = () => {
               placeholder="Address"
               value={formData.address}
               onChange={handleChange}
-              className="border p-2 rounded focus:ring-2 focus:ring-blue-400 focus:outline-none transition"
+              className="border p-2 rounded focus:ring-2 focus:ring-gray-400 focus:outline-none transition text-xs sm:text-sm"
               required
             />
           )}
@@ -238,7 +238,7 @@ const AddVolunteer = () => {
             type="file"
             accept="image/*"
             onChange={handleFileChange}
-            className="border p-2 rounded col-span-2 focus:ring-2 focus:ring-blue-400 focus:outline-none transition"
+            className="border p-2 rounded col-span-2 focus:ring-2 focus:ring-gray-400 focus:outline-none transition text-xs sm:text-sm"
             required
           />
 
@@ -246,7 +246,7 @@ const AddVolunteer = () => {
           <div className="col-span-2 flex justify-center">
             <button
               type="submit"
-              className="bg-blue-500 text-white font-semibold px-6 py-2 rounded-lg shadow-md hover:bg-blue-600 transition"
+              className=" border-2 border-gray-600 py-2 link  px-5 mt-0 rounded"
             >
               Add Volunteer
             </button>

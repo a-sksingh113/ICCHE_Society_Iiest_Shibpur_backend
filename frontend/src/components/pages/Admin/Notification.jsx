@@ -32,7 +32,7 @@ const Notification = () => {
 
   return (
     <Layout>
-      <div className="max-w-5xl mx-auto mt-10 p-6 bg-white shadow-md rounded-lg">
+      <div className="max-w-5xl mx-auto mt-10 p-6 bg-white shadow-md rounded-lg text-xs sm:text-base">
         <h2 className="text-2xl font-semibold text-center mb-6">Notifications</h2>
 
         {loading && <p className="text-center">Loading...</p>}

@@ -69,10 +69,10 @@ const Home = () => {
           )}
         </div>
       </div>
-
+<hr/>
     
-      <Hero/>
-      <Hero2/>
+      <Hero/><hr/>
+      <Hero2/><hr/>
       <Hero3/>
     </Layout>
   );

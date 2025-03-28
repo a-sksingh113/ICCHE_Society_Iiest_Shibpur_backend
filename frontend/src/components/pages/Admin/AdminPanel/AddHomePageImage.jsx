@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import axios from "axios";
 import { toast, ToastContainer, Slide } from "react-toastify";
-import Layout from "../../layout/Layout";
+import Layout from "../../../layout/Layout";
 import "react-toastify/dist/ReactToastify.css";
 
 const AddHomePageImage = () => {
@@ -27,12 +27,16 @@ const AddHomePageImage = () => {
     if (imageFile) formDataToSend.append("image", imageFile);
 
     try {
-      await axios.post("http://localhost:8000/api/admin/dashboard/add-homePageImage", formDataToSend, {
-        headers: {
+      await axios.post(
+        "http://localhost:8000/api/admin/dashboard/add-homePageImage",
+        formDataToSend,
+        {
+          headers: {
             Authorization: `Bearer ${localStorage.getItem("token")}`,
-          "Content-Type": "multipart/form-data",
-        },
-      });
+            "Content-Type": "multipart/form-data",
+          },
+        }
+      );
 
       toast.update(loadingToast, {
         render: "Image added successfully!",
@@ -54,35 +58,47 @@ const AddHomePageImage = () => {
       });
     }
   };
+  
 
   return (
     <Layout>
-      <ToastContainer position="top-right" autoClose={3000} transition={Slide} />
-      <div className="max-w-xl mx-auto p-6 bg-white rounded-lg shadow-lg">
-        <h2 className="text-2xl font-semibold text-gray-700 mb-6">Add Home Page Image</h2>
+      <ToastContainer
+        position="top-right"
+        autoClose={3000}
+        transition={Slide}
+      />
+      <div className="w-[90%] max-w-sm mx-auto p-6 min-w-2xs bg-white rounded-lg shadow-lg  text-xs sm:text-base mt-20 flex flex-col items-center justify-center ">
+        <h2 className="text-2xl text-center font-semibold text-gray-700 mb-6">
+          Add Home Page Image
+        </h2>
         <form onSubmit={handleSubmit} className="space-y-4">
-          <input
-            type="text"
-            name="title"
-            placeholder="Image Title"
-            value={formData.title}
-            onChange={handleChange}
-            className="border p-2 rounded w-full"
-            required
-          />
+          <div className="mt-10">
+            <input
+              type="text"
+              name="title"
+              placeholder="Image Title"
+              value={formData.title}
+              onChange={handleChange}
+              className="border p-2 rounded focus:ring-2 focus:ring-gray-400 focus:outline-none transition  w-full"
+              required
+            />
+          </div>
+
           <input
             type="file"
             accept="image/*"
             onChange={handleFileChange}
-            className="border p-2 rounded w-full"
+            className="border p-2 rounded focus:ring-2 focus:ring-gray-400 focus:outline-none transition   w-full"
             required
           />
-          <button
-            type="submit"
-            className="bg-blue-500 text-white font-semibold px-6 py-2 rounded-lg shadow-md hover:bg-blue-600 transition w-full"
-          >
-            Upload Image
-          </button>
+          <div className='mt-7'>
+            <button
+              type="submit"
+              className="border-2 border-gray-600 py-2 link  px-5  mb-4 rounded w-full "
+            >
+              Upload Image
+            </button>
+          </div>
         </form>
       </div>
     </Layout>
