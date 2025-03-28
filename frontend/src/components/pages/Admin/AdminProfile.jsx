@@ -34,7 +34,6 @@ const AdminProfile = () => {
         }
       } catch (err) {
         console.error("Fetch Error:", err);
-
         if (err.response) {
           if (err.response.status === 404) {
             setError("Profile not found. Please contact support.");
@@ -54,63 +53,11 @@ const AdminProfile = () => {
     fetchAdminProfile();
   }, []);
 
-  if (loading) return <p style={{ color: "#f8f9fa" }}>Loading...</p>;
-  if (error) return <p style={{ color: "red" }}>{error}</p>;
+  if (loading) return <p className="text-white">Loading...</p>;
+  if (error) return <p className="text-red-500">{error}</p>;
 
   return (
     <Layout>
-<<<<<<< HEAD
-      <div
-        style={{
-          backgroundColor: "#212529",
-          color: "#f8f9fa",
-          padding: "24px",
-          borderRadius: "10px",
-          maxWidth: "600px",
-          margin: "20px auto",
-          textAlign: "center",
-        }}
-      >
-        <h2 style={{ fontSize: "24px", fontWeight: "bold" }}>Admin Profile</h2>
-
-        {/* Profile Image */}
-        {admin?.profileImageURL && (
-          <img
-            src={admin.profileImageURL}
-            alt="Profile"
-            style={{
-              width: "100px",
-              height: "100px",
-              borderRadius: "50%",
-              marginBottom: "15px",
-              border: "2px solid #f8f9fa",
-            }}
-          />
-        )}
-
-        <p><strong>Name:</strong> {admin?.fullName || "N/A"}</p>
-        <p><strong>Email:</strong> {admin?.email || "N/A"}</p>
-        <p><strong>Role:</strong> {admin?.role || "N/A"}</p>
-        <p><strong>Contact:</strong> {admin?.contactNumber || "N/A"}</p>
-        <p><strong>Gender:</strong> {admin?.gender || "N/A"}</p>
-        <p><strong>Unique ID:</strong> {admin?.uniqueId || "N/A"}</p>
-
-        {/* Edit Profile Button */}
-        <div style={{ marginTop: "16px" }}>
-          <Link
-            to="/edit-profile"
-            style={{
-              color: "#0d6efd",
-              textDecoration: "none",
-              fontWeight: "bold",
-              fontSize: "16px",
-            }}
-            onMouseOver={(e) => (e.target.style.textDecoration = "underline")}
-            onMouseOut={(e) => (e.target.style.textDecoration = "none")}
-          >
-            Edit Profile
-          </Link>
-=======
       <div className="flex justify-center items-center min-h-screen bg-gray-200 p-6">
         <div className="bg-white shadow-lg rounded-2xl p-6 text-center w-full max-w-lg relative">
           {/* Profile Image */}
@@ -129,36 +76,30 @@ const AdminProfile = () => {
             <h2 className="text-2xl font-bold">{admin?.fullName || "N/A"}</h2>
             <p className="text-gray-500">{admin?.email || "N/A"}</p>
             <div className="w-4/6 text-start mx-auto flex flex-col items-center p-2">
-              <p className="text-gray-600">
-                <div className="mb-2">
-                  <strong className="me-2">Role:</strong> {admin?.role || "N/A"}
-                </div>
-                <div className="mb-2">
-                  <strong className="me-2">Contact:</strong>{" "}
-                  {admin?.contactNumber || "N/A"}
-                </div>
-                <div className="mb-2">
-                  <strong className="me-2">Gender:</strong>{" "}
-                  {admin?.gender || "N/A"}
-                </div>
-                <div className="mb-2">
-                  <strong className="me-2">Unique ID:</strong>{" "}
-                  {admin?.uniqueId || "N/A"}
-                </div>
-              </p>
+              <div className="mb-2">
+                <strong className="me-2">Role:</strong> {admin?.role || "N/A"}
+              </div>
+              <div className="mb-2">
+                <strong className="me-2">Contact:</strong> {admin?.contactNumber || "N/A"}
+              </div>
+              <div className="mb-2">
+                <strong className="me-2">Gender:</strong> {admin?.gender || "N/A"}
+              </div>
+              <div className="mb-2">
+                <strong className="me-2">Unique ID:</strong> {admin?.uniqueId || "N/A"}
+              </div>
             </div>
 
             {/* Edit Profile Button */}
             <div className="mt-3 mb-4">
               <Link
                 to="/edit-profile"
-                className="bg-gray-300 hover:bg-gray-400 text-black no-underline font-bold py-3 px-8 rounded-3xl link transition duration-300"
+                className="bg-gray-300 hover:bg-gray-400 text-black no-underline font-bold py-3 px-8 rounded-3xl transition duration-300"
               >
                 Edit Profile
               </Link>
             </div>
           </div>
->>>>>>> 0d68c39e8e299591cd36a6ab68e421fe76233772
         </div>
       </div>
     </Layout>
