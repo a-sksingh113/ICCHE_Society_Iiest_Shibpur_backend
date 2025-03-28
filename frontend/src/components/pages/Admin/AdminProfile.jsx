@@ -23,15 +23,15 @@ const AdminProfile = () => {
           headers: { Authorization: `Bearer ${token}` },
         });
 
-        console.log("API Response:", response.data);  
+        console.log("API Response:", response.data);
         if (response.data.success) {
-          setAdmin(response.data.admin); // Fix: Accessing 'admin' properly
+          setAdmin(response.data.admin);
         } else {
           setError("Failed to load admin profile.");
         }
       } catch (err) {
         console.error("Fetch Error:", err);
-        
+
         if (err.response) {
           if (err.response.status === 404) {
             setError("Profile not found. Please contact support.");
@@ -51,20 +51,36 @@ const AdminProfile = () => {
     fetchAdminProfile();
   }, []);
 
-  if (loading) return <p>Loading...</p>;
-  if (error) return <p className="text-red-500">{error}</p>;
+  if (loading) return <p style={{ color: "#f8f9fa" }}>Loading...</p>;
+  if (error) return <p style={{ color: "red" }}>{error}</p>;
 
   return (
     <Layout>
-      <div className="p-6">
-        <h2 className="text-2xl font-bold">Admin Profile</h2>
+      <div
+        style={{
+          backgroundColor: "#212529",
+          color: "#f8f9fa",
+          padding: "24px",
+          borderRadius: "10px",
+          maxWidth: "600px",
+          margin: "20px auto",
+          textAlign: "center",
+        }}
+      >
+        <h2 style={{ fontSize: "24px", fontWeight: "bold" }}>Admin Profile</h2>
 
         {/* Profile Image */}
         {admin?.profileImageURL && (
           <img
             src={admin.profileImageURL}
             alt="Profile"
-            className="w-32 h-32 rounded-full mb-4"
+            style={{
+              width: "100px",
+              height: "100px",
+              borderRadius: "50%",
+              marginBottom: "15px",
+              border: "2px solid #f8f9fa",
+            }}
           />
         )}
 
@@ -76,8 +92,18 @@ const AdminProfile = () => {
         <p><strong>Unique ID:</strong> {admin?.uniqueId || "N/A"}</p>
 
         {/* Edit Profile Button */}
-        <div className="mt-4">
-          <Link to="/edit-profile" className="text-blue-500 hover:underline">
+        <div style={{ marginTop: "16px" }}>
+          <Link
+            to="/edit-profile"
+            style={{
+              color: "#0d6efd",
+              textDecoration: "none",
+              fontWeight: "bold",
+              fontSize: "16px",
+            }}
+            onMouseOver={(e) => (e.target.style.textDecoration = "underline")}
+            onMouseOut={(e) => (e.target.style.textDecoration = "none")}
+          >
             Edit Profile
           </Link>
         </div>
