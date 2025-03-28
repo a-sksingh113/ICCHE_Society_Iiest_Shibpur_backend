@@ -2,7 +2,7 @@ const Alumni = require("../models/alumniModel");
 const handleAddAlumni = async (req, res) => {
     try {
         const { fullName, email, contactNumber, enrollmentNo, gender, department, graduationYear, company, address } = req.body;
-        const coverImageURL = req.files["coverImageURL"] ? req.files["coverImageURL"][0].path : "/uploads/default.png";
+        const coverImageURL = req.file ? req.file.path : "/uploads/default.png";
         if (!fullName || !email || !contactNumber || !enrollmentNo || !gender || !department || !graduationYear) {
             return res.status(400).json({ message: "All required fields must be filled!" });
         }

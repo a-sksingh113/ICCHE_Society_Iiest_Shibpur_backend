@@ -137,7 +137,7 @@ const PendingApproval = () => {
                       <td className="border p-2 flex flex-col sm:flex-row items-center justify-center gap-2">
                         <button
                           onClick={() => handleApprove(approval.id)}
-                          className="border-2 border-gray-500 px-3 py-1 rounded w-full sm:w-auto"
+                          className="border-2 border-gray-500 px-3 py-1 rounded w-full sm:w-auto link"
                         >
                           Approve
                         </button>

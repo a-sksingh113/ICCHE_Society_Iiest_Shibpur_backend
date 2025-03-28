@@ -10,7 +10,14 @@ const Alumni = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
   const [isAdmin, setIsAdmin] = useState(false);
+  const [showDetails, setShowDetails] = useState({});
 
+  const toggleDetails = (id) => {
+    setShowDetails((prev) => ({
+      ...prev,
+      [id]: !prev[id], // Toggle current card's state
+    }));
+  };
   useEffect(() => {
     const token = localStorage.getItem("token");
     setIsAdmin(!!token);
@@ -61,7 +68,7 @@ const Alumni = () => {
   const deleteAlumnus = async (alumId) => {
     try {
       await axios.delete(
-        `https://icche.vercel.app/api/admin/dashboard/alumni/${alumId}`,
+        `http://localhost:8000/api/admin/dashboard/alumni/${alumId}`,
         {
           headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
         }
@@ -88,55 +95,96 @@ const Alumni = () => {
       {loading && <p className="text-center text-lg">Loading alumni data...</p>}
       {error && <p className="text-center text-red-500">{error}</p>}
 
-      <div className="container mx-auto px-4">
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-          {alumni.map((alum) => (
-            <div
-              key={alum._id}
-              className="bg-white p-5 shadow-md rounded-lg flex flex-col items-center text-center relative"
-            >
-              {isAdmin && (
-                <button
-                  onClick={() => confirmDelete(alum._id)}
-                  className="absolute top-2 right-2 text-red-500 hover:text-red-700 p-2 rounded-full"
-                >
-                  <AiOutlineDelete size={24} />
-                </button>
-              )}
+      <div className="px-4 mx-auto grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 text-xs md:text-base  ">
+        {alumni.map((alum) => (
+          <div
+            key={alum._id}
+            className="relative w-64 bg-gradient-to-b from-gray-200 to-white p-5 shadow-lg rounded-lg flex flex-col items-center text-center cursor-pointer transition-all duration-300"
+          >
+            {isAdmin && (
+              <button
+                onClick={() => confirmDelete(alum._id)}
+                className="absolute top-2 right-2 text-red-500 hover:text-red-700 p-2 rounded-full"
+              >
+                <AiOutlineDelete size={24} />
+              </button>
+            )}
 
-              <img
-                src={alum.coverImageURL || "/uploads/default.png"}
-                alt={alum.fullName}
-                className="w-24 h-24 rounded-full object-cover mb-3 border border-gray-300"
-              />
-              <h5 className="font-bold text-lg">{alum.fullName}</h5>
-              <p className="text-gray-600 text-sm">
-                <strong>Email:</strong> {alum.email}
-              </p>
-              <p className="text-gray-600 text-sm">
-                <strong>Contact:</strong> {alum.contactNumber}
-              </p>
-              <p className="text-gray-600 text-sm">
-                <strong>Enrollment No:</strong> {alum.enrollmentNo}
-              </p>
-              <p className="text-gray-600 text-sm">
-                <strong>Gender:</strong> {alum.gender}
-              </p>
-              <p className="text-gray-600 text-sm">
-                <strong>Department:</strong> {alum.department}
-              </p>
-              <p className="text-gray-600 text-sm">
-                <strong>Graduation Year:</strong> {alum.graduationYear}
-              </p>
-              <p className="text-gray-600 text-sm">
-                <strong>Company:</strong> {alum.company || "N/A"}
-              </p>
-              <p className="text-gray-600 text-sm">
-                <strong>Address:</strong> {alum.address || "N/A"}
-              </p>
-            </div>
-          ))}
-        </div>
+            <img
+              src={alum.coverImageURL || "/uploads/default.png"}
+              alt={alum.fullName}
+              className="w-24 h-24 rounded-full object-cover mb-3"
+            />
+            <h5 className="font-bold text-lg">{alum.fullName}</h5>
+
+            {/* Toggle Details Button */}
+            {!showDetails[alum._id] ? (
+              <button
+                onClick={() => toggleDetails(alum._id)}
+                className="link border-2 py-2 px-3 rounded border-gray-700"
+              >
+                View Details
+              </button>
+            ) : null}
+
+            {/* Floating Details */}
+            {showDetails[alum._id] && (
+              <div className="absolute top-0 left-1/2 transform -translate-x-1/2 w-64 shadow-xl rounded-lg transition-all duration-300 opacity-100 z-50 overflow-hidden bg-white">
+                {/* Upper Half - gray Background */}
+                <div className="bg-gray-400 h-24 flex justify-center items-center relative">
+                  <img
+                    src={alum.coverImageURL || "/uploads/default.png"}
+                    alt={alum.fullName}
+                    className="w-24 h-24 rounded-full border-4 border-white absolute top-12 object-cover "
+                  />
+                </div>
+
+                {/* Lower Half - White Background */}
+                <div className="pt-12 pb-4 px-4 text-center bg-white">
+                  <h3 className="text-gray-700 text-lg font-bold">
+                    {alum.fullName}
+                  </h3>
+                  <div className="text-start mt-2 text-gray-600 text-sm">
+                    <p className="text-gray-600 text-sm">
+                      <strong>Email:</strong> {alum.email}
+                    </p>
+                    <p className="text-gray-600 text-sm">
+                      <strong>Contact:</strong> {alum.contactNumber}
+                    </p>
+                    <p>
+                      <strong>Enrollment ID:</strong> {alum.enrollmentNo}
+                    </p>
+                    <p>
+                      <strong>Gender:</strong>
+                      {alum.gender}
+                    </p>
+
+                    <p className="text-gray-600 text-sm">
+                      <strong>Department:</strong> {alum.department}
+                    </p>
+                    <p className="text-gray-600 text-sm">
+                      <strong>Graduation Year:</strong> {alum.graduationYear}
+                    </p>
+                    <p className="text-gray-600 text-sm">
+                      <strong>Company:</strong> {alum.company || "N/A"}
+                    </p>
+                    <p className="text-gray-600 text-sm">
+                      <strong>Address:</strong> {alum.address || "N/A"}
+                    </p>
+                  </div>
+
+                  {/* Hide Details Button */}
+                  <button
+                    onClick={() => toggleDetails(alum._id)}
+                    className="mt-4 px-3 py-2 rounded bg-gray-500 text-white hover:bg-gray-800 transition-colors duration-300"
+                  >
+                    Hide Details
+                  </button>
+                </div>
+              </div>
+            )}
+          </div>
+        ))}
       </div>
     </Layout>
   );

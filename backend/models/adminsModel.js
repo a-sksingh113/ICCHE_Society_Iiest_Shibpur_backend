@@ -11,7 +11,6 @@ const adminSchema = new mongoose.Schema(
       required: true,
       unique: true,
       trim: true,
-
     },
     password: {
       type: String,
@@ -24,14 +23,14 @@ const adminSchema = new mongoose.Schema(
     },
     profileImageURL: {
       type: String,
-      default: "/uploads/default.png", 
+      default: "/uploads/default.png",
       validate: {
-          validator: function (value) {
-              return value.startsWith("http") || value.startsWith("/uploads/"); 
-          },
-          message: "Profile image must be a valid image URL"
-      }
-  },
+        validator: function (value) {
+          return value.startsWith("http") || value.startsWith("/uploads/");
+        },
+        message: "Profile image must be a valid image URL",
+      },
+    },
     salt: {
       type: String,
     },
@@ -52,7 +51,8 @@ const adminSchema = new mongoose.Schema(
     oldPasswords: { type: [String], default: [] },
     uniqueId: {
       type: String,
-      required: true
+      required: true,
+      unique:true,
     },
     year: {
       type: Number,
@@ -103,7 +103,6 @@ const adminSchema = new mongoose.Schema(
 
 // Pre-save validation to check for missing fields based on role
 adminSchema.pre("save", function (next) {
- 
   try {
     if (this.role === "PIC") {
       // PIC should not have volunteer-specific fields
@@ -114,10 +113,14 @@ adminSchema.pre("save", function (next) {
       this.hallName = undefined;
       this.address = undefined;
     }
-  
+
     if (this.role === "Volunteer") {
       if (!this.year || !this.department || !this.residenceType) {
-        return next(new Error("Year, Department, and Residence Type are required for Volunteers."));
+        return next(
+          new Error(
+            "Year, Department, and Residence Type are required for Volunteers."
+          )
+        );
       }
       if (this.residenceType === "Hostel" && !this.hostelName) {
         return next(new Error("Hostel name is required for Hostel residents."));
@@ -134,8 +137,5 @@ adminSchema.pre("save", function (next) {
     next(error);
   }
 });
-
-
-
 
 module.exports = mongoose.model("Admin", adminSchema);
