@@ -93,90 +93,124 @@ const Volunteers = () => {
 
   return (
     <Layout>
-      <ToastContainer position="top-right" autoClose={3000} />
-      <h1 className="text-center my-6 text-2xl font-bold">Our Volunteers</h1>
+      <div className="container mx-auto px-1">
+        <ToastContainer position="top-right" autoClose={3000} />
+        <h1 className="text-center my-6 text-2xl font-bold">Our Volunteers</h1>
 
-      {loading && <p className="text-center text-lg">Loading volunteers...</p>}
-      {error && <p className="text-center text-red-500">{error}</p>}
+        {loading && (
+          <p className="text-center text-lg">Loading volunteers...</p>
+        )}
+        {error && <p className="text-center text-red-500">{error}</p>}
 
-      
-      <div className="px-4 mx-auto grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 text-xs md:text-base  ">
-        {volunteers.map((volunteer) => (
-          <div
-            key={volunteer._id}
-            className="relative w-64 bg-gradient-to-b from-gray-200 to-white p-5 shadow-lg rounded-lg flex flex-col items-center text-center cursor-pointer transition-all duration-300
+        <div className="px-4 mx-auto grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 text-xs md:text-base  ">
+          {volunteers.map((volunteer) => (
+            <div
+              key={volunteer._id}
+              className="relative w-64 bg-gradient-to-b from-gray-200 to-white p-5 shadow-lg rounded-lg flex flex-col items-center text-center cursor-pointer transition-all duration-300
                  "
-          >
-            {isAdmin && (
-              <button
-                onClick={(e) => {
-                  e.stopPropagation();
-                  confirmDelete(volunteer._id);
-                }}
-                className="absolute top-2 right-2 text-red-500 hover:text-red-700 p-2 rounded-full "
-              >
-                <AiOutlineDelete size={24} />
-              </button>
-            )}
-            <img
-              src={volunteer.coverImageURL || "/uploads/default.png"}
-              alt={volunteer.fullName}
-              className="w-24 h-24 rounded-full object-cover mb-3 "
-            />
-            <h5 className="font-bold text-lg">{volunteer.fullName}</h5>
+            >
+              {isAdmin && (
+                <button
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    confirmDelete(volunteer._id);
+                  }}
+                  className="absolute top-2 right-2 text-red-500 hover:text-red-700 p-2 rounded-full "
+                >
+                  <AiOutlineDelete size={24} />
+                </button>
+              )}
+              <img
+                src={volunteer.coverImageURL || "/uploads/default.png"}
+                alt={volunteer.fullName}
+                className="w-24 h-24 rounded-full object-cover mb-3 "
+              />
+              <h5 className="font-bold text-lg">{volunteer.fullName}</h5>
 
-            {/* Toggle Details Button */}
-            {!showDetails[volunteer._id] ? (
-              <button
-                onClick={() => toggleDetails(volunteer._id)}
-                className="link border-2 py-2 px-3 rounded border-gray-700"
-              >
-                View Details
-              </button>
-            ) : null}
-
-            {/* Floating Details */}
-            {showDetails[volunteer._id] && (
-              <div className="absolute top-0 left-1/2 transform -translate-x-1/2 w-64 shadow-xl rounded-lg transition-all duration-300 opacity-100 z-50 overflow-hidden bg-white">
-  
-              {/* Upper Half - gray Background */}
-              <div className="bg-gray-400 h-24 flex justify-center items-center relative">
-                <img
-                  src={volunteer.coverImageURL || "/uploads/default.png"}
-                  alt={volunteer.fullName}
-                  className="w-24 h-24 rounded-full border-4 border-white absolute top-12 object-cover "
-                />
-              </div>
-            
-              {/* Lower Half - White Background */}
-              <div className="pt-12 pb-4 px-4 text-center bg-white">
-                <h3 className="text-gray-700 text-lg font-bold">{volunteer.fullName}</h3>
-                <div className="text-start mt-2 text-gray-600 text-sm">
-                  <p><strong>Email:</strong> {volunteer.email}</p>
-                  <p> <strong>Contact:</strong>{volunteer.contactNumber}</p>
-                  <p><strong>Enrollment No:</strong> {volunteer.enrollmentNo}</p>
-                  <p> <strong>Gender:</strong>{volunteer.gender}</p>
-                  <p><strong>Year: </strong>{volunteer.year}</p>
-                  <p><strong>Department:</strong> {volunteer.department}</p>
-                  <p><strong>Residence:</strong> {volunteer.residenceType}</p>
-                  {volunteer.residenceType === "Hostel" && <p><strong>Hostel: </strong> {volunteer.hostelName}</p>}
-                  {volunteer.residenceType === "Hall" && <p><strong>Hall: </strong> {volunteer.hallName}</p>}
-                  {volunteer.residenceType === "Day Scholar" && <p><strong>Address: </strong> {volunteer.address}</p>}
-                </div>
-            
-                {/* Hide Details Button */}
+              {/* Toggle Details Button */}
+              {!showDetails[volunteer._id] ? (
                 <button
                   onClick={() => toggleDetails(volunteer._id)}
-                  className="mt-4 px-3 py-2 rounded bg-gray-500 text-white hover:bg-gray-800 transition-colors duration-300"
+                  className="link border-2 py-2 px-3 rounded border-gray-700"
                 >
-                  Hide Details
+                  View Details
                 </button>
-              </div>
+              ) : null}
+
+              {/* Floating Details */}
+              {showDetails[volunteer._id] && (
+                <div className="absolute top-0 left-1/2 transform -translate-x-1/2 w-64 shadow-xl rounded-lg transition-all duration-300 opacity-100 z-50 overflow-hidden bg-white">
+                  {/* Upper Half - gray Background */}
+                  <div className="bg-gray-400 h-24 flex justify-center items-center relative">
+                    <img
+                      src={volunteer.coverImageURL || "/uploads/default.png"}
+                      alt={volunteer.fullName}
+                      className="w-24 h-24 rounded-full border-4 border-white absolute top-12 object-cover "
+                    />
+                  </div>
+
+                  {/* Lower Half - White Background */}
+                  <div className="pt-12 pb-4 px-4 text-center bg-white">
+                    <h3 className="text-gray-700 text-lg font-bold">
+                      {volunteer.fullName}
+                    </h3>
+                    <div className="text-start mt-2 text-gray-600 text-sm">
+                      <p>
+                        <strong>Email:</strong> {volunteer.email}
+                      </p>
+                      <p>
+                        {" "}
+                        <strong>Contact:</strong>
+                        {volunteer.contactNumber}
+                      </p>
+                      <p>
+                        <strong>Enrollment No:</strong> {volunteer.enrollmentNo}
+                      </p>
+                      <p>
+                        {" "}
+                        <strong>Gender:</strong>
+                        {volunteer.gender}
+                      </p>
+                      <p>
+                        <strong>Year: </strong>
+                        {volunteer.year}
+                      </p>
+                      <p>
+                        <strong>Department:</strong> {volunteer.department}
+                      </p>
+                      <p>
+                        <strong>Residence:</strong> {volunteer.residenceType}
+                      </p>
+                      {volunteer.residenceType === "Hostel" && (
+                        <p>
+                          <strong>Hostel: </strong> {volunteer.hostelName}
+                        </p>
+                      )}
+                      {volunteer.residenceType === "Hall" && (
+                        <p>
+                          <strong>Hall: </strong> {volunteer.hallName}
+                        </p>
+                      )}
+                      {volunteer.residenceType === "Day Scholar" && (
+                        <p>
+                          <strong>Address: </strong> {volunteer.address}
+                        </p>
+                      )}
+                    </div>
+
+                    {/* Hide Details Button */}
+                    <button
+                      onClick={() => toggleDetails(volunteer._id)}
+                      className="mt-4 px-3 py-2 rounded bg-gray-500 text-white hover:bg-gray-800 transition-colors duration-300"
+                    >
+                      Hide Details
+                    </button>
+                  </div>
+                </div>
+              )}
             </div>
-            
-            )}
-          </div>
-        ))}
+          ))}
+        </div>
       </div>
     </Layout>
   );
