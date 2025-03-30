@@ -89,6 +89,7 @@ const Alumni = () => {
 
   return (
     <Layout>
+      <div className="container mx-auto px-1 ">
       <ToastContainer position="top-right" autoClose={3000} />
       <h2 className="text-center my-6 text-2xl font-bold">Our Alumni</h2>
 
@@ -145,30 +146,30 @@ const Alumni = () => {
                     {alum.fullName}
                   </h3>
                   <div className="text-start mt-2 text-gray-600 text-sm">
-                    <p className="text-gray-600 text-sm">
+                  <p className="break-words overflow-auto whitespace-normal" >
                       <strong>Email:</strong> {alum.email}
                     </p>
-                    <p className="text-gray-600 text-sm">
+                    <p className="break-words overflow-auto whitespace-normal" >
                       <strong>Contact:</strong> {alum.contactNumber}
                     </p>
-                    <p>
+                    <p className="break-words overflow-auto whitespace-normal" >
                       <strong>Enrollment ID:</strong> {alum.enrollmentNo}
                     </p>
-                    <p>
+                    <p className="break-words overflow-auto whitespace-normal" >
                       <strong>Gender:</strong>
                       {alum.gender}
                     </p>
 
-                    <p className="text-gray-600 text-sm">
+                    <p className="break-words overflow-auto whitespace-normal" >
                       <strong>Department:</strong> {alum.department}
                     </p>
-                    <p className="text-gray-600 text-sm">
+                    <p className="break-words overflow-auto whitespace-normal" >
                       <strong>Graduation Year:</strong> {alum.graduationYear}
                     </p>
-                    <p className="text-gray-600 text-sm">
+                    <p className="break-words overflow-auto whitespace-normal" >
                       <strong>Company:</strong> {alum.company || "N/A"}
                     </p>
-                    <p className="text-gray-600 text-sm">
+                    <p className="break-words overflow-auto whitespace-normal" >
                       <strong>Address:</strong> {alum.address || "N/A"}
                     </p>
                   </div>
@@ -186,6 +187,8 @@ const Alumni = () => {
           </div>
         ))}
       </div>
+      </div>
+     
     </Layout>
   );
 };
