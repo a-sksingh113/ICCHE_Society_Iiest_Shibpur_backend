@@ -60,7 +60,7 @@ const handleAddStudents = async (req, res) => {
 
   const getAllStudents = async (req, res) => {
     try {
-        const { fullName, uniqueId } = req.query;
+        const { fullName, uniqueId, studentClass} = req.query;
         let filter = {};
        // GET /api/students?name=Rahul
         if (fullName) {
@@ -70,6 +70,9 @@ const handleAddStudents = async (req, res) => {
         if (uniqueId) {
             filter.uniqueId = uniqueId; // Exact match
         }
+        if (studentClass) {
+          filter.studentClass = studentClass; // Exact match
+      }
         //GET /api/students?name=Rahul&uniqueId=12345
         const students = await Student.find(filter);
         res.status(200).json(students);
@@ -89,11 +92,11 @@ const handleAddStudents = async (req, res) => {
       res.status(500).json({ message: "Failed to retrieve student", error: error.message });
     }
   };
-
+ 
   module.exports = {
     handleAddStudents,
     handleUpdateStudent,
     handleDeleteStudent,
     getAllStudents,
-    getStudentById
+    getStudentById,
   }

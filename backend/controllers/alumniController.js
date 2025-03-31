@@ -73,7 +73,7 @@ const handleDeleteAlumni = async (req, res) => {
 
 const getAllAlumni = async (req, res) => {
     try {
-        const { fullName, enrollmentNo,department } = req.query;
+        const { fullName, enrollmentNo,department,graduationYear } = req.query;
         let filter = {};
        // GET /api/volunteers?name=Satish
         if (fullName) {
@@ -86,6 +86,9 @@ const getAllAlumni = async (req, res) => {
 
         if (department) {
             filter.department = department; // Exact match
+        }
+        if (graduationYear) {
+            filter.graduationYear = graduationYear; // Exact match
         }
         //GET /api/volunteers?name=Satish&enrollmentNo=2023ITB104
         const alumniList = await Alumni.find(filter);
@@ -105,4 +108,6 @@ const getAlumniById = async (req, res) => {
         res.status(500).json({ message: "Failed to fetch alumni details", error: error.message });
     }
 };
-module.exports = { handleAddAlumni, getAllAlumni, getAlumniById, handleUpdateAlumni, handleDeleteAlumni };
+
+
+module.exports = { handleAddAlumni, getAllAlumni, getAlumniById, handleUpdateAlumni, handleDeleteAlumni};
