@@ -27,8 +27,6 @@ const handleAddFresherInduction = async (req, res) => {
     try {
         const { title, description, date, venue, chiefGuest, fresherPresent, volunteerPresent } = req.body;
         const coverImageURL = req.file ? req.file.path : "/uploads/default.png";
-        const photos = req.files?.photos?.map(file => file.path) || [];
-        const videos = req.files?.videos?.map(file => file.path) || [];
         const newInduction = new FresherInduction({
             title,
             description,
@@ -38,8 +36,6 @@ const handleAddFresherInduction = async (req, res) => {
             fresherPresent,
             volunteerPresent,
             coverImageURL,
-            photos,
-            videos,
         });
 
         await newInduction.save();
@@ -56,12 +52,7 @@ const handleUpdateFresherInduction = async (req, res) => {
         if (req.files["coverImageURL"]) {
             updateData.coverImageURL = req.files["coverImageURL"][0].path;
         }
-        if (req.files["photos"]) {
-            updateData.photos = req.files["photos"].map(file => file.path);
-        }
-        if (req.files["videos"]) {
-            updateData.videos = req.files["videos"].map(file => file.path);
-        }
+
 
         const updatedInduction = await FresherInduction.findByIdAndUpdate(req.params.id, updateData, { new: true });
 

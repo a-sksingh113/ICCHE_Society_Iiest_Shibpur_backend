@@ -26,9 +26,6 @@ const handleAddFarewell = async (req, res) => {
     try {
         const { title, description, date, venue, finalYearStudentsPresent, juniorPresent } = req.body;
         const coverImageURL = req.file ? req.file.path : "/uploads/default.png";
-        const photos = req.files?.photos?.map(file => file.path) || [];
-        const videos = req.files?.videos?.map(file => file.path) || [];
-
         const newFarewell = new Farewell({
             title,
             description,
@@ -37,8 +34,6 @@ const handleAddFarewell = async (req, res) => {
             finalYearStudentsPresent,
             juniorPresent,
             coverImageURL ,
-            photos ,
-            videos, 
         });
 
         await newFarewell.save();
@@ -64,13 +59,6 @@ const handleUpdateFarewell = async (req, res) => {
         if (req.files["coverImageURL"]) {
             updateData.coverImageURL = req.files["coverImageURL"][0].path;
         }
-        if (req.files["photos"]) {
-            updateData.photos = req.files["photos"].map(file => file.path);
-        }
-        if (req.files["videos"]) {
-            updateData.videos = req.files["videos"].map(file => file.path);
-        }
-
         const updatedFarewell = await Farewell.findByIdAndUpdate(req.params.id, updateData, { new: true });
 
         if (!updatedFarewell) {

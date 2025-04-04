@@ -1123,3 +1123,5 @@
 2025-04-04 19:47:47 [INFO]: API CALL -> GET /api/homePageImage | User: Guest | IP: ::1
 2025-04-04 19:58:15 [INFO]: API CALL -> GET /api/homePageImage | User: Guest | IP: ::1
 2025-04-04 19:58:15 [INFO]: API CALL -> GET /api/homePageImage | User: Guest | IP: ::1
+2025-04-04 20:27:36 [INFO]: API CALL -> GET /api/events/activities | User: Guest | IP: ::1
+2025-04-04 20:27:36 [INFO]: API CALL -> GET /api/events/activities | User: Guest | IP: ::1

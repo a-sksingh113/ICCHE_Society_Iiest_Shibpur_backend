@@ -5,8 +5,6 @@ const handleAddActivities = async (req, res) => {
     try {
       const { title, description, activityType, date, chiefGuest, venue, studentsPresent, volunteersPresent } = req.body;
       const coverImageURL = req.file ? req.file.path : "/uploads/default.png";
-      const photos = req.files?.photos?.map(file => file.path) || [];
-      const videos = req.files?.videos?.map(file => file.path) || [];
   
       const newActivity = new Activity({
         title,
@@ -16,8 +14,6 @@ const handleAddActivities = async (req, res) => {
         chiefGuest,
         venue,
         coverImageURL,
-        photos,
-        videos,
         studentsPresent,
         volunteersPresent,
       });
@@ -34,8 +30,7 @@ const handleAddActivities = async (req, res) => {
         const { title, description, activityType, date, chiefGuest, venue, studentsPresent, volunteersPresent } = req.body;
       const updatedData = {title, description, activityType, chiefGuest, venue, studentsPresent, volunteersPresent};
       if (req.files?.coverImageURL) updatedData.coverImageURL = req.files.coverImageURL[0].path;
-      if (req.files?.photos) updatedData.photos = req.files.photos.map(file => file.path);
-      if (req.files?.videos) updatedData.videos = req.files.videos.map(file => file.path);
+     
   
       const updatedActivity = await Activity.findByIdAndUpdate(req.params.id, updatedData, { new: true });
   
