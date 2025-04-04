@@ -3,16 +3,12 @@ const handleAddFestival = async (req, res) => {
     try {
         const { title, description, venue, date, studentsPresent, volunteersPresent } = req.body;
         const coverImageURL = req.file ? req.file.path : "/uploads/default.png";
-        const photos = req.files?.photos?.map(file => file.path) || [];
-        const videos = req.files?.videos?.map(file => file.path) || [];
         const festival = new Festival({
             title,
             description,
             venue,
             date,
             coverImageURL,
-            photos,
-            videos,
             studentsPresent: studentsPresent || 0,
             volunteersPresent: volunteersPresent || 0
         });

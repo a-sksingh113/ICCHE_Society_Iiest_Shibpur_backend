@@ -87,6 +87,26 @@ const {
   handleDeletePhoto,
   handleDeleteVideos,
   handleDeleteVideo,
+  handleAddFestivalPhotos,
+  handleAddFestivalVideos,
+  handleAddInductionPhotos,
+  handleAddInductionVideos,
+  handleAddFarewellPhotos,
+  handleAddFarewellVideos,
+  handleAddDonationPhotos,
+  handleAddDonationVideos,
+  handleAddActivitiesPhotos,
+  handleAddActivitiesVideos,
+  getFestivalPhotos,
+  getFestivalVideos,
+  getActivitiesPhotos,
+  getActivitiesVideos,
+  getInductionPhotos,
+  getInductionVideos,
+  getFarewellPhotos,
+  getFarewellVideos,
+  getDonationPhotos,
+  getDonationVideos,
 } = require("../controllers/galleryController");
 const { authorizeRoles } = require("../middleware/roleMiddleware");
 const upload = require("../config/cloudinaryConfig");
@@ -332,11 +352,7 @@ router.post(
   "/dashboard/events/freshersInductions/add-freshersInduction",
   checkForAuthenticationCookie("token"),
   authorizeRoles(["PIC", "Volunteer"]),
-  upload.fields([
-    { name: "coverImageURL", maxCount: 1 },
-    { name: "photos", maxCount: 2 },
-    { name: "videos", maxCount: 2 },
-  ]),
+  upload.single("coverImageURL"),
   handleAddFresherInduction
 );
 router.put(
@@ -364,11 +380,7 @@ router.post(
   "/dashboard/events/festivals/add-festival",
   checkForAuthenticationCookie("token"),
   authorizeRoles(["PIC", "Volunteer"]),
-  upload.fields([
-    { name: "coverImageURL", maxCount: 1 }, // Single cover image
-    { name: "photos", maxCount: 2 }, // Up to 10 photos
-    { name: "videos", maxCount: 2 }, // Up to 5 videos
-  ]),
+  upload.single("coverImageURL"),
   handleAddFestival
 );
 router.put(
@@ -396,11 +408,7 @@ router.post(
   "/dashboard/events/farewells/add-farewell",
   checkForAuthenticationCookie("token"),
   authorizeRoles(["PIC", "Volunteer"]),
-  upload.fields([
-    { name: "coverImageURL", maxCount: 1 },
-    { name: "photos", maxCount: 2 },
-    { name: "videos", maxCount: 2 },
-  ]),
+  upload.single("coverImageURL"),
   handleAddFarewell
 );
 router.put(
@@ -428,11 +436,7 @@ router.post(
   "/dashboard/cloth-donations/add-cloth-donation",
   checkForAuthenticationCookie("token"),
   authorizeRoles(["PIC", "Volunteer"]),
-  upload.fields([
-    { name: "coverImageURL", maxCount: 1 },
-    { name: "photos", maxCount: 2 },
-    { name: "videos", maxCount: 2 },
-  ]),
+  upload.single("coverImageURL"),
   handleAddClothDonation
 );
 router.put(
@@ -496,22 +500,14 @@ router.post(
   "/dashboard/events/activities/add-activities",
   checkForAuthenticationCookie("token"),
   authorizeRoles(["PIC", "Volunteer"]),
-  upload.fields([
-    { name: "coverImageURL", maxCount: 1 },
-    { name: "photos", maxCount: 2 },
-    { name: "videos", maxCount: 2 },
-  ]),
+  upload.single("coverImageURL"),
   handleAddActivities
 );
 router.put(
   "/dashboard/events/activities/:id",
   checkForAuthenticationCookie("token"),
   authorizeRoles(["PIC", "Volunteer"]),
-  upload.fields([
-    { name: "coverImageURL", maxCount: 1 },
-    { name: "photos", maxCount: 2 },
-    { name: "videos", maxCount: 2 },
-  ]),
+  upload.single("coverImageURL"),
   handleUpdateActivities
 );
 router.delete(
@@ -597,5 +593,100 @@ router.delete(
   authorizeRoles(["PIC", "Volunteer"]),
   handleDeleteVideo
 );
+
+// add photos and videos
+
+router.post(
+  "/dashboard/festivalGallery/photos/add-photos",
+  checkForAuthenticationCookie("token"),
+  authorizeRoles(["PIC", "Volunteer"]),
+  upload.single("photos"),
+  handleAddFestivalPhotos
+);
+router.post(
+  "/dashboard/festivalGallery/videos/add-videos",
+  checkForAuthenticationCookie("token"),
+  authorizeRoles(["PIC", "Volunteer"]),
+  upload.single("videos"),
+  handleAddFestivalVideos
+);
+router.post(
+  "/dashboard/inductionGallery/photos/add-photos",
+  checkForAuthenticationCookie("token"),
+  authorizeRoles(["PIC", "Volunteer"]),
+  upload.single("photos"),
+  handleAddInductionPhotos
+);
+router.post(
+  "/dashboard/inductionGallery/videos/add-videos",
+  checkForAuthenticationCookie("token"),
+  authorizeRoles(["PIC", "Volunteer"]),
+  upload.single("videos"),
+  handleAddInductionVideos
+);
+
+router.post(
+  "/dashboard/farewellGallery/photos/add-photos",
+  checkForAuthenticationCookie("token"),
+  authorizeRoles(["PIC", "Volunteer"]),
+  upload.single("photos"),
+  handleAddFarewellPhotos
+);
+router.post(
+  "/dashboard/farewellGallery/videos/add-videos",
+  checkForAuthenticationCookie("token"),
+  authorizeRoles(["PIC", "Volunteer"]),
+  upload.single("videos"),
+  handleAddFarewellVideos
+);
+
+router.post(
+  "/dashboard/donationGallery/photos/add-photos",
+  checkForAuthenticationCookie("token"),
+  authorizeRoles(["PIC", "Volunteer"]),
+  upload.single("photos"),
+  handleAddDonationPhotos
+);
+router.post(
+  "/dashboard/donationGallery/videos/add-videos",
+  checkForAuthenticationCookie("token"),
+  authorizeRoles(["PIC", "Volunteer"]),
+  upload.single("videos"),
+  handleAddDonationVideos
+);
+
+router.post(
+  "/dashboard/activityGallery/photos/add-photos",
+  checkForAuthenticationCookie("token"),
+  authorizeRoles(["PIC", "Volunteer"]),
+  upload.single("photos"),
+  handleAddActivitiesPhotos
+);
+router.post(
+  "/dashboard/activityGallery/videos/add-videos",
+  checkForAuthenticationCookie("token"),
+  authorizeRoles(["PIC", "Volunteer"]),
+  upload.single("videos"),
+  handleAddActivitiesVideos
+);
+
+router.get("/dashboard/gallery/festival/photos", getFestivalPhotos);
+router.get("/dashboard/gallery/festival/videos", getFestivalVideos);
+
+
+router.get("/dashboard/gallery/activities/photos", getActivitiesPhotos);
+router.get("/dashboard/gallery/activities/videos", getActivitiesVideos);
+
+
+router.get("/dashboard/gallery/induction/photos", getInductionPhotos);
+router.get("/dashboard/gallery/induction/videos", getInductionVideos);
+
+
+router.get("/dashboard/gallery/farewell/photos", getFarewellPhotos);
+router.get("/dashboard/gallery/farewell/videos", getFarewellVideos);
+
+
+router.get("/dashboard/gallery/donation/photos", getDonationPhotos);
+router.get("/dashboard/gallery/donation/videos", getDonationVideos);
 
 module.exports = router;
