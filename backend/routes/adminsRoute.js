@@ -141,6 +141,7 @@ const {
   handleAddNotification,
   handleDeleteNotification,
 } = require("../controllers/notificationController");
+const { createClassroom } = require("../controllers/classroomController");
 
 const router = express.Router();
 
@@ -691,11 +692,16 @@ router.get("/dashboard/gallery/farewell/videos", getFarewellVideos);
 router.get("/dashboard/gallery/donation/photos", getDonationPhotos);
 router.get("/dashboard/gallery/donation/videos", getDonationVideos);
 
-
 router.delete("/dashboard/gallery/festival/photos/:id", deleteFestivalPhoto);
 router.delete("/dashboard/gallery/festival/videos/:id", deleteFestivalVideo);
-router.delete("/dashboard/gallery/activities/photos/:id", deleteActivitiesPhoto);
-router.delete("/dashboard/gallery/activities/videos/:id", deleteActivitiesVideo);
+router.delete(
+  "/dashboard/gallery/activities/photos/:id",
+  deleteActivitiesPhoto
+);
+router.delete(
+  "/dashboard/gallery/activities/videos/:id",
+  deleteActivitiesVideo
+);
 router.delete("/dashboard/gallery/induction/photos/:id", deleteInductionPhoto);
 router.delete("/dashboard/gallery/induction/videos/:id", deleteInductionVideo);
 router.delete("/dashboard/gallery/farewell/photos/:id", deleteFarewellPhoto);
@@ -703,5 +709,13 @@ router.delete("/dashboard/gallery/farewell/videos/:id", deleteFarewellVideo);
 router.delete("/dashboard/gallery/donation/photos/:id", deleteDonationPhoto);
 router.delete("/dashboard/gallery/donation/videos/:id", deleteDonationVideo);
 
+// classroom routes
+router.post(
+  "/dashboard/add-classroom",
+  checkForAuthenticationCookie("token"),
+  authorizeRoles(["PIC", "Volunteer"]),
+  upload.single("coverImageURL"),
+  createClassroom
+);
 
 module.exports = router;

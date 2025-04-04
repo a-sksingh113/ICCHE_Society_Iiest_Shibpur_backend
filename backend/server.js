@@ -21,6 +21,7 @@ const galleryRoute = require('./routes/galleryRoute')
 const homeImageRoute = require('./routes/homeImageRoute')
 const feedbackRoute = require('./routes/feedbackRoute')
 const notificationRoute = require('./routes/notificationRoute')
+const classroomRoute = require('./routes/classroomRoute')
 
 const app = express();
 PORT = process.env.PORT || 8001;
@@ -48,6 +49,7 @@ app.use('/api/gallery', galleryRoute);
 app.use('/api/homePageImage',homeImageRoute)
 app.use('/api/feedback',feedbackRoute);
 app.use('/api/notification',notificationRoute)
+app.use('/api/classroom',classroomRoute)
 
 app.listen(PORT,()=>{
     console.log(`Server is running on port ${PORT}`)
