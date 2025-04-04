@@ -1,9 +1,9 @@
 const mongoose = require("mongoose");
 const classroomSchema = new mongoose.Schema(
   {
-    title: {
+    day: {
       type: String,
-      required: [true, "festivalGallery title is required"],
+      required: [true, "day name is required"],
       trim: true,
     },
     volunteersPresent: {
@@ -13,6 +13,17 @@ const classroomSchema = new mongoose.Schema(
     studentsPresent: {
       type: String,
       required: [true, "studentsPresent is required"],
+    },
+    date: {
+        type: Date,
+        required: [true, "classroom date is required"],
+        unique: true, 
+        validate: {
+            validator: function (value) {
+                return value <= new Date();
+            },
+            message: "Farewell date must be in the past"
+        }
     },
     coverImageURL: [
       {

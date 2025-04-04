@@ -4,11 +4,12 @@ const Classroom = require("../models/classroomModel");
 
 const createClassroom = async (req, res) => {
   try {
-    const { title, volunteersPresent, studentsPresent } = req.body;
+    const { day,date, volunteersPresent, studentsPresent } = req.body;
     const coverImageURL = req.file ? req.file.path : "/uploads/default.png";
 
     const newClassroom = new Classroom({
-      title,
+      day,
+      date,
       volunteersPresent,
       studentsPresent,
       coverImageURL,
@@ -22,13 +23,21 @@ const createClassroom = async (req, res) => {
 };
 
 const getAllClassrooms = async (req, res) => {
-  try {
-    const classrooms = await Classroom.find().sort({ createdAt: -1 });
-    res.status(200).json({ success: true, data: classrooms });
-  } catch (error) {
-    res.status(500).json({ success: false, message: "Error fetching classrooms", error: error.message });
-  }
-};
+    try {
+      const classrooms = await Classroom.find()
+        .sort({ createdAt: -1 }) 
+        .limit(6);                
+  
+      res.status(200).json({ success: true, data: classrooms });
+    } catch (error) {
+      res.status(500).json({ 
+        success: false, 
+        message: "Error fetching latest classrooms", 
+        error: error.message 
+      });
+    }
+  };
+  
 
 const getClassroomById = async (req, res) => {
   try {
