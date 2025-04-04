@@ -58,7 +58,7 @@ const getVideoById = async (req, res) => {
 const handleAddPhotos = async (req, res) => {
   try {
     const { title} = req.body;
-    const photos = req.files?.photos?.map(file => file.path) || [];
+    const photos = req.file ? req.file.path : "/uploads/default.png";
     const newGalleryEntry = new Gallery({
       title,
       photos,
@@ -82,7 +82,7 @@ const handleAddPhotos = async (req, res) => {
 const handleAddVideos = async (req, res) => {
   try {
     const { title} = req.body;
-    const videos = req.files?.videos?.map(file => file.path) || [];
+    const videos = req.file ? req.file.path : "/uploads/default.png";
 
     const newGalleryEntry = new Gallery({
       title,
@@ -103,6 +103,7 @@ const handleAddVideos = async (req, res) => {
       .json({ success: false, message: "Error adding videos", error });
   }
 };
+
 const handleDeletePhotos = async (req, res) => {
     try {
       const { photos } = req.body; 

@@ -9,12 +9,19 @@ const notificationSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
-    pdfFile:{
-        type: String,
-    },
-    imageFile: {
-      type: String, // Store image URL or path
-    },
+    imageFile:[
+      {
+          type: String,
+          validate: {
+              validator: function (value) {
+                  return /^https?:\/\/.+\.(jpg|jpeg|png|webp|gif)$/i.test(value);
+              },
+              message: "Gallery images must be valid image URLs"
+          }
+       
+  
+  }
+],
   },
   { timestamps: true }
 );

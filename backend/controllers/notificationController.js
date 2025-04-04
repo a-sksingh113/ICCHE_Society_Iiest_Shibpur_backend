@@ -3,11 +3,10 @@ const Notification = require("../models/notificationModel");
 const handleAddNotification = async (req, res) => {
     try {
       const { title, description } = req.body;
-      const imageFile = req.files["imageFile"] ? req.files["imageFile"][0].path : "/uploads/default.png";
-    const pdfFile = req.files["pdfFile"] ? req.files["pdfFile"][0].path : "";
+      const imageFile = req.file ? req.file.path : "/uploads/default.png";
 
      
-      const newNotification = new Notification({ title, description, imageFile,pdfFile });
+      const newNotification = new Notification({ title, description, imageFile});
       await newNotification.save();
   
       res.status(201).json({ message: "Notification created successfully" });

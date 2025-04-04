@@ -193,7 +193,7 @@ router.post(
   "/dashboard/add-notification",
   checkForAuthenticationCookie("token"),
   authorizeRoles(["PIC", "Volunteer"]),
-  upload.fields([{ name: "imageFile" }, { name: "pdfFile" }]),
+  upload.single("imageFile"),
   handleAddNotification
 );
 router.delete(
@@ -563,14 +563,14 @@ router.post(
   "/dashboard/gallery/photos/add-photos",
   checkForAuthenticationCookie("token"),
   authorizeRoles(["PIC", "Volunteer"]),
-  upload.fields([{ name: "photos", maxCount: 2 }]),
+  upload.single("photos"),
   handleAddPhotos
 );
 router.post(
   "/dashboard/gallery/videos/add-videos",
   checkForAuthenticationCookie("token"),
   authorizeRoles(["PIC", "Volunteer"]),
-  upload.fields([{ name: "videos", maxCount: 2 }]),
+  upload.single("videos"),
   handleAddVideos
 );
 router.delete(
