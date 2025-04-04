@@ -107,6 +107,16 @@ const {
   getFarewellVideos,
   getDonationPhotos,
   getDonationVideos,
+  deleteFestivalPhoto,
+  deleteFestivalVideo,
+  deleteActivitiesPhoto,
+  deleteActivitiesVideo,
+  deleteInductionPhoto,
+  deleteInductionVideo,
+  deleteFarewellPhoto,
+  deleteFarewellVideo,
+  deleteDonationPhoto,
+  deleteDonationVideo,
 } = require("../controllers/galleryController");
 const { authorizeRoles } = require("../middleware/roleMiddleware");
 const upload = require("../config/cloudinaryConfig");
@@ -672,21 +682,26 @@ router.post(
 
 router.get("/dashboard/gallery/festival/photos", getFestivalPhotos);
 router.get("/dashboard/gallery/festival/videos", getFestivalVideos);
-
-
 router.get("/dashboard/gallery/activities/photos", getActivitiesPhotos);
 router.get("/dashboard/gallery/activities/videos", getActivitiesVideos);
-
-
 router.get("/dashboard/gallery/induction/photos", getInductionPhotos);
 router.get("/dashboard/gallery/induction/videos", getInductionVideos);
-
-
 router.get("/dashboard/gallery/farewell/photos", getFarewellPhotos);
 router.get("/dashboard/gallery/farewell/videos", getFarewellVideos);
-
-
 router.get("/dashboard/gallery/donation/photos", getDonationPhotos);
 router.get("/dashboard/gallery/donation/videos", getDonationVideos);
+
+
+router.delete("/dashboard/gallery/festival/photos/:id", deleteFestivalPhoto);
+router.delete("/dashboard/gallery/festival/videos/:id", deleteFestivalVideo);
+router.delete("/dashboard/gallery/activities/photos/:id", deleteActivitiesPhoto);
+router.delete("/dashboard/gallery/activities/videos/:id", deleteActivitiesVideo);
+router.delete("/dashboard/gallery/induction/photos/:id", deleteInductionPhoto);
+router.delete("/dashboard/gallery/induction/videos/:id", deleteInductionVideo);
+router.delete("/dashboard/gallery/farewell/photos/:id", deleteFarewellPhoto);
+router.delete("/dashboard/gallery/farewell/videos/:id", deleteFarewellVideo);
+router.delete("/dashboard/gallery/donation/photos/:id", deleteDonationPhoto);
+router.delete("/dashboard/gallery/donation/videos/:id", deleteDonationVideo);
+
 
 module.exports = router;

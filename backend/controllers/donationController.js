@@ -27,8 +27,6 @@ const handleAddClothDonation = async (req, res) => {
     try {
         const { title, description, date, location,volunteerPresent, studentsReceived, parentsReceived } = req.body;
         const coverImageURL = req.file ? req.file.path : "/uploads/default.png";
-        const photos = req.files?.photos?.map(file => file.path) || [];
-        const videos = req.files?.videos?.map(file => file.path) || [];
 
       if(!title ||  !description || !date || !location || !volunteerPresent ||  !studentsReceived ||  !parentsReceived ){
         return res.status(400).json({ message: "Please fill all fields" });
@@ -44,8 +42,6 @@ const handleAddClothDonation = async (req, res) => {
             studentsReceived,
             parentsReceived,
             coverImageURL,
-            photos, 
-            videos,
         });
 
         await newDonation.save();
@@ -60,9 +56,6 @@ const handleAddClothDonation = async (req, res) => {
 const handleUpdateClothDonation = async (req, res) => {
     try {
         const { title, description, date, location, studentsReceived, parentsReceived } = req.body;
-        if (typeof location !== "object" || !location.latitude || !location.longitude) {
-            return res.status(400).json({ message: "Invalid location format. Must include latitude and longitude." });
-        }
         const updateData = {
             title,
             description,
@@ -75,13 +68,6 @@ const handleUpdateClothDonation = async (req, res) => {
         if (req.files["coverImageURL"]) {
             updateData.coverImageURL = req.files["coverImageURL"][0].path;
         }
-        if (req.files["photos"]) {
-            updateData.photos = req.files["photos"].map(file => file.path);
-        }
-        if (req.files["videos"]) {
-            updateData.videos = req.files["videos"].map(file => file.path);
-        }
-
         const updatedDonation = await ClothDonation.findByIdAndUpdate(req.params.id, updateData, { new: true });
 
         if (!updatedDonation) {

@@ -389,6 +389,94 @@ const handleDeleteVideo = async (req, res) => {
       .json({ success: false, message: "Error deleting video", error });
   }
 };
+const deleteFestivalPhoto = async (req, res) => {
+  try {
+    await FestivalGallery.findByIdAndDelete(req.params.id);
+    res.status(200).json({ success: true, message: "Festival photo deleted" });
+  } catch (error) {
+    res.status(500).json({ success: false, message: "Error deleting festival photo", error });
+  }
+};
+
+const deleteFestivalVideo = async (req, res) => {
+  try {
+    await FestivalGallery.findByIdAndDelete(req.params.id);
+    res.status(200).json({ success: true, message: "Festival video deleted" });
+  } catch (error) {
+    res.status(500).json({ success: false, message: "Error deleting festival video", error });
+  }
+};
+
+const deleteActivitiesPhoto = async (req, res) => {
+  try {
+    await ActivityGallery.findByIdAndDelete(req.params.id);
+    res.status(200).json({ success: true, message: "Activities photo deleted" });
+  } catch (error) {
+    res.status(500).json({ success: false, message: "Error deleting activities photo", error });
+  }
+};
+
+const deleteActivitiesVideo = async (req, res) => {
+  try {
+    await ActivityGallery.findByIdAndDelete(req.params.id);
+    res.status(200).json({ success: true, message: "Activities video deleted" });
+  } catch (error) {
+    res.status(500).json({ success: false, message: "Error deleting activities video", error });
+  }
+};
+const deleteInductionPhoto = async (req, res) => {
+  try {
+    await InductionGallery.findByIdAndDelete(req.params.id);
+    res.status(200).json({ success: true, message: "Induction photo deleted" });
+  } catch (error) {
+    res.status(500).json({ success: false, message: "Error deleting induction photo", error });
+  }
+};
+
+const deleteInductionVideo = async (req, res) => {
+  try {
+    await InductionGallery.findByIdAndDelete(req.params.id);
+    res.status(200).json({ success: true, message: "Induction video deleted" });
+  } catch (error) {
+    res.status(500).json({ success: false, message: "Error deleting induction video", error });
+  }
+};
+
+const deleteFarewellPhoto = async (req, res) => {
+  try {
+    await FarewellGallery.findByIdAndDelete(req.params.id);
+    res.status(200).json({ success: true, message: "Farewell photo deleted" });
+  } catch (error) {
+    res.status(500).json({ success: false, message: "Error deleting farewell photo", error });
+  }
+};
+
+const deleteFarewellVideo = async (req, res) => {
+  try {
+    await FarewellGallery.findByIdAndDelete(req.params.id);
+    res.status(200).json({ success: true, message: "Farewell video deleted" });
+  } catch (error) {
+    res.status(500).json({ success: false, message: "Error deleting farewell video", error });
+  }
+};
+const deleteDonationPhoto = async (req, res) => {
+  try {
+    await DonationGallery.findByIdAndDelete(req.params.id);
+    res.status(200).json({ success: true, message: "Donation photo deleted" });
+  } catch (error) {
+    res.status(500).json({ success: false, message: "Error deleting donation photo", error });
+  }
+};
+
+const deleteDonationVideo = async (req, res) => {
+  try {
+    await DonationGallery.findByIdAndDelete(req.params.id);
+    res.status(200).json({ success: true, message: "Donation video deleted" });
+  } catch (error) {
+    res.status(500).json({ success: false, message: "Error deleting donation video", error });
+  }
+};
+
 
 module.exports = {
   getAllPhotosVideos,
@@ -414,20 +502,22 @@ module.exports = {
   handleAddDonationVideos,
   getFestivalPhotos,
   getFestivalVideos,
-
-  // ACTIVITIES
   getActivitiesPhotos,
   getActivitiesVideos,
-
-  // INDUCTION
   getInductionPhotos,
   getInductionVideos,
-
-  // FAREWELL
   getFarewellPhotos,
   getFarewellVideos,
-
-  // DONATION
   getDonationPhotos,
-  getDonationVideos
+  getDonationVideos,
+  deleteFestivalPhoto,
+  deleteFestivalVideo,
+  deleteActivitiesPhoto,
+  deleteActivitiesVideo,
+  deleteInductionPhoto,
+  deleteInductionVideo,
+  deleteFarewellPhoto,
+  deleteFarewellVideo,
+  deleteDonationPhoto,
+  deleteDonationVideo,
 };
