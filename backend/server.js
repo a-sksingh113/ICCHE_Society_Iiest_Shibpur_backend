@@ -33,7 +33,7 @@ app.use(cookieParser());
 app.use(logRequest);
 
 app.use(cors({
-    origin: process.env.FRONTEND_URL,  
+    origin:"https://icche.vercel.app",  
     methods: ['GET', 'POST', 'PUT', 'DELETE'],  
     allowedHeaders: ['Content-Type', 'Authorization'],  
     credentials:true                                                 
