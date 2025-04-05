@@ -125,27 +125,27 @@ const getAllVolunteer = async (req, res) => {
   try {
     const { fullName, enrollmentNo, year, department } = req.query;
     let filter = {};
-    // GET /api/volunteers?name=Satish
+
     if (fullName) {
       filter.fullName = { $regex: fullName, $options: "i" }; // Case-insensitive partial match
     }
-    //GET /api/volunteers?enrollmentNo=2023ITB104
+
     if (enrollmentNo) {
       filter.enrollmentNo = enrollmentNo; // Exact match
     }
+
     if (year) {
       filter.year = year; // Exact match
     }
+
     if (department) {
       filter.department = department; // Exact match
     }
 
-    const volunteers = await Volunteer.find(filter);
+    const volunteers = await Volunteer.find(filter).sort({ year: -1 }); 
     res.status(200).json(volunteers);
   } catch (error) {
-    res
-      .status(500)
-      .json({ message: "Failed to retrieve volunteers", error: error.message });
+    res.status(500).json({ message: "Failed to retrieve volunteers", error: error.message });
   }
 };
 const getVolunteerById = async (req, res) => {

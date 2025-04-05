@@ -26,7 +26,7 @@ const getAllClassrooms = async (req, res) => {
     try {
       const classrooms = await Classroom.find()
         .sort({ createdAt: -1 }) 
-        .limit(6);                
+        .limit(3);                
   
       res.status(200).json({ success: true, data: classrooms });
     } catch (error) {
