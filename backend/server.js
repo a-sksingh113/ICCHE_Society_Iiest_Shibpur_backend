@@ -27,7 +27,6 @@ const app = express();
 PORT = process.env.PORT || 8001;
 connectDB();
 
-app.use(cors());
 app.use(express.json());
 app.use(cookieParser());
 app.use(logRequest);
