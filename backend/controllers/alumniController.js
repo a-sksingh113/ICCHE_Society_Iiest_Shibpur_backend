@@ -3,19 +3,19 @@ const handleAddAlumni = async (req, res) => {
     try {
         const { fullName, email, contactNumber, enrollmentNo, gender, department, graduationYear, company, address } = req.body;
         const coverImageURL = req.file ? req.file.path : "/uploads/default.png";
-        if (!fullName || !email || !contactNumber || !enrollmentNo || !gender || !department || !graduationYear) {
+        if (!fullName  || !gender || !department || !graduationYear) {
             return res.status(400).json({ message: "All required fields must be filled!" });
         }
-        const existingAlumni = await Alumni.findOne({ enrollmentNo });
-        if (existingAlumni) {
-            return res.status(400).json({ message: "Alumni with this Enrollment No already exists!" });
-        }
+        // const existingAlumni = await Alumni.findOne({ enrollmentNo });
+        // if (existingAlumni) {
+        //     return res.status(400).json({ message: "Alumni with this Enrollment No already exists!" });
+        // }
 
         const newAlumni = new Alumni({
             fullName,
-            email,
-            contactNumber,
-            enrollmentNo,
+            email: email || null,
+            contactNumber: contactNumber || null,
+            enrollmentNo :enrollmentNo || null,
             gender,
             department,
             graduationYear,
