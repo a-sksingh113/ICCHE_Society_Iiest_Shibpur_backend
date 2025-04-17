@@ -1,4 +1,5 @@
 require('dotenv').config();
+require('./scheduler/scheduler');
 const express = require('express')
 const connectDB = require('./config/dbConnection');
 const cookieParser = require('cookie-parser');
@@ -24,11 +25,11 @@ const notificationRoute = require('./routes/notificationRoute')
 const classroomRoute = require('./routes/classroomRoute')
 
 const app = express();
-PORT = process.env.PORT || 8001;
+PORT = process.env.PORT || 7001;
 connectDB();
 
 app.use(cors({
-  origin:"https://icche.vercel.app",  
+  origin:process.env.FRONTEND_URL,  
   methods: ['GET', 'POST', 'PUT', 'DELETE'],  
   allowedHeaders: ['Content-Type', 'Authorization'],  
   credentials:true                                                 
