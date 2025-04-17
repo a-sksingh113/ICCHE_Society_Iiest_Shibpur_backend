@@ -30,6 +30,14 @@ cron.schedule('0 0 * * *', async () => {
       await Volunteer.updateMany({ year: '2' }, { $set: { year: '3' } });
       await Volunteer.updateMany({ year: '1' }, { $set: { year: '2' } });
 
+       // --- Promote Students up to Class 9 ---
+    for (let i = 9; i >= 1; i--) {
+        const currentClass = i.toString();
+        const nextClass = (i + 1).toString();
+        await Student.updateMany({ studentClass: currentClass }, { $set: { studentClass: nextClass } });
+      }
+      
+
       console.log(`Volunteer transition successful on ${today.toDateString()}`);
     } catch (err) {
       console.error('Error in year transition:', err);
