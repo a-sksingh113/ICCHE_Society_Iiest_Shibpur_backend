@@ -4,7 +4,7 @@ const Alumni = require("../models/alumniModel");
 
 cron.schedule('0 0 * * *', async () => {
   const today = new Date();
-  const transitionDate = new Date('2025-08-17');
+  const transitionDate = new Date('2025-06-3');
 
   if (today >= transitionDate) {
     try {
