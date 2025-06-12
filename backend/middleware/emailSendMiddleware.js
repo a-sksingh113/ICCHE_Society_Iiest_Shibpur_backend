@@ -396,7 +396,7 @@ const sendVolunteerReportEmailEXCEL = async (email, name, filePath) => {
   }
 };
 
-const sendVolunteerReportEmailPDF = async (email, name, pdfFilePath) => {
+const sendVolunteerReportEmailPDF = async (email, name, pdfBuffer) => {
   try {
     const response = await transporter.sendMail({
       from: '"Icche Web Support Team" <i.sksingh113@gmail.com>',
@@ -404,25 +404,26 @@ const sendVolunteerReportEmailPDF = async (email, name, pdfFilePath) => {
       subject: "ICCHE Volunteer Report",
       text: `Hello ${name},\n\nAttached is the latest volunteer report containing all volunteer details.\n\nBest Regards,\nICCHE Team`,
       html: `
-          <p>Hello ${name},</p>
-          <p>Attached is the latest <b>Volunteer Report</b> in PDF format, containing all volunteer details.</p>
-          <p>Best Regards,</p>
-          <p><strong>ICCHE Team</strong></p>
-        `,
+        <p>Hello ${name},</p>
+        <p>Attached is the latest <b>Volunteer Report</b> in PDF format, containing all volunteer details.</p>
+        <p>Best Regards,</p>
+        <p><strong>ICCHE Team</strong></p>
+      `,
       attachments: [
         {
-          filename: `ICCHE_Volunteer_Report.pdf`,
-          path: pdfFilePath,
+          filename: "ICCHE_Volunteer_Report.pdf",
+          content: pdfBuffer,
           contentType: "application/pdf",
         },
       ],
     });
 
-    console.log(" Volunteer Report email sent successfully:", response);
+    console.log(" Volunteer Report email sent successfully:", response.messageId);
   } catch (error) {
-    console.error(" Error sending Volunteer Report email:", error);
+    console.error(" Error sending Volunteer Report email:", error.message);
   }
 };
+
 
 const sendAlumniReportEmailEXCEL = async (email, name, filePath) => {
   try {

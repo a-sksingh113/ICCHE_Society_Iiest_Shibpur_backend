@@ -1243,3 +1243,5 @@
 2025-04-17 16:50:03 [INFO]: API CALL -> POST /api/test-transition | User: Guest | IP: ::1
 2025-04-17 16:50:29 [INFO]: API CALL -> GET /api/volunteers/ | User: Guest | IP: ::1
 2025-04-17 16:50:46 [INFO]: API CALL -> GET /api/alumni/ | User: Guest | IP: ::1
+2025-06-06 15:27:18 [INFO]: API CALL -> POST /api/task/run-transition | User: Guest | IP: ::1
+2025-06-06 15:31:00 [INFO]: API CALL -> POST /api/task/run-transition | User: Guest | IP: ::1

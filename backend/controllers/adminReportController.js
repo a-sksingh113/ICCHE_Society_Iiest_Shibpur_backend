@@ -14,6 +14,7 @@ const fs = require("fs");
 const path = require("path");
 const bcrypt = require("bcrypt");
 const JWT = require("jsonwebtoken");
+const { PassThrough } = require("stream");
 const { createTokenForUser } = require("../services/authService");
 
 const {
@@ -396,31 +397,34 @@ const handleSendVolunteerReportEmailEXCEL = async (req, res) => {
     });
   }
 };
-
 const handleSendVolunteerReportEmailPDF = async (req, res) => {
   try {
     const { email } = req.body;
+
     const admin = await Admin.findOne({ email });
     if (!admin) {
-      return res
-        .status(404)
-        .json({ success: false, message: "Admin not found" });
+      return res.status(404).json({
+        success: false,
+        message: "Admin not found",
+      });
     }
-    // Fetch all students
+
+    // Fetch all volunteers
     const volunteers = await Volunteer.find(
       {},
-      "fullName email contactNumber enrollmentNo gender year department "
+      "fullName email contactNumber enrollmentNo gender year department"
     );
-    // Generate PDF
-    const pdfPath = path.join(__dirname, `volunteer_report_${Date.now()}.pdf`);
-    await generateVolunteerReportPDF(pdfPath, admin.fullName, volunteers);
-    // Send Email with PDF attachment
-    await sendVolunteerReportEmailPDF(admin.email, admin.fullName, pdfPath);
-    // Delete the PDF after sending
-    fs.unlinkSync(pdfPath);
-    res
-      .status(200)
-      .json({ success: true, message: "Volunteer report sent successfully" });
+
+    // Generate PDF buffer
+    const pdfBuffer = await generateVolunteerReportPDF(admin.fullName, volunteers);
+
+    // Send Email with PDF buffer
+    await sendVolunteerReportEmailPDF(admin.email, admin.fullName, pdfBuffer);
+
+    res.status(200).json({
+      success: true,
+      message: "Volunteer report sent successfully",
+    });
   } catch (error) {
     console.error("Error sending volunteer report:", error);
     res.status(500).json({
@@ -431,54 +435,50 @@ const handleSendVolunteerReportEmailPDF = async (req, res) => {
   }
 };
 
-const generateVolunteerReportPDF = async (pdfPath, adminName, volunteers) => {
+
+
+const generateVolunteerReportPDF = async (adminName, volunteers) => {
   return new Promise((resolve, reject) => {
     try {
       const doc = new PDFDocument({ margin: 30 });
-      const writeStream = fs.createWriteStream(pdfPath);
-      doc.pipe(writeStream);
+      const bufferStream = new PassThrough();
+      const buffers = [];
+
+      bufferStream.on("data", (chunk) => buffers.push(chunk));
+      bufferStream.on("end", () => {
+        const finalBuffer = Buffer.concat(buffers);
+        resolve(finalBuffer);
+      });
+      bufferStream.on("error", reject);
+
+      doc.pipe(bufferStream);
+
       // Title
-      doc
-        .fontSize(18)
-        .text("ICCHE Volunteer Report", { align: "center" })
-        .moveDown(2);
+      doc.fontSize(18).text("ICCHE Volunteer Report", { align: "center" }).moveDown(2);
       doc.fontSize(14).text(`Admin: ${adminName}`).moveDown();
-      doc
-        .fontSize(12)
-        .text(`Total Volunteers: ${volunteers.length}`)
-        .moveDown(2);
+      doc.fontSize(12).text(`Total Volunteers: ${volunteers.length}`).moveDown(2);
 
       // Table Headers
-      doc
-        .fontSize(12)
-        .text(
-          "S.No   Full Name           Email              Contact No       Enrollment No   Gender  Year  Department",
-          { underline: true }
-        );
+      doc.fontSize(12).text(
+        "S.No   Full Name           Email              Contact No       Enrollment No   Gender  Year  Department",
+        { underline: true }
+      );
       doc.moveDown(0.5);
+
       // Volunteer Data Table
       volunteers.forEach((volunteer, index) => {
-        doc
-          .fontSize(10)
-          .text(
-            `${(index + 1).toString().padEnd(5)} ${volunteer.fullName.padEnd(
-              20
-            )} ${volunteer.email.padEnd(25)} ${volunteer.contactNumber.padEnd(
-              15
-            )} ${volunteer.enrollmentNo.padEnd(15)} ${volunteer.gender.padEnd(
-              8
-            )} ${volunteer.year.padEnd(6)} ${volunteer.department}`,
-            { continued: false }
-          );
+        doc.fontSize(10).text(
+          `${(index + 1).toString().padEnd(5)} ${volunteer.fullName.padEnd(20)} ${volunteer.email.padEnd(25)} ${volunteer.contactNumber.padEnd(15)} ${volunteer.enrollmentNo.padEnd(15)} ${volunteer.gender.padEnd(8)} ${volunteer.year.padEnd(6)} ${volunteer.department}`
+        );
       });
+
       doc.end();
-      writeStream.on("finish", resolve);
-      writeStream.on("error", reject);
     } catch (err) {
       reject(err);
     }
   });
 };
+
 
 const generateAlumniExcelReport = async (filePath) => {
   try {

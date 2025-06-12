@@ -22,7 +22,8 @@ const galleryRoute = require('./routes/galleryRoute')
 const homeImageRoute = require('./routes/homeImageRoute')
 const feedbackRoute = require('./routes/feedbackRoute')
 const notificationRoute = require('./routes/notificationRoute')
-const classroomRoute = require('./routes/classroomRoute')
+const classroomRoute = require('./routes/classroomRoute');
+const transitionRoute = require('./routes/taskRoute');
 
 const app = express();
 PORT = process.env.PORT || 7001;
@@ -52,6 +53,7 @@ app.use('/api/homePageImage',homeImageRoute)
 app.use('/api/feedback',feedbackRoute);
 app.use('/api/notification',notificationRoute)
 app.use('/api/classroom',classroomRoute)
+app.use('/api/task', transitionRoute);
 
 app.listen(PORT,()=>{
     console.log(`Server is running on port ${PORT}`)
